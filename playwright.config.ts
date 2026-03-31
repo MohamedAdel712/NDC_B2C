@@ -15,3 +15,8 @@ export default defineConfig({
     baseURL: "https://ndc-b2c-frontend-stg-app.azurewebsites.net/en",
   },
 });
+
+
+//git add .
+//git commit -m "update"
+//git push

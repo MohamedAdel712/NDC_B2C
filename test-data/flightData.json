@@ -1,10 +1,30 @@
 {
+  "tripType": "Multi-City", 
+  "currency": "USD",
   "from": "CAI",
   "to": "DXB",
-  "date": "28",
-  "Adults": 3,
-  "Children": 2,
-  "Infants": 3,
-  "class" :"Business",
-  "currency":"SAR"
+  "departDate": 3,
+  "returnDate": 10,
+  "Adults": 5,
+  "Children": 3,
+  "Infants": 5,
+  "class": "Business",
+   
+  "legs": [
+    {
+      "from": "CAI",
+      "to": "DXB",
+      "departDate": 3
+    },
+    {
+      "from": "DXB",
+      "to": "JED",
+      "departDate": 5
+    },
+    {
+      "from": "JED",
+      "to": "RUH",
+      "departDate": 8
+    }
+  ]
 }
