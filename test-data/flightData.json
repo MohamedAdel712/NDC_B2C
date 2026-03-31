@@ -1,0 +1,10 @@
+{
+  "from": "CAI",
+  "to": "DXB",
+  "date": "28",
+  "Adults": 3,
+  "Children": 2,
+  "Infants": 3,
+  "class" :"Business",
+  "currency":"SAR"
+}
