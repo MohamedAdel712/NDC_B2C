@@ -61,7 +61,7 @@ export class SearchPage extends BasePage {
   }
 
 
-  
+  //ADD PASSENGER
   async openPassengerDropdown() {
     await this.page.locator(".passenger-select__btn-content").click();
   }
@@ -132,8 +132,7 @@ export class SearchPage extends BasePage {
 
  async fillMultiCity(
   legs: { from: string; to: string; departDate: number }[],
-) {
-  // add segments لو محتاج
+ ){
   for (let i = 1; i < legs.length; i++) {
     await this.page.getByRole('button', { name: 'Add Flight' }).click();
   }
