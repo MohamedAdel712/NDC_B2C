@@ -1,17 +1,28 @@
+# Round Trip Handle - Playwright Test Automation
 
-# Playwright Flight Automation Framework
+E2E (End-to-End) testing project using **Playwright** + **TypeScript** for Round Trip booking / handling scenarios.
 
-## Install
-npm install
+## 📋 Table of Contents
+- [Overview](#overview)
+- [Project Structure](#project-structure)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [How to Run Tests](#how-to-run-tests)
+- [Useful Commands](#useful-commands)
+- [Project Structure](#project-structure-1)
+- [Best Practices](#best-practices)
+- [Git & CI/CD](#git--cicd)
 
-## Install Playwright Browsers
-npx playwright install
+## Overview
+This repository contains automated UI tests for **Round Trip** functionality using Playwright Test Runner.  
+The framework is built with TypeScript for better type safety and maintainability.
 
-## Run Tests
-npx playwright test
+## Prerequisites
+- Node.js (v18 or higher recommended)
+- npm or yarn
+- Google Chrome (or any supported browser)
 
-## Run Headed
-npx playwright test --headed
+## Installation
 
-## UI Mode
-npx playwright test --ui
+1. Clone the repository:
+   ```bash
