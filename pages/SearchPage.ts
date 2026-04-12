@@ -25,7 +25,9 @@ export class SearchPage extends BasePage {
     await logo.click();
   }
 
-
+  async clickonMyBookings() {
+    await this.page.locator('')
+  }
   //homeButton
   async HomeButton() {
     await this.page.getByRole("link", { name: "Home" }).click();
@@ -77,13 +79,17 @@ export class SearchPage extends BasePage {
     await this.page.getByRole("button", { name: "Apply" }).click();
   }
 
-  async selectCabinClass(option: string) {
+ 
+
+//cabin class
+ async selectCabinClass(option: string) {
     const cabinDropdown = this.page.locator(
       'app-base-dropdown[label="Cabin class"] span[role="combobox"]',
     );
     await cabinDropdown.click();
     await this.page.getByRole("option", { name: option }).click();
   }
+
 
   async setDate(input: Locator, date: number) {
     const today = new Date();

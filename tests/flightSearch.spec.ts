@@ -9,8 +9,12 @@ test.describe("Flight Search", () => {
   test("FLYWT logo is visible", async ({ page }) => {
     const searchPage = new SearchPage(page);
     await searchPage.goto();
+    
+    await searchPage.FLYWTLogo();
+
 
     await expect(page.getByAltText("Home")).toBeVisible();
+    
   });
 
   test("Home button navigates to homepage", async ({ page }) => {
@@ -41,7 +45,7 @@ test.describe("Flight Search", () => {
     await expect(page.locator("body")).toContainText(tripType);
   });
 
-  test("User can select passengers", async ({ page }) => {
+  test.only("User can select passengers", async ({ page }) => {
     const searchPage = new SearchPage(page);
     await searchPage.goto();
 
@@ -109,7 +113,7 @@ test.describe("Flight Search", () => {
     }
   });
 
-  test.only("User can search flight successfully", async ({ page }) => {
+  test("User can search flight successfully", async ({ page }) => {
     const searchPage = new SearchPage(page);
     await searchPage.goto();
 
