@@ -3,60 +3,53 @@ import { BasePage } from "./BasePage";
 import { ENV } from "../config/env";
 
 export class SearchPage extends BasePage {
-  readonly fromInput: Locator;
-  readonly toInput: Locator;
-  readonly dateInput: Locator;
-  readonly searchButton: Locator;
+  
+    readonly txt_fromInput =this.page.getByPlaceholder("Departure City");
+    readonly txt_toInput = this.page.getByPlaceholder("Destination City");
+    readonly txt_dateInput = this.page.getByPlaceholder("Select Date");
+    readonly btn_searchButton = this.page.getByRole("button", { name: "Go" });
+    readonly img_flyWTLogo = this.page.getByAltText("Home");
+    readonly link_myBooking= this.page.getByRole('link',{name:'My Bookings'});
+    readonly btn_homeButton = this.page.getByRole("link", { name: "Home" });
+    readonly drop_selectCurrency = this.page.getByRole('combobox', { name: 'Egyptian Pound' });
+    readonly drop_tripType = this.page.getByRole('combobox', { name: 'One Way' });
+    
 
-  constructor(page: Page) {
-    super(page);
-    this.fromInput = page.getByPlaceholder("Departure City");
-    this.toInput = page.getByPlaceholder("Destination City");
-    this.dateInput = page.getByPlaceholder("Select Date");
-    this.searchButton = page.getByRole("button", { name: "Go" });
-  }
+  
 
   async goto() {
     await this.navigate(ENV.BASE_URL);
   }
   // logo
-  async FLYWTLogo() {
-    const logo = this.page.getByAltText("Home");
-    await logo.click();
+  async FLYWT_Logo() {
+    await this.img_flyWTLogo.click();
   }
 
-  async clickonMyBookings() {
-    await this.page.locator('')
-  }
+  async MyBookings() {
+    await this.link_myBooking.click(); }
   //homeButton
   async HomeButton() {
-    await this.page.getByRole("link", { name: "Home" }).click();
+    await this.btn_homeButton.click();
   }
 
-
   //currency
-  async selectCurrency(option: string) {
-    const currencyDropdown = this.page.getByRole('combobox', {
-      name: 'Egyptian Pound',
-    });
-    await currencyDropdown.click();
+  async SelectCurrency(option: string) {
+    await this.drop_selectCurrency.click();
     await this.page.waitForSelector('li[role="option"]');
 
-    const optionLocator = this.page.locator('li[role="option"]', {
-      hasText: option,
-    });
-    await optionLocator.click();
+  
+    await  this.page.getByRole('option', { name: option }).click();
   }
 
 
 
   //tripType
-  async selectTripType(type: 'One Way' | 'Round Trip' | 'Multi-City') {
-    await this.page.getByRole('combobox', { name: 'One Way' }).click();
+  async SelectTripType(type: 'One Way' | 'Round Trip' | 'Multi-City') {
+    await this.drop_tripType.click();
     await this.page.getByRole('option', { name: type }).click();
   }
 
-  async selectCity(input: Locator, city: string) {
+  async SelectCity(input: Locator, city: string) {
     await input.click();
     await input.fill(city);
     await this.page.getByText(city).first().click();
@@ -106,9 +99,9 @@ export class SearchPage extends BasePage {
   }
 
   async fillOneWay(fromCity: string, toCity: string, departDate: number) {
-    await this.selectCity(this.fromInput, fromCity);
-    await this.selectCity(this.toInput, toCity);
-    await this.setDate(this.dateInput, departDate);
+    await this.SelectCity(this.txt_fromInput, fromCity);
+    await this.SelectCity(this.txt_toInput, toCity);
+    await this.setDate(this.txt_dateInput, departDate);
   }
 
  async fillRoundTrip(
@@ -117,8 +110,8 @@ export class SearchPage extends BasePage {
   departDate: number,
   returnDate: number,
 ) {
-  await this.selectCity(this.fromInput, fromCity);
-  await this.selectCity(this.toInput, toCity);
+  await this.SelectCity(this.txt_fromInput, fromCity);
+  await this.SelectCity(this.txt_toInput, toCity);
 
   // Departure date
   const departureInput = this.page
@@ -148,12 +141,12 @@ export class SearchPage extends BasePage {
   const dateInputs = this.page.getByPlaceholder("Select Date");
 
   for (let i = 0; i < legs.length; i++) {
-    await this.selectCity(fromInputs.nth(i), legs[i].from);
-    await this.selectCity(toInputs.nth(i), legs[i].to);
+    await this.SelectCity(fromInputs.nth(i), legs[i].from);
+    await this.SelectCity(toInputs.nth(i), legs[i].to);
     await this.setDate(dateInputs.nth(i), legs[i].departDate);
   }
 }
   async search() {
-    await this.searchButton.click();
+    await this.btn_searchButton.click();
   }
 }
