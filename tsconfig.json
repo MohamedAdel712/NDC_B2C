@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "es2015",
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
@@ -8,6 +8,10 @@
     "types": [
       "node",
       "@playwright/test"
-    ]
+    ],
+    "lib": [
+      "dom",
+      "es2017"          
+    ]    
   }
 }

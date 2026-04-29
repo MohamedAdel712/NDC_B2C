@@ -1,0 +1,13 @@
+{
+  "tripType": "Multi-City",
+  "currency": "USD",
+  "Adults": 2,
+  "Children": 0,
+  "Infants": 0,
+  "class": "Economy",
+  "legs": [
+    { "from": "CAI", "to": "DXB", "departDate": 3 },
+    { "from": "DXB", "to": "JED", "departDate": 5 },
+    { "from": "JED", "to": "RUH", "departDate": 8 }
+  ]
+}

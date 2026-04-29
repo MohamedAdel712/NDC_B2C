@@ -1,13 +1,15 @@
 {
-  "name": "NDC_WT",
   "version": "1.0.0",
   "scripts": {
-    "test": "playwright test",
-    "test:headed": "playwright test --headed",
-    "test:ui": "playwright test --ui"
-  },
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report",
+    "test:debug": "playwright test --debug",
+    "test:trace": "playwright test --trace on",
+    "test:headed": "playwright test --headed"
+    },
   "devDependencies": {
-    "@playwright/test": "^1.42.0",
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.5.0",
     "typescript": "^5.0.0"
   }
 }
