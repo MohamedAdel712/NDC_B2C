@@ -1,0 +1,11 @@
+{
+  "tripType": "One Way",
+  "currency": "USD",
+  "from": "CAI",
+  "to": "DXB",
+  "departDate": 3,
+  "Adults": 2,
+  "Children": 0,
+  "Infants": 0,
+  "class": "Business"
+}
