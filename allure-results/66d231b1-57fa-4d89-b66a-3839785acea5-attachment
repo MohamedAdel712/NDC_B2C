@@ -1,0 +1,46 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: SearchResult_tc.spec.ts >> Search Results >> Sort after Round Trip search
+- Location: tests\SearchResult_tc.spec.ts:16:8
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: page.goto: Test timeout of 30000ms exceeded.
+Call log:
+  - navigating to "https://ndc-b2c-frontend-stg-app.azurewebsites.net/en", waiting until "load"
+
+```
+
+# Test source
+
+```ts
+  1  | 
+  2  | import { Page } from '@playwright/test';
+  3  | 
+  4  | export class BasePage {
+  5  | 
+  6  |   readonly page: Page;
+  7  | 
+  8  |   constructor(page: Page) {
+  9  |     this.page = page;
+  10 |   }
+  11 | 
+  12 |   async navigate(url: string) {
+> 13 |     await this.page.goto(url);
+     |                     ^ Error: page.goto: Test timeout of 30000ms exceeded.
+  14 |   }
+  15 | 
+  16 | }
+  17 | 
+```

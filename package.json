@@ -5,11 +5,21 @@
     "test:report": "playwright show-report",
     "test:debug": "playwright test --debug",
     "test:trace": "playwright test --trace on",
-    "test:headed": "playwright test --headed"
-    },
+    "test:headed": "playwright test --headed",
+    "test:allure": "node scripts/allure.js test",
+    "test:allure:debug": "node scripts/allure.js debug",
+    "allure:generate": "node scripts/allure.js generate",
+    "allure:open": "node scripts/allure.js open",
+    "allure:report": "node scripts/allure.js report",
+    "allure:serve": "node scripts/allure.js serve",
+    "test": "node scripts/allure.js test"
+  },
   "devDependencies": {
     "@playwright/test": "^1.59.1",
     "@types/node": "^25.5.0",
+    "allure-commandline": "^2.18.0",
+    "allure-playwright": "^2.0.0",
     "typescript": "^5.0.0"
   }
 }
+

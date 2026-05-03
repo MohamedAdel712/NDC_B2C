@@ -1,0 +1,146 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: SearchResult_tc.spec.ts >> Search Results >> Sort after Round Trip search
+- Location: tests\SearchResult_tc.spec.ts:16:8
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: page.goto: Test timeout of 30000ms exceeded.
+Call log:
+  - navigating to "https://ndc-b2c-frontend-stg-app.azurewebsites.net/en", waiting until "load"
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - img [ref=e6]
+  - generic [ref=e19]:
+    - banner [ref=e21]:
+      - navigation [ref=e22]:
+        - text: 
+        - img "Home" [ref=e25] [cursor=pointer]
+        - generic [ref=e26]:
+          - link "Home" [ref=e27] [cursor=pointer]:
+            - /url: /en
+          - link "My Booking" [ref=e28] [cursor=pointer]:
+            - /url: /en/booking/my-booking
+          - generic [ref=e29] [cursor=pointer]: العربية
+          - generic [ref=e35] [cursor=pointer]:
+            - combobox "Egyptian Pound" [ref=e36]:
+              - generic [ref=e37]:
+                - generic [ref=e38]: EGP
+                - img "Egyptian Pound flag" [ref=e39]
+            - button "dropdown trigger" [ref=e40]:
+              - generic [ref=e41]: 
+    - main [ref=e42]:
+      - generic [ref=e43]:
+        - generic [ref=e48]:
+          - heading [level=1] [ref=e53]
+          - generic [ref=e57]:
+            - generic [ref=e58]:
+              - generic [ref=e61] [cursor=pointer]:
+                - combobox "One Way" [ref=e62]
+                - button "dropdown trigger" [ref=e63]:
+                  - generic [ref=e64]: 
+              - button "1 Passenger " [ref=e67] [cursor=pointer]:
+                - generic [ref=e68]:
+                  - generic [ref=e69]: 1 Passenger
+                  - generic [ref=e70]: 
+              - generic [ref=e73] [cursor=pointer]:
+                - combobox "Economy" [ref=e74]
+                - button "dropdown trigger" [ref=e75]:
+                  - generic [ref=e76]: 
+            - generic [ref=e81]:
+              - generic [ref=e88]:
+                - generic [ref=e90]:
+                  - generic [ref=e96]:
+                    - generic [ref=e97]: From
+                    - generic [ref=e98]:
+                      - generic:
+                        - generic: 
+                      - combobox "From" [ref=e102]
+                  - generic "Swap departure and destination" [ref=e103]:
+                    - button [active] [ref=e105] [cursor=pointer]:
+                      - img [ref=e107]
+                  - generic [ref=e114]:
+                    - generic [ref=e115]: To
+                    - generic [ref=e116]:
+                      - generic:
+                        - generic: 
+                      - combobox "To" [ref=e120]
+                - generic [ref=e126]:
+                  - generic [ref=e127]: Departure
+                  - generic [ref=e128]:
+                    - button "Open calendar" [ref=e129] [cursor=pointer]:
+                      - img [ref=e130]
+                    - combobox "Departure" [ref=e135]
+                    - button "Open calendar" [ref=e137] [cursor=pointer]:
+                      - img [ref=e138]
+              - button "Go" [ref=e142] [cursor=pointer]
+        - generic [ref=e146]:
+          - generic [ref=e147]:
+            - heading "Latest Flight Deals" [level=2] [ref=e148]
+            - paragraph [ref=e149]: Looking for inspiration for your next trip? These are todays best flight deals.
+          - generic [ref=e151]:
+            - button "Previous flight deal" [ref=e152]:
+              - img [ref=e154]
+            - generic [ref=e158]:
+              - generic:
+                - group "1 / 5" [ref=e159]:
+                  - img [ref=e167]
+                - group "2 / 5" [ref=e174]:
+                  - img [ref=e182]
+                - group "3 / 5" [ref=e189]:
+                  - img [ref=e197]
+                - group "4 / 5" [ref=e204]:
+                  - img [ref=e212]
+                - group "5 / 5" [ref=e219]:
+                  - img [ref=e227]
+            - button "Next flight deal" [ref=e234]:
+              - img [ref=e236]
+    - contentinfo [ref=e239]:
+      - generic [ref=e241]:
+        - generic [ref=e242]:
+          - paragraph [ref=e243]: Have Questions?
+          - paragraph [ref=e244]: "19359"
+          - paragraph [ref=e245]: Customercare@flywt.com
+          - paragraph [ref=e246]: 24/7 Dedicated Customer Support
+        - paragraph [ref=e248]: Your personal details are 100% secured with us
+        - paragraph [ref=e251]: Like this? love this? spread the word
+```
+
+# Test source
+
+```ts
+  1  | 
+  2  | import { Page } from '@playwright/test';
+  3  | 
+  4  | export class BasePage {
+  5  | 
+  6  |   readonly page: Page;
+  7  | 
+  8  |   constructor(page: Page) {
+  9  |     this.page = page;
+  10 |   }
+  11 | 
+  12 |   async navigate(url: string) {
+> 13 |     await this.page.goto(url);
+     |                     ^ Error: page.goto: Test timeout of 30000ms exceeded.
+  14 |   }
+  15 | 
+  16 | }
+  17 | 
+```

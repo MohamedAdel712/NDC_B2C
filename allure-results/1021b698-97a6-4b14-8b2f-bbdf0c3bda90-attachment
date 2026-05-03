@@ -1,0 +1,181 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: SearchResult_tc.spec.ts >> Search Results >> Sort after Round Trip search
+- Location: tests\SearchResult_tc.spec.ts:16:8
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: page.goto: Test timeout of 30000ms exceeded.
+Call log:
+  - navigating to "https://ndc-b2c-frontend-stg-app.azurewebsites.net/en", waiting until "load"
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - banner [ref=e6]:
+    - navigation [ref=e7]:
+      - text: 
+      - img "Home" [ref=e10] [cursor=pointer]
+      - generic [ref=e11]:
+        - link "Home" [ref=e12] [cursor=pointer]:
+          - /url: /en
+        - link "My Booking" [ref=e13] [cursor=pointer]:
+          - /url: /en/booking/my-booking
+        - generic [ref=e14] [cursor=pointer]: العربية
+        - generic [ref=e20] [cursor=pointer]:
+          - combobox "Egyptian Pound" [ref=e21]:
+            - generic [ref=e22]:
+              - generic [ref=e23]: EGP
+              - img "Egyptian Pound flag" [ref=e24]
+          - button "dropdown trigger" [ref=e25]:
+            - generic [ref=e26]: 
+  - main [ref=e27]:
+    - generic [ref=e28]:
+      - generic [ref=e33]:
+        - heading "Book your next adventure in minutes with the best prices" [level=1] [ref=e39]:
+          - text: Book your next adventure in
+          - text: minutes with the best prices
+        - generic [ref=e41]:
+          - generic [ref=e42]:
+            - generic [ref=e45] [cursor=pointer]:
+              - combobox "One Way" [ref=e46]
+              - button "dropdown trigger" [ref=e47]:
+                - generic [ref=e48]: 
+            - button "1 Passenger " [ref=e51] [cursor=pointer]:
+              - generic [ref=e52]:
+                - generic [ref=e53]: 1 Passenger
+                - generic [ref=e54]: 
+            - generic [ref=e57] [cursor=pointer]:
+              - combobox "Economy" [ref=e58]
+              - button "dropdown trigger" [ref=e59]:
+                - generic [ref=e60]: 
+          - generic [ref=e65]:
+            - generic [ref=e72]:
+              - generic [ref=e74]:
+                - generic [ref=e80]:
+                  - generic [ref=e81]: From
+                  - generic [ref=e82]:
+                    - generic:
+                      - generic: 
+                    - combobox "From" [ref=e86]
+                - generic "Swap departure and destination" [ref=e87]:
+                  - button [active] [ref=e89] [cursor=pointer]:
+                    - img [ref=e91]
+                - generic [ref=e98]:
+                  - generic [ref=e99]: To
+                  - generic [ref=e100]:
+                    - generic:
+                      - generic: 
+                    - combobox "To" [ref=e104]
+              - generic [ref=e110]:
+                - generic [ref=e111]: Departure
+                - generic [ref=e112]:
+                  - button "Open calendar" [ref=e113] [cursor=pointer]:
+                    - img [ref=e114]
+                  - combobox "Departure" [ref=e119]
+                  - button "Open calendar" [ref=e121] [cursor=pointer]:
+                    - img [ref=e122]
+            - button "Go" [ref=e126] [cursor=pointer]
+      - generic [ref=e130]:
+        - generic [ref=e131]:
+          - heading "Latest Flight Deals" [level=2] [ref=e132]
+          - paragraph [ref=e133]: Looking for inspiration for your next trip? These are todays best flight deals.
+        - generic [ref=e135]:
+          - button "Previous flight deal" [ref=e136]:
+            - img [ref=e138]
+          - generic [ref=e142]:
+            - generic:
+              - group "1 / 5" [ref=e143]:
+                - generic [ref=e146]:
+                  - generic [ref=e147]:
+                    - heading "Cairo" [level=3] [ref=e148]
+                    - img [ref=e149]
+                    - heading "Dubai" [level=3] [ref=e151]
+                  - generic [ref=e152]:
+                    - generic [ref=e154]: 7,014.07 EGP
+                    - button "Book Now" [ref=e155] [cursor=pointer]
+              - group "2 / 5" [ref=e156]:
+                - generic [ref=e159]:
+                  - generic [ref=e160]:
+                    - heading "Cairo" [level=3] [ref=e161]
+                    - img [ref=e162]
+                    - heading "Jeddah" [level=3] [ref=e164]
+                  - generic [ref=e165]:
+                    - generic [ref=e167]: 7,014.07 EGP
+                    - button "Book Now" [ref=e168] [cursor=pointer]
+              - group "3 / 5" [ref=e169]:
+                - generic [ref=e172]:
+                  - generic [ref=e173]:
+                    - heading "Cairo" [level=3] [ref=e174]
+                    - img [ref=e175]
+                    - heading "Riyadh" [level=3] [ref=e177]
+                  - generic [ref=e178]:
+                    - generic [ref=e180]: 7,014.07 EGP
+                    - button "Book Now" [ref=e181] [cursor=pointer]
+              - group "4 / 5" [ref=e182]:
+                - generic [ref=e185]:
+                  - generic [ref=e186]:
+                    - heading "Jeddah" [level=3] [ref=e187]
+                    - img [ref=e188]
+                    - heading "Dubai" [level=3] [ref=e190]
+                  - generic [ref=e191]:
+                    - generic [ref=e193]: 7,014.07 EGP
+                    - button "Book Now" [ref=e194] [cursor=pointer]
+              - group "5 / 5" [ref=e195]:
+                - generic [ref=e198]:
+                  - generic [ref=e199]:
+                    - heading "Dubai" [level=3] [ref=e200]
+                    - img [ref=e201]
+                    - heading "Cairo" [level=3] [ref=e203]
+                  - generic [ref=e204]:
+                    - generic [ref=e206]: 7,014.07 EGP
+                    - button "Book Now" [ref=e207] [cursor=pointer]
+          - button "Next flight deal" [ref=e208]:
+            - img [ref=e210]
+  - contentinfo [ref=e213]:
+    - generic [ref=e215]:
+      - generic [ref=e216]:
+        - paragraph [ref=e217]: Have Questions?
+        - paragraph [ref=e218]: "19359"
+        - paragraph [ref=e219]: Customercare@flywt.com
+        - paragraph [ref=e220]: 24/7 Dedicated Customer Support
+      - paragraph [ref=e222]: Your personal details are 100% secured with us
+      - paragraph [ref=e225]: Like this? love this? spread the word
+```
+
+# Test source
+
+```ts
+  1  | 
+  2  | import { Page } from '@playwright/test';
+  3  | 
+  4  | export class BasePage {
+  5  | 
+  6  |   readonly page: Page;
+  7  | 
+  8  |   constructor(page: Page) {
+  9  |     this.page = page;
+  10 |   }
+  11 | 
+  12 |   async navigate(url: string) {
+> 13 |     await this.page.goto(url);
+     |                     ^ Error: page.goto: Test timeout of 30000ms exceeded.
+  14 |   }
+  15 | 
+  16 | }
+  17 | 
+```

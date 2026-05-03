@@ -135,7 +135,7 @@ test.describe("Flight Search", () => {
     await searchPage.search(RoundTrip_data as SearchDataType);
   });
 
-  test.only("Search_multiCity", async ({ page }) => {
+  test("Search_multiCity", async ({ page }) => {
     const searchPage = new SearchPage(page);
     await searchPage.search(MultiCity_data as SearchDataType);
   });

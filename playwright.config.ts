@@ -4,6 +4,11 @@ export default defineConfig({
   testDir: "./tests",
   timeout: 30000,
 
+  reporter: [
+    ["list"],
+    ["allure-playwright", { outputFolder: "allure-results", detail: true }],
+  ],
+
   use: {
     headless: false,
     screenshot: "only-on-failure",

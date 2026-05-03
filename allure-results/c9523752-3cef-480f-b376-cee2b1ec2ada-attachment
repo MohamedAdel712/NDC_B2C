@@ -1,0 +1,231 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: SearchResult_tc.spec.ts >> Search Results >> Sort after Round Trip search
+- Location: tests\SearchResult_tc.spec.ts:16:8
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByRole('button', { name: 'Recommended' })
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - img [ref=e6]
+  - generic [ref=e25]:
+    - banner [ref=e27]:
+      - navigation [ref=e28]:
+        - text: 
+        - img "Home" [ref=e31] [cursor=pointer]
+        - generic [ref=e32]:
+          - link "Home" [ref=e33] [cursor=pointer]:
+            - /url: /en
+          - link "My Booking" [ref=e34] [cursor=pointer]:
+            - /url: /en/booking/my-booking
+          - generic [ref=e35] [cursor=pointer]: العربية
+          - generic [ref=e41] [cursor=pointer]:
+            - combobox "US Dollar" [ref=e42]:
+              - generic [ref=e43]:
+                - generic [ref=e44]: USD
+                - img "US Dollar flag" [ref=e45]
+            - button "dropdown trigger" [ref=e46]:
+              - generic [ref=e47]: 
+    - main [ref=e48]:
+      - generic [ref=e49]:
+        - generic [ref=e54]:
+          - heading "Book your next adventure in minutes with the best prices" [level=1] [ref=e60]:
+            - text: Book your next adventure in
+            - text: minutes with the best prices
+          - generic [ref=e62]:
+            - generic [ref=e63]:
+              - generic [ref=e66] [cursor=pointer]:
+                - combobox "Round Trip" [ref=e67]
+                - button "dropdown trigger" [ref=e68]:
+                  - generic [ref=e69]: 
+              - button "3 Passengers " [ref=e72] [cursor=pointer]:
+                - generic [ref=e73]:
+                  - generic [ref=e74]: 3 Passengers
+                  - generic [ref=e75]: 
+              - generic [ref=e78] [cursor=pointer]:
+                - combobox "Business" [ref=e79]
+                - button "dropdown trigger" [ref=e80]:
+                  - generic [ref=e81]: 
+            - generic [ref=e86]:
+              - generic [ref=e93]:
+                - generic [ref=e95]:
+                  - generic [ref=e101]:
+                    - generic [ref=e102]: From
+                    - generic [ref=e103]:
+                      - generic:
+                        - generic: 
+                      - generic [ref=e104]:
+                        - combobox "From" [ref=e107]: CAI - Cairo, Egypt
+                        - button "Clear" [ref=e108] [cursor=pointer]:
+                          - img [ref=e110]
+                  - generic "Swap departure and destination" [ref=e112]:
+                    - button [ref=e114] [cursor=pointer]:
+                      - img [ref=e116]
+                  - generic [ref=e123]:
+                    - generic [ref=e124]: To
+                    - generic [ref=e125]:
+                      - generic:
+                        - generic: 
+                      - generic [ref=e126]:
+                        - combobox "To" [ref=e129]: DXB - Dubai, United Arab Emirates
+                        - button "Clear" [ref=e130] [cursor=pointer]:
+                          - img [ref=e132]
+                - generic [ref=e139]:
+                  - generic [ref=e140]: Departure
+                  - generic [ref=e141]:
+                    - button "Open calendar" [ref=e142] [cursor=pointer]:
+                      - img [ref=e143]
+                    - generic [ref=e145]:
+                      - combobox "Departure" [ref=e148]: 05/06/2026
+                      - button "Clear" [ref=e149] [cursor=pointer]:
+                        - img [ref=e151]
+                    - button "Open calendar" [ref=e154] [cursor=pointer]:
+                      - img [ref=e155]
+                - generic [ref=e162]:
+                  - generic [ref=e163]: Return
+                  - generic [ref=e164]:
+                    - button "Open calendar" [ref=e165] [cursor=pointer]:
+                      - img [ref=e166]
+                    - combobox "Return" [ref=e171]: 05/13/2026
+                    - button "Open calendar" [ref=e173] [cursor=pointer]:
+                      - img [ref=e174]
+              - button "Go" [active] [ref=e178] [cursor=pointer]
+        - generic [ref=e182]:
+          - generic [ref=e183]:
+            - heading "Latest Flight Deals" [level=2] [ref=e184]
+            - paragraph [ref=e185]: Looking for inspiration for your next trip? These are todays best flight deals.
+          - generic [ref=e187]:
+            - button "Previous flight deal"
+            - generic [ref=e190]:
+              - generic:
+                - group "1 / 5" [ref=e191]:
+                  - generic [ref=e194]:
+                    - generic [ref=e195]:
+                      - heading "Cairo" [level=3] [ref=e196]
+                      - img [ref=e197]
+                      - heading "Dubai" [level=3] [ref=e199]
+                    - generic [ref=e200]:
+                      - generic [ref=e202]: 143.09 USD
+                      - button "Book Now" [ref=e203] [cursor=pointer]
+                - group "2 / 5" [ref=e204]:
+                  - generic [ref=e207]:
+                    - generic [ref=e208]:
+                      - heading "Cairo" [level=3] [ref=e209]
+                      - img [ref=e210]
+                      - heading "Jeddah" [level=3] [ref=e212]
+                    - generic [ref=e213]:
+                      - generic [ref=e215]: 143.09 USD
+                      - button "Book Now" [ref=e216] [cursor=pointer]
+                - group "3 / 5" [ref=e217]:
+                  - generic [ref=e220]:
+                    - generic [ref=e221]:
+                      - heading "Cairo" [level=3] [ref=e222]
+                      - img [ref=e223]
+                      - heading "Riyadh" [level=3] [ref=e225]
+                    - generic [ref=e226]:
+                      - generic [ref=e228]: 143.09 USD
+                      - button "Book Now" [ref=e229] [cursor=pointer]
+                - group "4 / 5" [ref=e230]:
+                  - generic [ref=e233]:
+                    - generic [ref=e234]:
+                      - heading "Jeddah" [level=3] [ref=e235]
+                      - img [ref=e236]
+                      - heading "Dubai" [level=3] [ref=e238]
+                    - generic [ref=e239]:
+                      - generic [ref=e241]: 143.09 USD
+                      - button "Book Now" [ref=e242] [cursor=pointer]
+                - group "5 / 5" [ref=e243]:
+                  - generic [ref=e246]:
+                    - generic [ref=e247]:
+                      - heading "Dubai" [level=3] [ref=e248]
+                      - img [ref=e249]
+                      - heading "Cairo" [level=3] [ref=e251]
+                    - generic [ref=e252]:
+                      - generic [ref=e254]: 143.09 USD
+                      - button "Book Now" [ref=e255] [cursor=pointer]
+            - button "Next flight deal"
+    - contentinfo [ref=e257]:
+      - generic [ref=e259]:
+        - generic [ref=e260]:
+          - paragraph [ref=e261]: Have Questions?
+          - paragraph [ref=e262]: "19359"
+          - paragraph [ref=e263]: Customercare@flywt.com
+          - paragraph [ref=e264]: 24/7 Dedicated Customer Support
+        - paragraph [ref=e266]: Your personal details are 100% secured with us
+        - paragraph [ref=e269]: Like this? love this? spread the word
+```
+
+# Test source
+
+```ts
+  1  | import { Page, Locator } from "@playwright/test";
+  2  | import { BasePage } from "./Base_Page";
+  3  | import { ENV } from "../config/env";
+  4  | 
+  5  | export class SearchResultPage extends BasePage {
+  6  |  
+  7  | //sorting
+  8  | readonly btn_cheapest = this.page.getByRole("button", { name: "Cheapest" });
+  9  | readonly btn_fastest = this.page.getByRole("button", { name: "Fastest" });
+  10 | readonly btn_recommended = this.page.getByRole("button", { name: "Recommended" });
+  11 | 
+  12 | 
+  13 | 
+  14 | 
+  15 | async sortBy(option: "Cheapest" | "Fastest" | "Recommended") {
+  16 |   const sortingOptions: Record<string, Locator> = {
+  17 |     "Cheapest": this.btn_cheapest,
+  18 |     "Fastest": this.btn_fastest,
+  19 |     "Recommended": this.btn_recommended,
+  20 |   };
+  21 | 
+  22 |   const button = sortingOptions[option];
+  23 |   if (button) {
+> 24 |     await button.click();
+     |                  ^ Error: locator.click: Test timeout of 30000ms exceeded.
+  25 |   }
+  26 | }
+  27 | 
+  28 | 
+  29 | 
+  30 | 
+  31 | 
+  32 | 
+  33 | 
+  34 | 
+  35 | 
+  36 | 
+  37 | 
+  38 | 
+  39 | 
+  40 | 
+  41 | 
+  42 | 
+  43 | 
+  44 | 
+  45 | 
+  46 | 
+  47 | 
+  48 | 
+  49 | 
+  50 | }
+```
