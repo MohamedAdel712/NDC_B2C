@@ -17,12 +17,15 @@ export class SearchResultPage extends BasePage {
   readonly edit_txt_from = this.page
     .locator('[data-testid="edit-from"]')
     .or(this.page.getByPlaceholder("Departure City").nth(0));
+
   readonly edit_txt_to = this.page
     .locator('[data-testid="edit-to"]')
     .or(this.page.getByPlaceholder("Destination City").nth(0));
+
   readonly edit_txt_departureDate = this.page
     .locator('[data-testid="edit-departure-date"]')
     .or(this.page.getByPlaceholder("Select Date").nth(0));
+
   readonly edit_txt_returnDate = this.page
     .locator('[data-testid="edit-return-date"]')
     .or(this.page.getByPlaceholder("Select Date").nth(1));
@@ -31,14 +34,17 @@ export class SearchResultPage extends BasePage {
   readonly edit_dropdown_tripType = this.page
     .locator('[data-testid="edit-trip-type"]')
     .or(this.page.locator('svg path[d*="M7.41 8.58"]').nth(0));
+
   readonly edit_dropdown_passengers = this.page
     .locator('[data-testid="edit-passengers"]')
     .or(
       this.page.locator('//i[contains(@class,"passenger-btn-arrow")]').nth(0),
     );
+     
   readonly edit_dropdown_cabinClass = this.page
-    .locator('[data-testid="edit-cabin-class"]')
-    .or(this.page.locator(".base-dropdown__selected--with-icon").nth(0));
+    .locator('p-select span[role="combobox"]')
+    .filter({ hasText: /Economy|Business|First/ })
+
   readonly edit_dropdown_currency = this.page
     .locator('[data-testid="edit-currency"]')
     .or(this.page.getByRole("combobox", { name: /Pound|Dollar|Euro/ }));
@@ -48,7 +54,7 @@ export class SearchResultPage extends BasePage {
     .getByRole("button", { name: "Search" })
     .nth(0);
   readonly btn_editSearch_close = this.page
-    .getByRole("button", { name: "Close" })
+    .getByRole("button", { name: " Cancel " })
     .or(this.page.locator('[aria-label="Close"]'));
   readonly edit_dropdown_passenger_apply = this.page
     .getByRole("button", { name: "Apply" })
@@ -74,7 +80,7 @@ export class SearchResultPage extends BasePage {
    */
   async clickEditSearch() {
     await this.btn_editSearch.click();
-    await this.page.waitForLoadState("networkidle");
+    // await this.page.waitForLoadState("networkidle");
   }
 
   /**
@@ -126,10 +132,8 @@ export class SearchResultPage extends BasePage {
    */
   async editSelectCabinClass(option: string) {
     await this.edit_dropdown_cabinClass.click();
-    await this.page.waitForSelector('li[role="option"]');
-    const optionLocator = this.page.locator('li[role="option"]', {
-      hasText: option,
-    });
+    const optionLocator = this.page.getByRole("option", { name: option });
+    await optionLocator.waitFor({ state: "visible" });
     await optionLocator.click();
   }
 

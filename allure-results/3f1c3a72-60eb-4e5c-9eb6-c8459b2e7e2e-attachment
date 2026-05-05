@@ -1,0 +1,199 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: SearchResult_tc.spec.ts >>  Edit Mode Date Changes >> Change departure date in edit mode
+- Location: tests\SearchResult_tc.spec.ts:115:8
+
+# Error details
+
+```
+Error: page.waitForLoadState: Target page, context or browser has been closed
+```
+
+# Test source
+
+```ts
+  1   | import { Page, Locator } from "@playwright/test";
+  2   | import { BasePage } from "./Base_Page";
+  3   | import { ENV } from "../config/env";
+  4   | 
+  5   | export class SearchResultPage extends BasePage {
+  6   |   // ===== Result Page Locators =====
+  7   |   // Sorting options
+  8   |   readonly btn_cheapest = this.page.getByRole("button", { name: "Cheapest" });
+  9   |   readonly btn_fastest = this.page.getByRole("button", { name: "Fastest" });
+  10  |   readonly btn_recommended = this.page.getByRole("button", {name: "Recommended",});
+  11  |   readonly btn_flightDetails = this.page.getByRole("button", {name: "Flight details",});
+  12  | 
+  13  |   // ===== Edit Mode Locators =====
+  14  |   readonly btn_editSearch = this.page.getByRole("button", { name: "Edit" });
+  15  | 
+  16  |   // Edit form inputs - with fallback locators for flexibility
+  17  |   readonly edit_txt_from = this.page
+  18  |     .locator('[data-testid="edit-from"]')
+  19  |     .or(this.page.getByPlaceholder("Departure City").nth(0));
+  20  |   readonly edit_txt_to = this.page
+  21  |     .locator('[data-testid="edit-to"]')
+  22  |     .or(this.page.getByPlaceholder("Destination City").nth(0));
+  23  |   readonly edit_txt_departureDate = this.page
+  24  |     .locator('[data-testid="edit-departure-date"]')
+  25  |     .or(this.page.getByPlaceholder("Select Date").nth(0));
+  26  |   readonly edit_txt_returnDate = this.page
+  27  |     .locator('[data-testid="edit-return-date"]')
+  28  |     .or(this.page.getByPlaceholder("Select Date").nth(1));
+  29  | 
+  30  |   // Edit mode dropdowns
+  31  |   readonly edit_dropdown_tripType = this.page
+  32  |     .locator('[data-testid="edit-trip-type"]')
+  33  |     .or(this.page.locator('svg path[d*="M7.41 8.58"]').nth(0));
+  34  |   readonly edit_dropdown_passengers = this.page
+  35  |     .locator('[data-testid="edit-passengers"]')
+  36  |     .or(
+  37  |       this.page.locator('//i[contains(@class,"passenger-btn-arrow")]').nth(0),
+  38  |     );
+  39  |   readonly edit_dropdown_cabinClass = this.page
+  40  |     .locator('[data-testid="edit-cabin-class"]')
+  41  |     .or(this.page.locator(".base-dropdown__selected--with-icon").nth(0));
+  42  |   readonly edit_dropdown_currency = this.page
+  43  |     .locator('[data-testid="edit-currency"]')
+  44  |     .or(this.page.getByRole("combobox", { name: /Pound|Dollar|Euro/ }));
+  45  | 
+  46  |   // Edit mode action buttons
+  47  |   readonly btn_editSearch_apply = this.page
+  48  |     .getByRole("button", { name: "Search" })
+  49  |     .nth(0);
+  50  |   readonly btn_editSearch_close = this.page
+  51  |     .getByRole("button", { name: "Close" })
+  52  |     .or(this.page.locator('[aria-label="Close"]'));
+  53  |   readonly edit_dropdown_passenger_apply = this.page
+  54  |     .getByRole("button", { name: "Apply" })
+  55  |     .nth(0);
+  56  | 
+  57  |   // ===== Result Page Methods =====
+  58  |   async sortBy(option: "Cheapest" | "Fastest" | "Recommended") {
+  59  |     const sortingOptions: Record<string, Locator> = {
+  60  |       Cheapest: this.btn_cheapest,
+  61  |       Fastest: this.btn_fastest,
+  62  |       Recommended: this.btn_recommended,
+  63  |     };
+  64  | 
+  65  |     const button = sortingOptions[option];
+  66  |     if (button) {
+  67  |       await button.click();
+  68  |     }
+  69  |   }
+  70  | 
+  71  |   // ===== Edit Mode Methods =====
+  72  |   /**
+  73  |    * Click Edit button and wait for edit panel to appear
+  74  |    */
+  75  |   async clickEditSearch() {
+  76  |     await this.btn_editSearch.click();
+> 77  |     await this.page.waitForLoadState("networkidle");
+      |                     ^ Error: page.waitForLoadState: Target page, context or browser has been closed
+  78  |   }
+  79  | 
+  80  |   /**
+  81  |    * Close the edit panel
+  82  |    */
+  83  |   async closeEditPanel() {
+  84  |     await this.btn_editSearch_close.click();
+  85  |   }
+  86  | 
+  87  |   /**
+  88  |    * Select a city from dropdown suggestions in edit mode
+  89  |    */
+  90  |   async editSelectCity(input: Locator, city: string) {
+  91  |     await input.waitFor({ state: "visible" });
+  92  |     await input.click();
+  93  |     await input.fill(city);
+  94  |     const suggestion = this.page.getByRole("option", { name: city }).first();
+  95  |     await suggestion.waitFor({ state: "visible" });
+  96  |     await suggestion.click();
+  97  |   }
+  98  | 
+  99  |   /**
+  100 |    * Set date using keyboard input with relative days
+  101 |    */
+  102 |   async editSetDate(input: Locator, date: number) {
+  103 |     const today = new Date();
+  104 |     const targetDate = new Date(
+  105 |       today.getFullYear(),
+  106 |       today.getMonth(),
+  107 |       today.getDate() + date,
+  108 |     );
+  109 |     const formatted = `${String(targetDate.getMonth() + 1).padStart(2, "0")}/${String(targetDate.getDate()).padStart(2, "0")}/${targetDate.getFullYear()}`;
+  110 |     await input.click();
+  111 |     await input.fill("");
+  112 |     await input.type(formatted, { delay: 100 });
+  113 |     await this.page.keyboard.press("Tab");
+  114 |   }
+  115 | 
+  116 |   /**
+  117 |    * Change trip type in edit mode
+  118 |    */
+  119 |   async editSelectTripType(type: "One Way" | "Round Trip" | "Multi-City") {
+  120 |     await this.edit_dropdown_tripType.click();
+  121 |     await this.page.getByRole("option", { name: type }).click();
+  122 |   }
+  123 | 
+  124 |   /**
+  125 |    * Change cabin class in edit mode
+  126 |    */
+  127 |   async editSelectCabinClass(option: string) {
+  128 |     await this.edit_dropdown_cabinClass.click();
+  129 |     await this.page.waitForSelector('li[role="option"]');
+  130 |     const optionLocator = this.page.locator('li[role="option"]', {
+  131 |       hasText: option,
+  132 |     });
+  133 |     await optionLocator.click();
+  134 |   }
+  135 | 
+  136 |   /**
+  137 |    * Change currency in edit mode
+  138 |    */
+  139 |   async editSelectCurrency(option: string) {
+  140 |     await this.edit_dropdown_currency.click();
+  141 |     await this.page.waitForSelector('li[role="option"]');
+  142 |     const optionLocator = this.page.locator('li[role="option"]', {
+  143 |       hasText: option,
+  144 |     });
+  145 |     await optionLocator.click();
+  146 |   }
+  147 | 
+  148 |   /**
+  149 |    * Open passenger dropdown in edit mode
+  150 |    */
+  151 |   async editOpenPassengerDropdown() {
+  152 |     await this.edit_dropdown_passengers.click();
+  153 |   }
+  154 | 
+  155 |   /**
+  156 |    * Increment passenger count for a specific type
+  157 |    */
+  158 |   async editIncrementPassenger(type: string, count: number) {
+  159 |     const row = this.page.locator(".passenger-row", { hasText: type });
+  160 |     const plusBtn = row.locator("button.counter-btn").nth(1);
+  161 |     const targetCount = type === "Adults" ? count - 1 : count;
+  162 |     for (let i = 0; i < targetCount; i++) await plusBtn.click();
+  163 |   }
+  164 | 
+  165 |   /**
+  166 |    * Apply passenger selection in edit mode
+  167 |    */
+  168 |   async editApplyPassengerSelection() {
+  169 |     await this.edit_dropdown_passenger_apply.click();
+  170 |   }
+  171 | 
+  172 |   /**
+  173 |    * Change departure city in edit mode
+  174 |    */
+  175 |   async editChangeFromCity(city: string) {
+  176 |     await this.editSelectCity(this.edit_txt_from, city);
+  177 |   }
+```
