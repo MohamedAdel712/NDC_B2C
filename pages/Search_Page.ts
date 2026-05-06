@@ -150,7 +150,7 @@ export class SearchPage extends BasePage {
   }
   async search(data: SearchData) {
     await this.goto();
-    if (data.currency) await this.selectCurrency(data.currency);
+    // if (data.currency) await this.selectCurrency(data.currency);
     await this.selectTripType(data.tripType);
     await this.openPassengerDropdown();
     if (data.Adults) await this.incrementPassenger("Adults", data.Adults);

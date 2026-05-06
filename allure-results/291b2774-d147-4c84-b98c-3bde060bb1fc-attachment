@@ -1,0 +1,238 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: SearchResult_tc.spec.ts >> Edit Full Flow >> Full edit flow to round trip
+- Location: tests\SearchResult_tc.spec.ts:311:8
+
+# Error details
+
+```
+Error: expect(page).toHaveURL(expected) failed
+
+Expected pattern: /\/search-results|\/flights/
+Received string:  "https://ndc-b2c-frontend-stg-app.azurewebsites.net/en/booking/search?tripType=2&cabinClass=3&adults=4&children=1&infants=1&origin=JED&destination=AUH&departureDate=2026-05-14&returnDate=2026-05-21"
+Timeout: 5000ms
+
+Call log:
+  - Expect "toHaveURL" with timeout 5000ms
+    9 × unexpected value "https://ndc-b2c-frontend-stg-app.azurewebsites.net/en/booking/search?tripType=2&cabinClass=3&adults=4&children=1&infants=1&origin=JED&destination=AUH&departureDate=2026-05-14&returnDate=2026-05-21"
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - img [ref=e6]
+  - generic [ref=e63]:
+    - banner [ref=e65]:
+      - navigation [ref=e66]:
+        - text: 
+        - img "Home" [ref=e69] [cursor=pointer]
+        - generic [ref=e70]:
+          - link "Home" [ref=e71] [cursor=pointer]:
+            - /url: /en
+          - link "My Booking" [ref=e72] [cursor=pointer]:
+            - /url: /en/booking/my-booking
+          - button "العربية" [ref=e74] [cursor=pointer]
+          - generic [ref=e80] [cursor=pointer]:
+            - combobox "Egyptian Pound" [ref=e81]:
+              - generic [ref=e82]:
+                - generic [ref=e83]: EGP
+                - img "Egyptian Pound flag" [ref=e84]
+            - button "dropdown trigger" [ref=e85]:
+              - generic [ref=e86]: 
+    - main [ref=e87]:
+      - generic [ref=e89]:
+        - generic [ref=e95]:
+          - generic [ref=e99]:
+            - generic [ref=e100]: From
+            - combobox "Departure City" [disabled] [ref=e104] [cursor=pointer]: JED - Jeddah, Saudi Arabia
+          - generic [ref=e108]:
+            - generic [ref=e109]: To
+            - combobox "Destination City" [disabled] [ref=e113] [cursor=pointer]: AUH - Abu Dhabi, United Arab Emirates
+          - generic [ref=e117]:
+            - generic:
+              - img
+            - generic:
+              - combobox "Select Date": 05/14/2026
+          - generic [ref=e121]:
+            - generic:
+              - img
+            - generic:
+              - combobox "Select Date": 05/21/2026
+          - generic [ref=e123]:
+            - generic:
+              - button "6 Passengers":
+                - generic:
+                  - generic: 6 Passengers
+          - generic [ref=e126]:
+            - generic:
+              - combobox "Round Trip"
+              - text: 
+          - generic [ref=e129]:
+            - generic:
+              - combobox "Business"
+              - text: 
+          - button "Edit" [ref=e133] [cursor=pointer]
+        - generic [ref=e135]:
+          - img "No flights found" [ref=e137]
+          - paragraph [ref=e139]: No Flights found. Please try different search criteria.
+          - button "Go Back To Search Page" [ref=e140] [cursor=pointer]
+    - contentinfo [ref=e142]:
+      - generic [ref=e144]:
+        - generic [ref=e145]:
+          - paragraph [ref=e146]: Have Questions?
+          - paragraph [ref=e147]: "19359"
+          - paragraph [ref=e148]: Customercare@flywt.com
+          - paragraph [ref=e149]: 24/7 Dedicated Customer Support
+        - paragraph [ref=e151]: Your personal details are 100% secured with us
+        - paragraph [ref=e154]: Like this? love this? spread the word
+```
+
+# Test source
+
+```ts
+  240 | 
+  241 |     // Verify page has navigated/reloaded with new results
+  242 |     await expect(page).toHaveURL(/\/search-results|\/flights/);
+  243 |   });
+  244 | 
+  245 |   test("Complete edit search workflow with Round Trip", async ({
+  246 |     searchPage,
+  247 |     searchResultPage,
+  248 |     page,
+  249 |   }) => {
+  250 |     await searchPage.search(RoundTrip_data as SearchData);
+  251 |     await searchResultPage.clickEditSearch();
+  252 | 
+  253 |     await searchResultPage.editSearchAndWait("JED", "AUH", 5, 12);
+  254 | 
+  255 |     // Verify new search results page loaded
+  256 |     await expect(page).toHaveURL(/\/search-results|\/flights/);
+  257 |   });
+  258 | 
+  259 |   test("Complete edit search workflow with One Way", async ({
+  260 |     searchPage,
+  261 |     searchResultPage,
+  262 |     page,
+  263 |   }) => {
+  264 |     await searchPage.search(OneWay_data as SearchData);
+  265 |     await searchResultPage.clickEditSearch();
+  266 | 
+  267 |     await searchResultPage.editSearchAndWait("JED", "AUH", 6);
+  268 | 
+  269 |     // Verify new search results page loaded
+  270 |     await expect(page).toHaveURL(/\/search-results|\/flights/);
+  271 |   });
+  272 | });
+  273 | 
+  274 | test.describe("Edit Full Flow", () => {
+  275 |   test("Full edit flow to one way", async ({
+  276 |     searchPage,
+  277 |     searchResultPage,
+  278 |     page,
+  279 |   }) => {
+  280 |     // Perform initial search
+  281 |     await searchPage.search(RoundTrip_data as SearchData);
+  282 | 
+  283 |     // Open edit panel
+  284 |     await searchResultPage.clickEditSearch();
+  285 |     await expect(searchResultPage.edit_txt_from).toBeVisible();
+  286 | 
+  287 |     // Change trip type
+  288 |     await searchResultPage.editSelectTripType("One Way");
+  289 | 
+  290 |     // Change cities
+  291 |     await searchResultPage.editChangeFromCity("JED");
+  292 |     await searchResultPage.editChangeToCity("AUH");
+  293 | 
+  294 |     // Change date
+  295 |     await searchResultPage.editChangeDepartureDate(7);
+  296 | 
+  297 |     //Change cabin class
+  298 |     await searchResultPage.editSelectCabinClass("Business");
+  299 | 
+  300 |     // Change passengers
+  301 |     await searchResultPage.editChangePassengers({
+  302 |       adults: 2,
+  303 |       children: 1,
+  304 |       infants: 0,
+  305 |     });
+  306 | 
+  307 |     // Apply search
+  308 |     await searchResultPage.editApplySearch();
+  309 |   });
+  310 | 
+  311 |   test.only("Full edit flow to round trip", async ({
+  312 |     searchPage,
+  313 |     searchResultPage,
+  314 |     page,
+  315 |   }) => {
+  316 |     // Perform initial search
+  317 |     await searchPage.search(OneWay_data as SearchData);
+  318 | 
+  319 |     // Open edit panel
+  320 |     await searchResultPage.clickEditSearch();
+  321 | 
+  322 |     // Change passengers
+  323 |     await searchResultPage.editChangePassengers({
+  324 |       adults: 3,
+  325 |       children: 1,
+  326 |       infants: 1,
+  327 |     });
+  328 | 
+  329 |     // Change cabin class
+  330 |     await searchResultPage.editSelectCabinClass("Business");
+  331 | 
+  332 |     // Change trip type
+  333 |     await searchResultPage.editSelectTripType("Round Trip");
+  334 | 
+  335 |     // Change cities and dates
+  336 |     await searchResultPage.editUpdateRoundTrip("JED", "AUH", 8, 15);
+  337 | 
+  338 |     // Apply search
+  339 |     await searchResultPage.editApplySearch();
+> 340 |     await expect(page).toHaveURL(/\/search-results|\/flights/);
+      |                        ^ Error: expect(page).toHaveURL(expected) failed
+  341 |   });
+  342 | 
+  343 |   test("Full edit flow: change to multi-city", async ({
+  344 |     searchPage,
+  345 |     searchResultPage,
+  346 |     page,
+  347 |   }) => {
+  348 |     // Perform initial search
+  349 |     await searchPage.search(OneWay_data as SearchData);
+  350 | 
+  351 |     // Open edit panel
+  352 |     await searchResultPage.clickEditSearch();
+  353 |     await expect(searchResultPage.edit_txt_from).toBeVisible();
+  354 | 
+  355 |     // Change passengers
+  356 |     await searchResultPage.editChangePassengers({
+  357 |       adults: 2,
+  358 |       children: 0,
+  359 |       infants: 2,
+  360 |     });
+  361 | 
+  362 |     // Change cabin class
+  363 |     await searchResultPage.editSelectCabinClass("Economy");
+  364 | 
+  365 |     // Change trip type
+  366 |     await searchResultPage.editSelectTripType("Multi-City");
+  367 | 
+  368 |     // Change cities and dates
+  369 |     // await searchResultPage.editUpdateMultiCity(["JED", "AUH"], [8, 15]);
+  370 | 
+  371 |     // Apply search
+  372 |     await searchResultPage.editApplySearch();
+  373 |   });
+  374 | });
+  375 | 
+```

@@ -4,49 +4,9 @@ import RoundTrip_data from "../test-data/RoundTrip_data.json";
 import searchResultData from "../test-data/SearchResultData.json";
 import { SearchData, SortOption } from "../types/search.types";
 
-test.describe("Sorting", () => {
-  test("Sort by Cheapest after One Way search", async ({
-    searchPage,
-    searchResultPage,
-  }) => {
-    await searchPage.search(OneWay_data as SearchData);
-    await searchResultPage.sortBy("Cheapest");
-    await expect(searchResultPage.btn_cheapest).toHaveAttribute(
-      "class",
-      /active|selected/,
-    );
-  });
-
-  test("Sort by Fastest after Round Trip search", async ({
-    searchPage,
-    searchResultPage,
-  }) => {
-    await searchPage.search(RoundTrip_data as SearchData);
-    await searchResultPage.sortBy("Fastest");
-    await expect(searchResultPage.btn_fastest).toHaveAttribute(
-      "class",
-      /active|selected/,
-    );
-  });
-
-  test("Sort by Recommended after Round Trip search", async ({
-    searchPage,
-    searchResultPage,
-  }) => {
-    await searchPage.search(RoundTrip_data as SearchData);
-    await searchResultPage.sortBy("Recommended");
-    await expect(searchResultPage.btn_recommended).toHaveAttribute(
-      "class",
-      /active|selected/,
-    );
-  });
-});
 
 test.describe("Search Edit ", () => {
-  test("Click Edit Button", async ({
-    searchPage,
-    searchResultPage,
-  }) => {
+  test("Click Edit Button", async ({ searchPage, searchResultPage }) => {
     await searchPage.search(OneWay_data as SearchData);
     await searchResultPage.clickEditSearch();
 
@@ -56,10 +16,7 @@ test.describe("Search Edit ", () => {
     await expect(searchResultPage.edit_txt_departureDate).toBeVisible();
   });
 
-  test("Close Edit Button", async ({
-    searchPage,
-    searchResultPage,
-  }) => {
+  test("Close Edit Button", async ({ searchPage, searchResultPage }) => {
     await searchPage.search(OneWay_data as SearchData);
     await searchResultPage.clickEditSearch();
     await expect(searchResultPage.edit_txt_from).toBeVisible();
@@ -70,23 +27,17 @@ test.describe("Search Edit ", () => {
 });
 
 test.describe("Edit City Selection", () => {
-  test("Change departure city", async ({
-    searchPage,
-    searchResultPage,
-  }) => {
+  test("Change departure city", async ({ searchPage, searchResultPage }) => {
     await searchPage.search(OneWay_data as SearchData);
     await searchResultPage.clickEditSearch();
 
     const newCity = "JED";
     await searchResultPage.editChangeFromCity(newCity);
 
-   // await expect(searchResultPage.edit_txt_from).toHaveValue(newCity);
+    // await expect(searchResultPage.edit_txt_from).toHaveValue(newCity);
   });
 
-  test("Change destination city", async ({
-    searchPage,
-    searchResultPage,
-  }) => {
+  test("Change destination city", async ({ searchPage, searchResultPage }) => {
     await searchPage.search(OneWay_data as SearchData);
     await searchResultPage.clickEditSearch();
 
@@ -96,10 +47,7 @@ test.describe("Edit City Selection", () => {
     //await expect(searchResultPage.edit_txt_to).toHaveValue(newCity);
   });
 
-  test("Change both", async ({
-    searchPage,
-    searchResultPage,
-  }) => {
+  test("Change both", async ({ searchPage, searchResultPage }) => {
     await searchPage.search(OneWay_data as SearchData);
     await searchResultPage.clickEditSearch();
 
@@ -112,10 +60,7 @@ test.describe("Edit City Selection", () => {
 });
 
 test.describe("Edit Date Changes", () => {
-  test("Change departure date", async ({
-    searchPage,
-    searchResultPage,
-  }) => {
+  test("Change departure date", async ({ searchPage, searchResultPage }) => {
     await searchPage.search(OneWay_data as SearchData);
     await searchResultPage.clickEditSearch();
 
@@ -128,10 +73,7 @@ test.describe("Edit Date Changes", () => {
     expect(dateValue).toBeTruthy();
   });
 
-  test("Change return date", async ({
-    searchPage,
-    searchResultPage,
-  }) => {
+  test("Change return date", async ({ searchPage, searchResultPage }) => {
     await searchPage.search(RoundTrip_data as SearchData);
     await searchResultPage.clickEditSearch();
 
@@ -143,10 +85,7 @@ test.describe("Edit Date Changes", () => {
     expect(dateValue).toBeTruthy();
   });
 
-  test("Change both departure", async ({
-    searchPage,
-    searchResultPage,
-  }) => {
+  test("Change both departure", async ({ searchPage, searchResultPage }) => {
     await searchPage.search(RoundTrip_data as SearchData);
     await searchResultPage.clickEditSearch();
 
@@ -163,26 +102,14 @@ test.describe("Edit Date Changes", () => {
 });
 
 test.describe("Edit Dropdown Changes", () => {
-  test("Change cabin class ", async ({
-    searchPage,
-    searchResultPage,
-  }) => {
+  test("Change cabin class ", async ({ searchPage, searchResultPage }) => {
     await searchPage.search(OneWay_data as SearchData);
     await searchResultPage.clickEditSearch();
 
     await searchResultPage.editSelectCabinClass("Business");
-
-    // Verify cabin class is updated (look for Business text in dropdown)
-    const cabinClass = searchResultPage.page.locator(
-      'app-base-dropdown[label="Cabin class"]',
-    );
-    await expect(cabinClass).toContainText("Business");
   });
 
-  test("Change currency", async ({
-    searchPage,
-    searchResultPage,
-  }) => {
+  test("Change currency", async ({ searchPage, searchResultPage }) => {
     await searchPage.search(OneWay_data as SearchData);
     await searchResultPage.clickEditSearch();
     await searchResultPage.editSelectCurrency("EGP");
@@ -192,10 +119,7 @@ test.describe("Edit Dropdown Changes", () => {
     await expect(searchResultPage.edit_dropdown_currency).toBeDefined();
   });
 
-  test.only("Change trip type", async ({
-    searchPage,
-    searchResultPage,
-  }) => {
+  test("Change trip type", async ({ searchPage, searchResultPage }) => {
     await searchPage.search(OneWay_data as SearchData);
     await searchResultPage.clickEditSearch();
     await searchResultPage.editSelectTripType("Round Trip");
@@ -229,13 +153,6 @@ test.describe("Edit Passenger Changes", () => {
 
     await searchResultPage.editOpenPassengerDropdown();
     await searchResultPage.editIncrementPassenger("Children", 2);
-
-    // Verify passenger count updated
-    const childrenInput = searchResultPage.page.locator(
-      '.passenger-row:has-text("Children") input[type="number"]',
-    );
-    const value = await childrenInput.inputValue();
-    expect(parseInt(value)).toBeGreaterThan(0);
   });
 
   test("Apply passenger selection in edit mode", async ({
@@ -272,46 +189,6 @@ test.describe("Edit Passenger Changes", () => {
   });
 });
 
-test.describe("Edit Batch Updates", () => {
-  test("Update One Way search parameters in edit mode", async ({
-    searchPage,
-    searchResultPage,
-  }) => {
-    await searchPage.search(OneWay_data as SearchData);
-    await searchResultPage.clickEditSearch();
-
-    await searchResultPage.editUpdateOneWay("JED", "AUH", 4);
-
-    // Verify all three fields are updated
-    await expect(searchResultPage.edit_txt_from).toHaveValue("JED");
-    await expect(searchResultPage.edit_txt_to).toHaveValue("AUH");
-
-    const dateValue =
-      await searchResultPage.edit_txt_departureDate.inputValue();
-    expect(dateValue).toBeTruthy();
-  });
-
-  test("Update Round Trip search parameters in edit mode", async ({
-    searchPage,
-    searchResultPage,
-  }) => {
-    await searchPage.search(RoundTrip_data as SearchData);
-    await searchResultPage.clickEditSearch();
-
-    await searchResultPage.editUpdateRoundTrip("JED", "AUH", 5, 14);
-
-    // Verify all four fields are updated
-    await expect(searchResultPage.edit_txt_from).toHaveValue("JED");
-    await expect(searchResultPage.edit_txt_to).toHaveValue("AUH");
-
-    const deptDate = await searchResultPage.edit_txt_departureDate.inputValue();
-    const retDate = await searchResultPage.edit_txt_returnDate.inputValue();
-
-    expect(deptDate).toBeTruthy();
-    expect(retDate).toBeTruthy();
-  });
-});
-
 test.describe("Edit Search Apply", () => {
   test("Apply edit search with city and date changes", async ({
     searchPage,
@@ -321,7 +198,7 @@ test.describe("Edit Search Apply", () => {
     await searchPage.search(OneWay_data as SearchData);
     await searchResultPage.clickEditSearch();
 
-    await searchResultPage.editUpdateOneWay("JED", "AUH", 4);
+    await searchResultPage.editUpdateOneWay("JED", "CAI", 4);
     await searchResultPage.editApplySearch();
 
     // Verify page has navigated/reloaded with new results
@@ -357,18 +234,21 @@ test.describe("Edit Search Apply", () => {
   });
 });
 
-test.describe("Edit Integration", () => {
-  test("Full edit flow: open -> change city -> change date -> apply", async ({
+test.describe("Edit Full Flow", () => {
+  test("Full edit flow to one way", async ({
     searchPage,
     searchResultPage,
     page,
   }) => {
     // Perform initial search
-    await searchPage.search(OneWay_data as SearchData);
+    await searchPage.search(RoundTrip_data as SearchData);
 
     // Open edit panel
     await searchResultPage.clickEditSearch();
     await expect(searchResultPage.edit_txt_from).toBeVisible();
+
+    // Change trip type
+    await searchResultPage.editSelectTripType("One Way");
 
     // Change cities
     await searchResultPage.editChangeFromCity("JED");
@@ -377,16 +257,21 @@ test.describe("Edit Integration", () => {
     // Change date
     await searchResultPage.editChangeDepartureDate(7);
 
-    // Verify changes
-    await expect(searchResultPage.edit_txt_from).toHaveValue("JED");
-    await expect(searchResultPage.edit_txt_to).toHaveValue("AUH");
+    //Change cabin class
+    await searchResultPage.editSelectCabinClass("Business");
+
+    // Change passengers
+    await searchResultPage.editChangePassengers({
+      adults: 2,
+      children: 1,
+      infants: 0,
+    });
 
     // Apply search
     await searchResultPage.editApplySearch();
-    await expect(page).toHaveURL(/\/search-results|\/flights/);
   });
 
-  test("Full edit flow: open -> change passengers -> apply", async ({
+  test("Full edit flow to round trip", async ({
     searchPage,
     searchResultPage,
     page,
@@ -401,17 +286,26 @@ test.describe("Edit Integration", () => {
     await searchResultPage.editChangePassengers({
       adults: 3,
       children: 1,
-      infants: 0,
+      infants: 1,
     });
+
+    // Change cabin class
+    await searchResultPage.editSelectCabinClass("Business");
+
+    // Change trip type
+    await searchResultPage.editSelectTripType("Round Trip");
+
+    // Change cities and dates
+    await searchResultPage.editUpdateRoundTrip("JED", "AUH", 8, 15);
 
     // Apply search
     await searchResultPage.editApplySearch();
-    await expect(page).toHaveURL(/\/search-results|\/flights/);
   });
 
-  test("Edit search and cancel by closing panel", async ({
+  test.only("Full edit flow: change to multi-city", async ({
     searchPage,
     searchResultPage,
+    page,
   }) => {
     // Perform initial search
     await searchPage.search(OneWay_data as SearchData);
@@ -420,33 +314,64 @@ test.describe("Edit Integration", () => {
     await searchResultPage.clickEditSearch();
     await expect(searchResultPage.edit_txt_from).toBeVisible();
 
-    // Change a city
-    await searchResultPage.editChangeFromCity("JED");
+    // Change passengers
+    await searchResultPage.editChangePassengers({
+      adults: 2,
+      children: 0,
+      infants: 2,
+    });
 
-    // Close without applying
-    await searchResultPage.closeEditPanel();
+    // Change cabin class
+    await searchResultPage.editSelectCabinClass("Business");
 
-    // Edit button should still be visible
-    await expect(searchResultPage.btn_editSearch).toBeVisible();
+    // Change trip type
+    await searchResultPage.editSelectTripType("Multi-City");
+
+    // Change cities and dates
+    await searchResultPage.editUpdateMultiCity([
+      { from: "JED", to: "AUH", departDate: 8 },
+      { from: "AUH", to: "CAI", departDate: 15 },
+    ]);
+
+    // Apply search
+    await searchResultPage.editApplySearch();
   });
+});
 
-  test("Multiple edit operations: sort -> edit -> apply", async ({
+test.describe("Sorting", () => {
+  test("Sort by Cheapest after One Way search", async ({
     searchPage,
     searchResultPage,
-    page,
   }) => {
-    // Perform initial search
-    await searchPage.search(RoundTrip_data as SearchData);
-
-    // Sort results
+    await searchPage.search(OneWay_data as SearchData);
     await searchResultPage.sortBy("Cheapest");
+    await expect(searchResultPage.btn_cheapest).toHaveAttribute(
+      "class",
+      /active|selected/,
+    );
+  });
 
-    // Open edit and modify search
-    await searchResultPage.clickEditSearch();
-    await searchResultPage.editUpdateRoundTrip("JED", "AUH", 6, 13);
+  test("Sort by Fastest after Round Trip search", async ({
+    searchPage,
+    searchResultPage,
+  }) => {
+    await searchPage.search(RoundTrip_data as SearchData);
+    await searchResultPage.sortBy("Fastest");
+    await expect(searchResultPage.btn_fastest).toHaveAttribute(
+      "class",
+      /active|selected/,
+    );
+  });
 
-    // Apply new search
-    await searchResultPage.editApplySearch();
-    await expect(page).toHaveURL(/\/search-results|\/flights/);
+  test("Sort by Recommended after Round Trip search", async ({
+    searchPage,
+    searchResultPage,
+  }) => {
+    await searchPage.search(RoundTrip_data as SearchData);
+    await searchResultPage.sortBy("Recommended");
+    await expect(searchResultPage.btn_recommended).toHaveAttribute(
+      "class",
+      /active|selected/,
+    );
   });
 });

@@ -7,8 +7,12 @@ export class SearchResultPage extends BasePage {
   // Sorting options
   readonly btn_cheapest = this.page.getByRole("button", { name: "Cheapest" });
   readonly btn_fastest = this.page.getByRole("button", { name: "Fastest" });
-  readonly btn_recommended = this.page.getByRole("button", {name: "Recommended",});
-  readonly btn_flightDetails = this.page.getByRole("button", {name: "Flight details",});
+  readonly btn_recommended = this.page.getByRole("button", {
+    name: "Recommended",
+  });
+  readonly btn_flightDetails = this.page.getByRole("button", {
+    name: "Flight details",
+  });
 
   // ===== Edit Mode Locators =====
   readonly btn_editSearch = this.page.getByRole("button", { name: "Edit" });
@@ -31,20 +35,19 @@ export class SearchResultPage extends BasePage {
     .or(this.page.getByPlaceholder("Select Date").nth(1));
 
   // Edit mode dropdowns
-  readonly edit_dropdown_tripType = this.page
-    .locator('[data-testid="edit-trip-type"]')
-    .or(this.page.locator('svg path[d*="M7.41 8.58"]').nth(0));
+  readonly edit_dropdown_tripType = this.page.getByRole("combobox", {
+    name: /One Way|Round Trip|Multi-City/,
+  });
 
   readonly edit_dropdown_passengers = this.page
     .locator('[data-testid="edit-passengers"]')
     .or(
       this.page.locator('//i[contains(@class,"passenger-btn-arrow")]').nth(0),
     );
-     
-  readonly edit_dropdown_cabinClass = this.page
-    .locator('p-select span[role="combobox"]')
-    .filter({ hasText: /Economy|Business|First/ })
 
+  readonly edit_dropdown_cabinClass = this.page.getByRole("combobox", {
+    name: /Economy|Business|First/,
+  });
   readonly edit_dropdown_currency = this.page
     .locator('[data-testid="edit-currency"]')
     .or(this.page.getByRole("combobox", { name: /Pound|Dollar|Euro/ }));
@@ -132,7 +135,10 @@ export class SearchResultPage extends BasePage {
    */
   async editSelectCabinClass(option: string) {
     await this.edit_dropdown_cabinClass.click();
-    const optionLocator = this.page.getByRole("option", { name: option });
+    const optionLocator = this.page.getByRole("option", {
+      name: option,
+      exact: true,
+    });
     await optionLocator.waitFor({ state: "visible" });
     await optionLocator.click();
   }
@@ -242,6 +248,25 @@ export class SearchResultPage extends BasePage {
     await this.editChangeToCity(toCity);
     await this.editChangeDepartureDate(departDate);
     await this.editChangeReturnDate(returnDate);
+  }
+
+  /**
+   * Update multi-city search parameters in edit mode
+   * @param legs Array of leg objects, each containing from, to, and departDate
+   */
+  async editUpdateMultiCity(
+    legs: { from: string; to: string; departDate: number }[],
+  ) {
+    const fromInputs = this.page.getByPlaceholder("Departure City");
+    const toInputs = this.page.getByPlaceholder("Destination City");
+    const dateInputs = this.page.getByPlaceholder("Select Date");
+
+    // Update each leg of the multi-city journey
+    for (let i = 0; i < legs.length; i++) {
+      await this.editSelectCity(fromInputs.nth(i), legs[i].from);
+      await this.editSelectCity(toInputs.nth(i), legs[i].to);
+      await this.editSetDate(dateInputs.nth(i), legs[i].departDate);
+    }
   }
 
   /**
