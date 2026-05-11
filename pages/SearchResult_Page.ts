@@ -63,6 +63,16 @@ export class SearchResultPage extends BasePage {
     .getByRole("button", { name: "Apply" })
     .nth(0);
 
+
+  // Airline filter locators
+
+  // Additional filter locators
+  readonly filter_stops = this.page.locator('[data-testid="stops-filter"]');
+  readonly filter_departureTime = this.page.locator('[data-testid="departure-time-filter"]');
+  readonly filter_duration = this.page.locator('[data-testid="duration-filter"]');
+  readonly filter_priceRange = this.page.locator('[data-testid="price-range-filter"]');
+  readonly filter_baggage = this.page.locator('[data-testid="baggage-filter"]');
+
   // ===== Result Page Methods =====
   async sortBy(option: "Cheapest" | "Fastest" | "Recommended") {
     const sortingOptions: Record<string, Locator> = {
@@ -75,6 +85,87 @@ export class SearchResultPage extends BasePage {
     if (button) {
       await button.click();
     }
+  }
+
+  /**
+   * Filter results by airline name
+   */
+  async filterByAirline(airlineName: string) {
+    const airlineLocator = this.page.locator(
+      `//p[@class='airline-card-name' and normalize-space()='${airlineName}']`
+    );
+    await airlineLocator.click();
+  }
+
+  /**
+   * Filter results by number of stops
+   */
+  async filterByStops(stops: "Nonstop" | "1 Stop" | "2+ Stops") {
+    const stopsOptions: Record<string, Locator> = {
+      "Nonstop": this.filter_stops.locator('text="Nonstop"'),
+      "1 Stop": this.filter_stops.locator('text="1 Stop"'),
+      "2+ Stops": this.filter_stops.locator('text="2+ Stops"'),
+    };
+
+    const option = stopsOptions[stops];
+    if (option) {
+      await option.click();
+    }
+  }
+
+  /**
+   * Filter results by departure time
+   */
+  async filterByDepartureTime(time: "Morning" | "Afternoon" | "Evening" | "Night") {
+    const timeOptions: Record<string, Locator> = {
+      "Morning": this.filter_departureTime.locator('text="Morning"'),
+      "Afternoon": this.filter_departureTime.locator('text="Afternoon"'),
+      "Evening": this.filter_departureTime.locator('text="Evening"'),
+      "Night": this.filter_departureTime.locator('text="Night"'),
+    };
+
+    const option = timeOptions[time];
+    if (option) {
+      await option.click();
+    }
+  }
+
+  /**
+   * Filter results by flight duration
+   */
+  async filterByDuration(duration: "Short" | "Medium" | "Long") {
+    const durationOptions: Record<string, Locator> = {
+      "Short": this.filter_duration.locator('text="Short"'),
+      "Medium": this.filter_duration.locator('text="Medium"'),
+      "Long": this.filter_duration.locator('text="Long"'),
+    };
+
+    const option = durationOptions[duration];
+    if (option) {
+      await option.click();
+    }
+  }
+
+  /**
+   * Filter results by price range
+   */
+  async filterByPriceRange(minPrice: number, maxPrice: number) {
+    // Assuming price range filter uses input fields or sliders
+    const minInput = this.filter_priceRange.locator('[data-testid="min-price"]');
+    const maxInput = this.filter_priceRange.locator('[data-testid="max-price"]');
+
+    await minInput.fill(minPrice.toString());
+    await maxInput.fill(maxPrice.toString());
+  }
+
+  /**
+   * Filter results by baggage inclusion
+   */
+  async filterByBaggageIncluded(includeBaggage: boolean) {
+    const baggageOption = this.filter_baggage.locator(
+      includeBaggage ? 'text="Baggage Included"' : 'text="No Baggage"'
+    );
+    await baggageOption.click();
   }
 
   // ===== Edit Mode Methods =====

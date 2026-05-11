@@ -1,0 +1,851 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: SearchResult_tc.spec.ts >> Edit Search Apply >> Apply edit search with city and date changes
+- Location: tests\SearchResult_tc.spec.ts:198:7
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: page.waitForLoadState: Test timeout of 30000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - banner [ref=e6]:
+    - navigation [ref=e7]:
+      - text: 
+      - img "Home" [ref=e10] [cursor=pointer]
+      - generic [ref=e11]:
+        - link "Home" [ref=e12] [cursor=pointer]:
+          - /url: /en
+        - link "My Booking" [ref=e13] [cursor=pointer]:
+          - /url: /en/booking/my-booking
+        - button "العربية" [ref=e15] [cursor=pointer]
+        - generic [ref=e21] [cursor=pointer]:
+          - combobox "Egyptian Pound" [ref=e22]:
+            - generic [ref=e23]:
+              - generic [ref=e24]: EGP
+              - img "Egyptian Pound flag" [ref=e25]
+          - button "dropdown trigger" [ref=e26]:
+            - generic [ref=e27]: 
+  - main [ref=e28]:
+    - generic [ref=e30]:
+      - generic [ref=e36]:
+        - generic [ref=e40]:
+          - generic [ref=e41]: From
+          - combobox "Departure City" [disabled] [ref=e45] [cursor=pointer]: JED - Jeddah, Saudi Arabia
+        - generic [ref=e49]:
+          - generic [ref=e50]: To
+          - combobox "Destination City" [disabled] [ref=e54] [cursor=pointer]: CAI - Cairo, Egypt
+        - generic [ref=e58]:
+          - generic:
+            - img
+          - generic:
+            - combobox "Select Date": 05/12/2026
+        - generic [ref=e60]:
+          - generic:
+            - button "2 Passengers":
+              - generic:
+                - generic: 2 Passengers
+        - generic [ref=e63]:
+          - generic:
+            - combobox "One Way"
+            - text: 
+        - generic [ref=e66]:
+          - generic:
+            - combobox "Business"
+            - text: 
+        - button "Edit" [ref=e70] [cursor=pointer]
+      - generic [ref=e74]:
+        - button "Clear All" [disabled] [ref=e76]
+        - generic [ref=e77]:
+          - button "searchResult.airlineWidget.prevSlide" [ref=e78] [cursor=pointer]:
+            - img [ref=e80]
+          - generic [ref=e84]:
+            - generic:
+              - group "1 / 2" [ref=e85] [cursor=pointer]:
+                - generic:
+                  - img "Flynas" [ref=e88]
+                  - paragraph [ref=e89]: Flynas
+                  - generic [ref=e90]: "Starting : 66,778.68 EGP"
+              - group "2 / 2" [ref=e91] [cursor=pointer]:
+                - generic:
+                  - img "Jazeera Airways" [ref=e94]
+                  - paragraph [ref=e95]: Jazeera Airways
+                  - generic [ref=e96]: "Starting : 156,922.72 EGP"
+          - button "searchResult.airlineWidget.nextSlide" [ref=e97] [cursor=pointer]:
+            - img [ref=e99]
+      - generic [ref=e101]:
+        - complementary [ref=e102]:
+          - generic [ref=e105]:
+            - generic [ref=e106]:
+              - generic [ref=e107]:
+                - img [ref=e109]
+                - generic [ref=e111]: Filters
+              - button "Clear All" [disabled] [ref=e112]
+            - generic [ref=e115]:
+              - generic [ref=e116]: Price Range
+              - generic [ref=e117]:
+                - generic [ref=e118]:
+                  - slider [ref=e120]
+                  - slider [ref=e121]
+                - generic [ref=e122]:
+                  - generic [ref=e123]: 66,778
+                  - generic [ref=e124]: 160,089
+            - generic [ref=e127]:
+              - generic [ref=e128]:
+                - heading "Stops" [level=4] [ref=e129]
+                - button "Clear All" [disabled] [ref=e130]
+              - tablist [ref=e135]:
+                - tab "Departure Stops" [selected] [ref=e136] [cursor=pointer]
+              - generic [ref=e137]:
+                - checkbox "Direct Flight (10 Flights)" [ref=e139] [cursor=pointer]:
+                  - generic [ref=e140]:
+                    - checkbox [ref=e142]
+                    - img [ref=e146]
+                  - generic [ref=e148]:
+                    - generic [ref=e149]: Direct Flight
+                    - generic [ref=e150]: (10 Flights)
+                - checkbox "1 Stop (9 Flights)" [ref=e152] [cursor=pointer]:
+                  - generic [ref=e153]:
+                    - checkbox [ref=e155]
+                    - img [ref=e159]
+                  - generic [ref=e161]:
+                    - generic [ref=e162]: 1 Stop
+                    - generic [ref=e163]: (9 Flights)
+                - checkbox "+2 Stops (0 Flights)" [ref=e165] [cursor=pointer]:
+                  - generic [ref=e166]:
+                    - checkbox [ref=e168]
+                    - img [ref=e172]
+                  - generic [ref=e177]:
+                    - generic [ref=e178]: +2 Stops
+                    - generic [ref=e179]: (0 Flights)
+            - generic [ref=e182]:
+              - generic [ref=e183]:
+                - heading "Time" [level=4] [ref=e184]
+                - button "Clear All" [disabled] [ref=e185]
+              - tablist [ref=e190]:
+                - tab "Departure Time" [selected] [ref=e191] [cursor=pointer]
+              - generic [ref=e192]:
+                - checkbox "Morning 6AM-12PM" [ref=e194] [cursor=pointer]:
+                  - generic [ref=e195]:
+                    - checkbox [ref=e197]
+                    - img [ref=e201]
+                  - generic [ref=e209]:
+                    - generic [ref=e210]: Morning
+                    - generic [ref=e211]: 6AM-12PM
+                - checkbox "Afternoon 12PM-6PM" [ref=e213] [cursor=pointer]:
+                  - generic [ref=e214]:
+                    - checkbox [ref=e216]
+                    - img [ref=e220]
+                  - generic [ref=e224]:
+                    - generic [ref=e225]: Afternoon
+                    - generic [ref=e226]: 12PM-6PM
+                - checkbox "Evening 6PM-12AM" [ref=e228] [cursor=pointer]:
+                  - generic [ref=e229]:
+                    - checkbox [ref=e231]
+                    - img [ref=e235]
+                  - generic [ref=e263]:
+                    - generic [ref=e264]: Evening
+                    - generic [ref=e265]: 6PM-12AM
+                - checkbox "Night 12AM-6AM" [ref=e267] [cursor=pointer]:
+                  - generic [ref=e268]:
+                    - checkbox [ref=e270]
+                    - img [ref=e274]
+                  - generic [ref=e276]:
+                    - generic [ref=e277]: Night
+                    - generic [ref=e278]: 12AM-6AM
+            - generic [ref=e281]:
+              - generic [ref=e282]:
+                - heading "Fare Type" [level=4] [ref=e283]
+                - button "Clear All" [disabled] [ref=e284]
+              - checkbox "Non-Refundable (19 Flights)" [ref=e287] [cursor=pointer]:
+                - generic [ref=e288]:
+                  - checkbox [ref=e290]
+                  - img [ref=e294]
+                - generic [ref=e297]:
+                  - generic [ref=e298]: Non-Refundable
+                  - generic [ref=e299]: (19 Flights)
+            - generic [ref=e302]:
+              - generic [ref=e303]:
+                - heading "Airlines" [level=4] [ref=e304]
+                - button "Clear All" [disabled] [ref=e305]
+              - generic [ref=e306]:
+                - checkbox "Flynas Flynas (16 Flights)" [ref=e308] [cursor=pointer]:
+                  - generic [ref=e309]:
+                    - checkbox [ref=e311]
+                    - img "Flynas" [ref=e315]
+                  - generic [ref=e316]:
+                    - generic [ref=e317]: Flynas
+                    - generic [ref=e318]: (16 Flights)
+                - checkbox "Jazeera Airways Jazeera Airways (3 Flights)" [ref=e320] [cursor=pointer]:
+                  - generic [ref=e321]:
+                    - checkbox [ref=e323]
+                    - img "Jazeera Airways" [ref=e327]
+                  - generic [ref=e328]:
+                    - generic [ref=e329]: Jazeera Airways
+                    - generic [ref=e330]: (3 Flights)
+            - generic [ref=e333]:
+              - generic [ref=e334]:
+                - heading "Layover Time (Hours)" [level=4] [ref=e335]
+                - button "Clear All" [disabled] [ref=e336]
+              - generic [ref=e337]:
+                - tablist [ref=e341]:
+                  - tab "Departure" [selected] [ref=e342] [cursor=pointer]
+                - generic [ref=e344]:
+                  - button "0-5" [ref=e345] [cursor=pointer]
+                  - button "6-10" [ref=e346] [cursor=pointer]
+                  - button "11-15" [ref=e347] [cursor=pointer]
+                  - button "16+" [ref=e348] [cursor=pointer]
+            - generic [ref=e351]:
+              - generic [ref=e352]:
+                - heading "Layover Airport" [level=4] [ref=e353]
+                - button "Clear All" [disabled] [ref=e354]
+              - checkbox "King Khaled International Airport" [ref=e357] [cursor=pointer]:
+                - checkbox [ref=e360]
+                - generic [ref=e363]: King Khaled International Airport
+        - main [ref=e364]:
+          - generic [ref=e370]:
+            - button "Cheapest" [ref=e373] [cursor=pointer]:
+              - generic [ref=e374]: Cheapest
+              - img [ref=e376]
+            - button "Recommended" [ref=e380] [cursor=pointer]:
+              - generic [ref=e381]: Recommended
+              - img [ref=e383]
+            - button "Fastest" [ref=e387] [cursor=pointer]:
+              - generic [ref=e388]: Fastest
+              - img [ref=e390]
+          - generic [ref=e392]:
+            - generic [ref=e394]:
+              - generic [ref=e396]:
+                - generic [ref=e398]:
+                  - generic "Airline Logo" [ref=e400]:
+                    - img "Flynas" [ref=e401]
+                  - generic [ref=e402]: Flynas
+                - generic [ref=e406]:
+                  - generic [ref=e407]: "Duration: 1h 15m"
+                  - generic [ref=e408]:
+                    - generic [ref=e410]:
+                      - generic [ref=e411]: 12 May 2026
+                      - generic [ref=e412]: 14:25
+                      - generic [ref=e413]: JED
+                    - generic [ref=e418]:
+                      - generic [ref=e419]: XY 584
+                      - generic [ref=e420]: Business J
+                    - generic [ref=e422]:
+                      - generic [ref=e423]: 12 May 2026
+                      - generic [ref=e424]: 16:40
+                      - generic [ref=e425]: CAI
+              - generic [ref=e426]:
+                - generic [ref=e427]:
+                  - generic [ref=e428]: 66,778.68
+                  - generic [ref=e429]: EGP
+                - generic [ref=e432]: Non-refundable
+                - button "View Details " [ref=e433] [cursor=pointer]:
+                  - generic [ref=e434]: View Details
+                  - generic [ref=e435]: 
+            - generic [ref=e437]:
+              - generic [ref=e439]:
+                - generic [ref=e441]:
+                  - generic "Airline Logo" [ref=e443]:
+                    - img "Flynas" [ref=e444]
+                  - generic [ref=e445]: Flynas
+                - generic [ref=e449]:
+                  - generic [ref=e450]: "Duration: 2h 15m"
+                  - generic [ref=e451]:
+                    - generic [ref=e453]:
+                      - generic [ref=e454]: 12 May 2026
+                      - generic [ref=e455]: 08:20
+                      - generic [ref=e456]: JED
+                    - generic [ref=e461]:
+                      - generic [ref=e462]: XY 566
+                      - generic [ref=e463]: Business J
+                    - generic [ref=e465]:
+                      - generic [ref=e466]: 12 May 2026
+                      - generic [ref=e467]: 11:35
+                      - generic [ref=e468]: CAI
+              - generic [ref=e469]:
+                - generic [ref=e470]:
+                  - generic [ref=e471]: 66,778.68
+                  - generic [ref=e472]: EGP
+                - generic [ref=e475]: Non-refundable
+                - button "View Details " [ref=e476] [cursor=pointer]:
+                  - generic [ref=e477]: View Details
+                  - generic [ref=e478]: 
+            - generic [ref=e480]:
+              - generic [ref=e482]:
+                - generic [ref=e484]:
+                  - generic "Airline Logo" [ref=e486]:
+                    - img "Flynas" [ref=e487]
+                  - generic [ref=e488]: Flynas
+                - generic [ref=e492]:
+                  - generic [ref=e493]: "Duration: 2h 15m"
+                  - generic [ref=e494]:
+                    - generic [ref=e496]:
+                      - generic [ref=e497]: 12 May 2026
+                      - generic [ref=e498]: 11:40
+                      - generic [ref=e499]: JED
+                    - generic [ref=e504]:
+                      - generic [ref=e505]: XY 578
+                      - generic [ref=e506]: Business J
+                    - generic [ref=e508]:
+                      - generic [ref=e509]: 12 May 2026
+                      - generic [ref=e510]: 14:55
+                      - generic [ref=e511]: CAI
+              - generic [ref=e512]:
+                - generic [ref=e513]:
+                  - generic [ref=e514]: 66,778.68
+                  - generic [ref=e515]: EGP
+                - generic [ref=e518]: Non-refundable
+                - button "View Details " [ref=e519] [cursor=pointer]:
+                  - generic [ref=e520]: View Details
+                  - generic [ref=e521]: 
+            - generic [ref=e523]:
+              - generic [ref=e525]:
+                - generic [ref=e527]:
+                  - generic "Airline Logo" [ref=e529]:
+                    - img "Flynas" [ref=e530]
+                  - generic [ref=e531]: Flynas
+                - generic [ref=e535]:
+                  - generic [ref=e536]: "Duration: 2h 15m"
+                  - generic [ref=e537]:
+                    - generic [ref=e539]:
+                      - generic [ref=e540]: 12 May 2026
+                      - generic [ref=e541]: 17:40
+                      - generic [ref=e542]: JED
+                    - generic [ref=e547]:
+                      - generic [ref=e548]: XY 570
+                      - generic [ref=e549]: Business J
+                    - generic [ref=e551]:
+                      - generic [ref=e552]: 12 May 2026
+                      - generic [ref=e553]: 20:55
+                      - generic [ref=e554]: CAI
+              - generic [ref=e555]:
+                - generic [ref=e556]:
+                  - generic [ref=e557]: 66,778.68
+                  - generic [ref=e558]: EGP
+                - generic [ref=e561]: Non-refundable
+                - button "View Details " [ref=e562] [cursor=pointer]:
+                  - generic [ref=e563]: View Details
+                  - generic [ref=e564]: 
+            - generic [ref=e566]:
+              - generic [ref=e568]:
+                - generic [ref=e570]:
+                  - generic "Airline Logo" [ref=e572]:
+                    - img "Flynas" [ref=e573]
+                  - generic [ref=e574]: Flynas
+                - generic [ref=e578]:
+                  - generic [ref=e579]: "Duration: 2h 15m"
+                  - generic [ref=e580]:
+                    - generic [ref=e582]:
+                      - generic [ref=e583]: 12 May 2026
+                      - generic [ref=e584]: 20:05
+                      - generic [ref=e585]: JED
+                    - generic [ref=e590]:
+                      - generic [ref=e591]: XY 572
+                      - generic [ref=e592]: Business J
+                    - generic [ref=e594]:
+                      - generic [ref=e595]: 12 May 2026
+                      - generic [ref=e596]: 23:20
+                      - generic [ref=e597]: CAI
+              - generic [ref=e598]:
+                - generic [ref=e599]:
+                  - generic [ref=e600]: 66,778.68
+                  - generic [ref=e601]: EGP
+                - generic [ref=e604]: Non-refundable
+                - button "View Details " [ref=e605] [cursor=pointer]:
+                  - generic [ref=e606]: View Details
+                  - generic [ref=e607]: 
+            - generic [ref=e609]:
+              - generic [ref=e611]:
+                - generic [ref=e613]:
+                  - generic "Airline Logo" [ref=e615]:
+                    - img "Flynas" [ref=e616]
+                  - generic [ref=e617]: Flynas
+                - generic [ref=e621]:
+                  - generic [ref=e622]: "Duration: 2h 15m"
+                  - generic [ref=e623]:
+                    - generic [ref=e625]:
+                      - generic [ref=e626]: 12 May 2026
+                      - generic [ref=e627]: 21:20
+                      - generic [ref=e628]: JED
+                    - generic [ref=e633]:
+                      - generic [ref=e634]: XY 590
+                      - generic [ref=e635]: Business J
+                    - generic [ref=e637]:
+                      - generic [ref=e638]: 13 May 2026
+                      - generic [ref=e639]: 00:35
+                      - generic [ref=e640]: CAI
+              - generic [ref=e641]:
+                - generic [ref=e642]:
+                  - generic [ref=e643]: 66,778.68
+                  - generic [ref=e644]: EGP
+                - generic [ref=e647]: Non-refundable
+                - button "View Details " [ref=e648] [cursor=pointer]:
+                  - generic [ref=e649]: View Details
+                  - generic [ref=e650]: 
+            - generic [ref=e652]:
+              - generic [ref=e654]:
+                - generic [ref=e656]:
+                  - generic "Airline Logo" [ref=e658]:
+                    - img "Flynas" [ref=e659]
+                  - generic [ref=e660]: Flynas
+                - generic [ref=e664]:
+                  - generic [ref=e665]: "Duration: 2h 15m"
+                  - generic [ref=e666]:
+                    - generic [ref=e668]:
+                      - generic [ref=e669]: 12 May 2026
+                      - generic [ref=e670]: 23:50
+                      - generic [ref=e671]: JED
+                    - generic [ref=e676]:
+                      - generic [ref=e677]: XY 568
+                      - generic [ref=e678]: Business J
+                    - generic [ref=e680]:
+                      - generic [ref=e681]: 13 May 2026
+                      - generic [ref=e682]: 03:05
+                      - generic [ref=e683]: CAI
+              - generic [ref=e684]:
+                - generic [ref=e685]:
+                  - generic [ref=e686]: 66,778.68
+                  - generic [ref=e687]: EGP
+                - generic [ref=e690]: Non-refundable
+                - button "View Details " [ref=e691] [cursor=pointer]:
+                  - generic [ref=e692]: View Details
+                  - generic [ref=e693]: 
+            - generic [ref=e695]:
+              - generic [ref=e697]:
+                - generic [ref=e699]:
+                  - generic "Airline Logo" [ref=e701]:
+                    - img "Flynas" [ref=e702]
+                  - generic [ref=e703]: Flynas
+                - generic [ref=e707]:
+                  - generic [ref=e708]: "Duration: 6h 15m"
+                  - generic [ref=e709]:
+                    - generic [ref=e711]:
+                      - generic [ref=e712]: 12 May 2026
+                      - generic [ref=e713]: 17:45
+                      - generic [ref=e714]: JED
+                    - generic [ref=e715]:
+                      - generic [ref=e718]:
+                        - generic [ref=e719]: RUH
+                        - generic "Stopover info" [ref=e721]
+                      - generic [ref=e722]:
+                        - generic [ref=e723]:
+                          - generic [ref=e724]: XY 276
+                          - generic [ref=e725]: Business C
+                        - generic [ref=e726]:
+                          - generic [ref=e727]: XY 57
+                          - generic [ref=e728]: Business J
+                    - generic [ref=e730]:
+                      - generic [ref=e731]: 13 May 2026
+                      - generic [ref=e732]: 01:00
+                      - generic [ref=e733]: CAI
+              - generic [ref=e734]:
+                - generic [ref=e735]:
+                  - generic [ref=e736]: 149,019.16
+                  - generic [ref=e737]: EGP
+                - generic [ref=e740]: Non-refundable
+                - button "View Details " [ref=e741] [cursor=pointer]:
+                  - generic [ref=e742]: View Details
+                  - generic [ref=e743]: 
+            - generic [ref=e745]:
+              - generic [ref=e747]:
+                - generic [ref=e749]:
+                  - generic "Airline Logo" [ref=e751]:
+                    - img "Flynas" [ref=e752]
+                  - generic [ref=e753]: Flynas
+                - generic [ref=e757]:
+                  - generic [ref=e758]: "Duration: 7h"
+                  - generic [ref=e759]:
+                    - generic [ref=e761]:
+                      - generic [ref=e762]: 12 May 2026
+                      - generic [ref=e763]: 17:45
+                      - generic [ref=e764]: JED
+                    - generic [ref=e765]:
+                      - generic [ref=e768]:
+                        - generic [ref=e769]: RUH
+                        - generic "Stopover info" [ref=e771]
+                      - generic [ref=e772]:
+                        - generic [ref=e773]:
+                          - generic [ref=e774]: XY 276
+                          - generic [ref=e775]: Business C
+                        - generic [ref=e776]:
+                          - generic [ref=e777]: XY 55
+                          - generic [ref=e778]: Business J
+                    - generic [ref=e780]:
+                      - generic [ref=e781]: 13 May 2026
+                      - generic [ref=e782]: 01:45
+                      - generic [ref=e783]: CAI
+              - generic [ref=e784]:
+                - generic [ref=e785]:
+                  - generic [ref=e786]: 149,019.16
+                  - generic [ref=e787]: EGP
+                - generic [ref=e790]: Non-refundable
+                - button "View Details " [ref=e791] [cursor=pointer]:
+                  - generic [ref=e792]: View Details
+                  - generic [ref=e793]: 
+            - generic [ref=e795]:
+              - generic [ref=e797]:
+                - generic [ref=e799]:
+                  - generic "Airline Logo" [ref=e801]:
+                    - img "Flynas" [ref=e802]
+                  - generic [ref=e803]: Flynas
+                - generic [ref=e807]:
+                  - generic [ref=e808]: "Duration: 7h 5m"
+                  - generic [ref=e809]:
+                    - generic [ref=e811]:
+                      - generic [ref=e812]: 12 May 2026
+                      - generic [ref=e813]: 13:25
+                      - generic [ref=e814]: JED
+                    - generic [ref=e815]:
+                      - generic [ref=e818]:
+                        - generic [ref=e819]: RUH
+                        - generic "Stopover info" [ref=e821]
+                      - generic [ref=e822]:
+                        - generic [ref=e823]:
+                          - generic [ref=e824]: XY 270
+                          - generic [ref=e825]: Business C
+                        - generic [ref=e826]:
+                          - generic [ref=e827]: XY 45
+                          - generic [ref=e828]: Business J
+                    - generic [ref=e830]:
+                      - generic [ref=e831]: 12 May 2026
+                      - generic [ref=e832]: 21:30
+                      - generic [ref=e833]: CAI
+              - generic [ref=e834]:
+                - generic [ref=e835]:
+                  - generic [ref=e836]: 149,019.16
+                  - generic [ref=e837]: EGP
+                - generic [ref=e840]: Non-refundable
+                - button "View Details " [ref=e841] [cursor=pointer]:
+                  - generic [ref=e842]: View Details
+                  - generic [ref=e843]: 
+            - generic [ref=e845]:
+              - generic [ref=e847]:
+                - generic [ref=e849]:
+                  - generic "Airline Logo" [ref=e851]:
+                    - img "Flynas" [ref=e852]
+                  - generic [ref=e853]: Flynas
+                - generic [ref=e857]:
+                  - generic [ref=e858]: "Duration: 7h 30m"
+                  - generic [ref=e859]:
+                    - generic [ref=e861]:
+                      - generic [ref=e862]: 12 May 2026
+                      - generic [ref=e863]: 15:10
+                      - generic [ref=e864]: JED
+                    - generic [ref=e865]:
+                      - generic [ref=e868]:
+                        - generic [ref=e869]: RUH
+                        - generic "Stopover info" [ref=e871]
+                      - generic [ref=e872]:
+                        - generic [ref=e873]:
+                          - generic [ref=e874]: XY 268
+                          - generic [ref=e875]: Business C
+                        - generic [ref=e876]:
+                          - generic [ref=e877]: XY 53
+                          - generic [ref=e878]: Business J
+                    - generic [ref=e880]:
+                      - generic [ref=e881]: 12 May 2026
+                      - generic [ref=e882]: 23:40
+                      - generic [ref=e883]: CAI
+              - generic [ref=e884]:
+                - generic [ref=e885]:
+                  - generic [ref=e886]: 149,019.16
+                  - generic [ref=e887]: EGP
+                - generic [ref=e890]: Non-refundable
+                - button "View Details " [ref=e891] [cursor=pointer]:
+                  - generic [ref=e892]: View Details
+                  - generic [ref=e893]: 
+            - generic [ref=e895]:
+              - generic [ref=e897]:
+                - generic [ref=e899]:
+                  - generic "Airline Logo" [ref=e901]:
+                    - img "Flynas" [ref=e902]
+                  - generic [ref=e903]: Flynas
+                - generic [ref=e907]:
+                  - generic [ref=e908]: "Duration: 7h 45m"
+                  - generic [ref=e909]:
+                    - generic [ref=e911]:
+                      - generic [ref=e912]: 12 May 2026
+                      - generic [ref=e913]: 22:40
+                      - generic [ref=e914]: JED
+                    - generic [ref=e915]:
+                      - generic [ref=e918]:
+                        - generic [ref=e919]: RUH
+                        - generic "Stopover info" [ref=e921]
+                      - generic [ref=e922]:
+                        - generic [ref=e923]:
+                          - generic [ref=e924]: XY 266
+                          - generic [ref=e925]: Business C
+                        - generic [ref=e926]:
+                          - generic [ref=e927]: XY 3
+                          - generic [ref=e928]: Business J
+                    - generic [ref=e930]:
+                      - generic [ref=e931]: 13 May 2026
+                      - generic [ref=e932]: 07:25
+                      - generic [ref=e933]: CAI
+              - generic [ref=e934]:
+                - generic [ref=e935]:
+                  - generic [ref=e936]: 149,019.16
+                  - generic [ref=e937]: EGP
+                - generic [ref=e940]: Non-refundable
+                - button "View Details " [ref=e941] [cursor=pointer]:
+                  - generic [ref=e942]: View Details
+                  - generic [ref=e943]: 
+            - generic [ref=e945]:
+              - generic [ref=e947]:
+                - generic [ref=e949]:
+                  - generic "Airline Logo" [ref=e951]:
+                    - img "Flynas" [ref=e952]
+                  - generic [ref=e953]: Flynas
+                - generic [ref=e957]:
+                  - generic [ref=e958]: "Duration: 7h 50m"
+                  - generic [ref=e959]:
+                    - generic [ref=e961]:
+                      - generic [ref=e962]: 12 May 2026
+                      - generic [ref=e963]: 13:25
+                      - generic [ref=e964]: JED
+                    - generic [ref=e965]:
+                      - generic [ref=e968]:
+                        - generic [ref=e969]: RUH
+                        - generic "Stopover info" [ref=e971]
+                      - generic [ref=e972]:
+                        - generic [ref=e973]:
+                          - generic [ref=e974]: XY 270
+                          - generic [ref=e975]: Business C
+                        - generic [ref=e976]:
+                          - generic [ref=e977]: XY 29
+                          - generic [ref=e978]: Business J
+                    - generic [ref=e980]:
+                      - generic [ref=e981]: 12 May 2026
+                      - generic [ref=e982]: 22:15
+                      - generic [ref=e983]: CAI
+              - generic [ref=e984]:
+                - generic [ref=e985]:
+                  - generic [ref=e986]: 149,019.16
+                  - generic [ref=e987]: EGP
+                - generic [ref=e990]: Non-refundable
+                - button "View Details " [ref=e991] [cursor=pointer]:
+                  - generic [ref=e992]: View Details
+                  - generic [ref=e993]: 
+            - generic [ref=e995]:
+              - generic [ref=e997]:
+                - generic [ref=e999]:
+                  - generic "Airline Logo" [ref=e1001]:
+                    - img "Flynas" [ref=e1002]
+                  - generic [ref=e1003]: Flynas
+                - generic [ref=e1007]:
+                  - generic [ref=e1008]: "Duration: 8h 35m"
+                  - generic [ref=e1009]:
+                    - generic [ref=e1011]:
+                      - generic [ref=e1012]: 12 May 2026
+                      - generic [ref=e1013]: 13:25
+                      - generic [ref=e1014]: JED
+                    - generic [ref=e1015]:
+                      - generic [ref=e1018]:
+                        - generic [ref=e1019]: RUH
+                        - generic "Stopover info" [ref=e1021]
+                      - generic [ref=e1022]:
+                        - generic [ref=e1023]:
+                          - generic [ref=e1024]: XY 270
+                          - generic [ref=e1025]: Business C
+                        - generic [ref=e1026]:
+                          - generic [ref=e1027]: XY 23
+                          - generic [ref=e1028]: Business J
+                    - generic [ref=e1030]:
+                      - generic [ref=e1031]: 12 May 2026
+                      - generic [ref=e1032]: 23:00
+                      - generic [ref=e1033]: CAI
+              - generic [ref=e1034]:
+                - generic [ref=e1035]:
+                  - generic [ref=e1036]: 149,019.16
+                  - generic [ref=e1037]: EGP
+                - generic [ref=e1040]: Non-refundable
+                - button "View Details " [ref=e1041] [cursor=pointer]:
+                  - generic [ref=e1042]: View Details
+                  - generic [ref=e1043]: 
+            - generic [ref=e1045]:
+              - generic [ref=e1047]:
+                - generic [ref=e1049]:
+                  - generic "Airline Logo" [ref=e1051]:
+                    - img "Flynas" [ref=e1052]
+                  - generic [ref=e1053]: Flynas
+                - generic [ref=e1057]:
+                  - generic [ref=e1058]: "Duration: 8h 45m"
+                  - generic [ref=e1059]:
+                    - generic [ref=e1061]:
+                      - generic [ref=e1062]: 12 May 2026
+                      - generic [ref=e1063]: 22:40
+                      - generic [ref=e1064]: JED
+                    - generic [ref=e1065]:
+                      - generic [ref=e1068]:
+                        - generic [ref=e1069]: RUH
+                        - generic "Stopover info" [ref=e1071]
+                      - generic [ref=e1072]:
+                        - generic [ref=e1073]:
+                          - generic [ref=e1074]: XY 266
+                          - generic [ref=e1075]: Business C
+                        - generic [ref=e1076]:
+                          - generic [ref=e1077]: XY 5
+                          - generic [ref=e1078]: Business J
+                    - generic [ref=e1080]:
+                      - generic [ref=e1081]: 13 May 2026
+                      - generic [ref=e1082]: 08:25
+                      - generic [ref=e1083]: CAI
+              - generic [ref=e1084]:
+                - generic [ref=e1085]:
+                  - generic [ref=e1086]: 149,019.16
+                  - generic [ref=e1087]: EGP
+                - generic [ref=e1090]: Non-refundable
+                - button "View Details " [ref=e1091] [cursor=pointer]:
+                  - generic [ref=e1092]: View Details
+                  - generic [ref=e1093]: 
+  - contentinfo [ref=e1095]:
+    - generic [ref=e1097]:
+      - generic [ref=e1098]:
+        - paragraph [ref=e1099]: Have Questions?
+        - paragraph [ref=e1100]: "19359"
+        - paragraph [ref=e1101]: Customercare@flywt.com
+        - paragraph [ref=e1102]: 24/7 Dedicated Customer Support
+      - paragraph [ref=e1104]: Your personal details are 100% secured with us
+      - paragraph [ref=e1107]: Like this? love this? spread the word
+```
+
+# Test source
+
+```ts
+  177 |    */
+  178 |   async editApplyPassengerSelection() {
+  179 |     await this.edit_dropdown_passenger_apply.click();
+  180 |   }
+  181 | 
+  182 |   /**
+  183 |    * Change departure city in edit mode
+  184 |    */
+  185 |   async editChangeFromCity(city: string) {
+  186 |     await this.editSelectCity(this.edit_txt_from, city);
+  187 |   }
+  188 | 
+  189 |   /**
+  190 |    * Change destination city in edit mode
+  191 |    */
+  192 |   async editChangeToCity(city: string) {
+  193 |     await this.editSelectCity(this.edit_txt_to, city);
+  194 |   }
+  195 | 
+  196 |   /**
+  197 |    * Change departure date in edit mode (relative to today)
+  198 |    */
+  199 |   async editChangeDepartureDate(date: number) {
+  200 |     await this.editSetDate(this.edit_txt_departureDate, date);
+  201 |   }
+  202 | 
+  203 |   /**
+  204 |    * Change return date in edit mode (relative to today)
+  205 |    */
+  206 |   async editChangeReturnDate(date: number) {
+  207 |     await this.editSetDate(this.edit_txt_returnDate, date);
+  208 |   }
+  209 | 
+  210 |   /**
+  211 |    * Update passenger count with adults, children, and infants
+  212 |    */
+  213 |   async editChangePassengers(passengers: {
+  214 |     adults: number;
+  215 |     children: number;
+  216 |     infants: number;
+  217 |   }) {
+  218 |     await this.editOpenPassengerDropdown();
+  219 |     await this.editIncrementPassenger("Adults", passengers.adults);
+  220 |     if (passengers.children > 0) {
+  221 |       await this.editIncrementPassenger("Children", passengers.children);
+  222 |     }
+  223 |     if (passengers.infants > 0) {
+  224 |       await this.editIncrementPassenger("Infants", passengers.infants);
+  225 |     }
+  226 |     await this.editApplyPassengerSelection();
+  227 |   }
+  228 | 
+  229 |   /**
+  230 |    * Update one-way search parameters in edit mode
+  231 |    */
+  232 |   async editUpdateOneWay(fromCity: string, toCity: string, departDate: number) {
+  233 |     await this.editChangeFromCity(fromCity);
+  234 |     await this.editChangeToCity(toCity);
+  235 |     await this.editChangeDepartureDate(departDate);
+  236 |   }
+  237 | 
+  238 |   /**
+  239 |    * Update round-trip search parameters in edit mode
+  240 |    */
+  241 |   async editUpdateRoundTrip(
+  242 |     fromCity: string,
+  243 |     toCity: string,
+  244 |     departDate: number,
+  245 |     returnDate: number,
+  246 |   ) {
+  247 |     await this.editChangeFromCity(fromCity);
+  248 |     await this.editChangeToCity(toCity);
+  249 |     await this.editChangeDepartureDate(departDate);
+  250 |     await this.editChangeReturnDate(returnDate);
+  251 |   }
+  252 | 
+  253 |   /**
+  254 |    * Update multi-city search parameters in edit mode
+  255 |    * @param legs Array of leg objects, each containing from, to, and departDate
+  256 |    */
+  257 |   async editUpdateMultiCity(
+  258 |     legs: { from: string; to: string; departDate: number }[],
+  259 |   ) {
+  260 |     const fromInputs = this.page.getByPlaceholder("Departure City");
+  261 |     const toInputs = this.page.getByPlaceholder("Destination City");
+  262 |     const dateInputs = this.page.getByPlaceholder("Select Date");
+  263 | 
+  264 |     // Update each leg of the multi-city journey
+  265 |     for (let i = 0; i < legs.length; i++) {
+  266 |       await this.editSelectCity(fromInputs.nth(i), legs[i].from);
+  267 |       await this.editSelectCity(toInputs.nth(i), legs[i].to);
+  268 |       await this.editSetDate(dateInputs.nth(i), legs[i].departDate);
+  269 |     }
+  270 |   }
+  271 | 
+  272 |   /**
+  273 |    * Apply the search changes from edit mode
+  274 |    */
+  275 |   async editApplySearch() {
+  276 |     await this.btn_editSearch_apply.click();
+> 277 |     await this.page.waitForLoadState("networkidle");
+      |                     ^ Error: page.waitForLoadState: Test timeout of 30000ms exceeded.
+  278 |   }
+  279 | 
+  280 |   /**
+  281 |    * Complete edit search workflow: update parameters and apply
+  282 |    */
+  283 |   async editSearchAndWait(
+  284 |     fromCity: string,
+  285 |     toCity: string,
+  286 |     departDate: number,
+  287 |     returnDate?: number,
+  288 |   ) {
+  289 |     if (returnDate) {
+  290 |       await this.editUpdateRoundTrip(fromCity, toCity, departDate, returnDate);
+  291 |     } else {
+  292 |       await this.editUpdateOneWay(fromCity, toCity, departDate);
+  293 |     }
+  294 |     await this.editApplySearch();
+  295 |   }
+  296 | }
+  297 | 
+```

@@ -1,0 +1,219 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: SearchResult_tc.spec.ts >> Edit Full Flow >> Full edit flow: change to multi-city
+- Location: tests\SearchResult_tc.spec.ts:310:7
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: page.waitForLoadState: Test timeout of 30000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - banner [ref=e6]:
+    - navigation [ref=e7]:
+      - text: 
+      - img "Home" [ref=e10] [cursor=pointer]
+      - generic [ref=e11]:
+        - link "Home" [ref=e12] [cursor=pointer]:
+          - /url: /en
+        - link "My Booking" [ref=e13] [cursor=pointer]:
+          - /url: /en/booking/my-booking
+        - button "العربية" [ref=e15] [cursor=pointer]
+        - generic [ref=e21] [cursor=pointer]:
+          - combobox "Egyptian Pound" [ref=e22]:
+            - generic [ref=e23]:
+              - generic [ref=e24]: EGP
+              - img "Egyptian Pound flag" [ref=e25]
+          - button "dropdown trigger" [ref=e26]:
+            - generic [ref=e27]: 
+  - main [ref=e28]:
+    - generic [ref=e30]:
+      - generic [ref=e35]:
+        - generic [ref=e36]:
+          - generic [ref=e40]:
+            - generic [ref=e41]: From
+            - combobox "Departure City" [disabled] [ref=e45] [cursor=pointer]: JED - Jeddah, Saudi Arabia
+          - generic [ref=e49]:
+            - generic [ref=e50]: To
+            - combobox "Destination City" [disabled] [ref=e54] [cursor=pointer]: AUH - Abu Dhabi, United Arab Emirates
+          - generic [ref=e58]:
+            - generic:
+              - img
+            - generic:
+              - combobox "Select Date": 05/16/2026
+          - generic [ref=e60]:
+            - generic:
+              - button "5 Passengers":
+                - generic:
+                  - generic: 5 Passengers
+          - generic [ref=e63]:
+            - generic:
+              - combobox "Multi-City"
+              - text: 
+          - generic [ref=e66]:
+            - generic:
+              - combobox "Business"
+              - text: 
+          - button "Edit" [ref=e70] [cursor=pointer]
+        - generic [ref=e71]:
+          - generic [ref=e72]:
+            - generic [ref=e73]: "1"
+            - generic [ref=e74]: Jeddah - Abu Dhabi
+          - generic [ref=e75]:
+            - generic [ref=e76]: "2"
+            - generic [ref=e77]: Abu Dhabi - Cairo
+      - generic [ref=e79]:
+        - img "No flights found" [ref=e81]
+        - paragraph [ref=e83]: No Flights found. Please try different search criteria.
+        - button "Go Back To Search Page" [ref=e84] [cursor=pointer]
+  - contentinfo [ref=e86]:
+    - generic [ref=e88]:
+      - generic [ref=e89]:
+        - paragraph [ref=e90]: Have Questions?
+        - paragraph [ref=e91]: "19359"
+        - paragraph [ref=e92]: Customercare@flywt.com
+        - paragraph [ref=e93]: 24/7 Dedicated Customer Support
+      - paragraph [ref=e95]: Your personal details are 100% secured with us
+      - paragraph [ref=e98]: Like this? love this? spread the word
+```
+
+# Test source
+
+```ts
+  177 |    */
+  178 |   async editApplyPassengerSelection() {
+  179 |     await this.edit_dropdown_passenger_apply.click();
+  180 |   }
+  181 | 
+  182 |   /**
+  183 |    * Change departure city in edit mode
+  184 |    */
+  185 |   async editChangeFromCity(city: string) {
+  186 |     await this.editSelectCity(this.edit_txt_from, city);
+  187 |   }
+  188 | 
+  189 |   /**
+  190 |    * Change destination city in edit mode
+  191 |    */
+  192 |   async editChangeToCity(city: string) {
+  193 |     await this.editSelectCity(this.edit_txt_to, city);
+  194 |   }
+  195 | 
+  196 |   /**
+  197 |    * Change departure date in edit mode (relative to today)
+  198 |    */
+  199 |   async editChangeDepartureDate(date: number) {
+  200 |     await this.editSetDate(this.edit_txt_departureDate, date);
+  201 |   }
+  202 | 
+  203 |   /**
+  204 |    * Change return date in edit mode (relative to today)
+  205 |    */
+  206 |   async editChangeReturnDate(date: number) {
+  207 |     await this.editSetDate(this.edit_txt_returnDate, date);
+  208 |   }
+  209 | 
+  210 |   /**
+  211 |    * Update passenger count with adults, children, and infants
+  212 |    */
+  213 |   async editChangePassengers(passengers: {
+  214 |     adults: number;
+  215 |     children: number;
+  216 |     infants: number;
+  217 |   }) {
+  218 |     await this.editOpenPassengerDropdown();
+  219 |     await this.editIncrementPassenger("Adults", passengers.adults);
+  220 |     if (passengers.children > 0) {
+  221 |       await this.editIncrementPassenger("Children", passengers.children);
+  222 |     }
+  223 |     if (passengers.infants > 0) {
+  224 |       await this.editIncrementPassenger("Infants", passengers.infants);
+  225 |     }
+  226 |     await this.editApplyPassengerSelection();
+  227 |   }
+  228 | 
+  229 |   /**
+  230 |    * Update one-way search parameters in edit mode
+  231 |    */
+  232 |   async editUpdateOneWay(fromCity: string, toCity: string, departDate: number) {
+  233 |     await this.editChangeFromCity(fromCity);
+  234 |     await this.editChangeToCity(toCity);
+  235 |     await this.editChangeDepartureDate(departDate);
+  236 |   }
+  237 | 
+  238 |   /**
+  239 |    * Update round-trip search parameters in edit mode
+  240 |    */
+  241 |   async editUpdateRoundTrip(
+  242 |     fromCity: string,
+  243 |     toCity: string,
+  244 |     departDate: number,
+  245 |     returnDate: number,
+  246 |   ) {
+  247 |     await this.editChangeFromCity(fromCity);
+  248 |     await this.editChangeToCity(toCity);
+  249 |     await this.editChangeDepartureDate(departDate);
+  250 |     await this.editChangeReturnDate(returnDate);
+  251 |   }
+  252 | 
+  253 |   /**
+  254 |    * Update multi-city search parameters in edit mode
+  255 |    * @param legs Array of leg objects, each containing from, to, and departDate
+  256 |    */
+  257 |   async editUpdateMultiCity(
+  258 |     legs: { from: string; to: string; departDate: number }[],
+  259 |   ) {
+  260 |     const fromInputs = this.page.getByPlaceholder("Departure City");
+  261 |     const toInputs = this.page.getByPlaceholder("Destination City");
+  262 |     const dateInputs = this.page.getByPlaceholder("Select Date");
+  263 | 
+  264 |     // Update each leg of the multi-city journey
+  265 |     for (let i = 0; i < legs.length; i++) {
+  266 |       await this.editSelectCity(fromInputs.nth(i), legs[i].from);
+  267 |       await this.editSelectCity(toInputs.nth(i), legs[i].to);
+  268 |       await this.editSetDate(dateInputs.nth(i), legs[i].departDate);
+  269 |     }
+  270 |   }
+  271 | 
+  272 |   /**
+  273 |    * Apply the search changes from edit mode
+  274 |    */
+  275 |   async editApplySearch() {
+  276 |     await this.btn_editSearch_apply.click();
+> 277 |     await this.page.waitForLoadState("networkidle");
+      |                     ^ Error: page.waitForLoadState: Test timeout of 30000ms exceeded.
+  278 |   }
+  279 | 
+  280 |   /**
+  281 |    * Complete edit search workflow: update parameters and apply
+  282 |    */
+  283 |   async editSearchAndWait(
+  284 |     fromCity: string,
+  285 |     toCity: string,
+  286 |     departDate: number,
+  287 |     returnDate?: number,
+  288 |   ) {
+  289 |     if (returnDate) {
+  290 |       await this.editUpdateRoundTrip(fromCity, toCity, departDate, returnDate);
+  291 |     } else {
+  292 |       await this.editUpdateOneWay(fromCity, toCity, departDate);
+  293 |     }
+  294 |     await this.editApplySearch();
+  295 |   }
+  296 | }
+  297 | 
+```

@@ -6,7 +6,7 @@ import { SearchResultPage } from "../pages/SearchResult_Page";
  * Fixtures are responsible for providing ready-to-use page objects only.
  * State setup (navigation, form filling) belongs in the test or a flow helper.
  */
-type AppFixtures = {
+export type AppFixtures = {
   searchPage: SearchPage;
   searchResultPage: SearchResultPage;
 };

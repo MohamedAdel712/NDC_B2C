@@ -10,7 +10,7 @@ import { SearchData as SearchDataType } from "../types/search.types";
 type TripType = "One Way" | "Round Trip" | "Multi-City";
 
 test.describe("Flight Search", () => {
-  test("FLYWT logo is visible", async ({ page }) => {
+  test("FLYWT logo", async ({ page }) => {
     const searchPage = new SearchPage(page);
     await searchPage.goto();
 
@@ -22,13 +22,13 @@ test.describe("Flight Search", () => {
     await expect(page).toHaveURL(ENV.BASE_URL);
   });
 
-  test("click on my booking", async ({ page }) => {
+  test("my booking", async ({ page }) => {
     const searchPage = new SearchPage(page);
     await searchPage.goto();
     await searchPage.clickMyBooking();
   });
 
-  test("Home button navigates to homepage", async ({ page }) => {
+  test("Home button ", async ({ page }) => {
     const searchPage = new SearchPage(page);
     await searchPage.goto();
     await searchPage.HomeButton();
@@ -38,7 +38,7 @@ test.describe("Flight Search", () => {
     await expect(page).toHaveURL(ENV.BASE_URL);
   });
 
-  test("Currency dropdown selects correct currency", async ({ page }) => {
+  test("Currency dropdown", async ({ page }) => {
     const searchPage = new SearchPage(page);
     await searchPage.goto();
 
@@ -47,7 +47,7 @@ test.describe("Flight Search", () => {
     await expect(page.locator("body")).toContainText(SearchData.currency);
   });
 
-  test("User can select trip type", async ({ page }) => {
+  test("select trip type", async ({ page }) => {
     const searchPage = new SearchPage(page);
     await searchPage.goto();
 
@@ -57,7 +57,7 @@ test.describe("Flight Search", () => {
     await expect(page.locator("body")).toContainText(tripType);
   });
 
-  test("User can select passengers", async ({ page }) => {
+  test("select passengers", async ({ page }) => {
     const searchPage = new SearchPage(page);
     await searchPage.goto();
 
@@ -78,7 +78,7 @@ test.describe("Flight Search", () => {
     await expect(page.locator(".passenger-btn-label")).toHaveText(labelText);
   });
 
-  test("User can select cabin class", async ({ page }) => {
+  test("select cabin class", async ({ page }) => {
     const searchPage = new SearchPage(page);
     await searchPage.goto();
 
@@ -91,7 +91,7 @@ test.describe("Flight Search", () => {
     await expect(cabinDropdown).toContainText(SearchData.class);
   });
 
-  test("User can fill origin, destination and dates", async ({ page }) => {
+  test("Fill origin, destination and dat", async ({ page }) => {
     const searchPage = new SearchPage(page);
     await searchPage.goto();
 

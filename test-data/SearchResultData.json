@@ -1,3 +1,14 @@
 {
-  "sortBy": "Recommended"
+  "sortBy": "Recommended",
+  "airlineToFilter": "Flynas",
+  "filters": {
+    "stops": "Nonstop",
+    "departureTime": "Morning",
+    "duration": "Short",
+    "priceRange": {
+      "min": 100,
+      "max": 500
+    },
+    "baggageIncluded": true
+  }
 }

@@ -34,7 +34,9 @@ test.describe("Edit City Selection", () => {
     const newCity = "JED";
     await searchResultPage.editChangeFromCity(newCity);
 
-    // await expect(searchResultPage.edit_txt_from).toHaveValue(newCity);
+    // Verify the input has a value
+    const fromValue = await searchResultPage.edit_txt_from.inputValue();
+    expect(fromValue).toBeTruthy();
   });
 
   test("Change destination city", async ({ searchPage, searchResultPage }) => {
@@ -44,7 +46,9 @@ test.describe("Edit City Selection", () => {
     const newCity = "AUH";
     await searchResultPage.editChangeToCity(newCity);
 
-    //await expect(searchResultPage.edit_txt_to).toHaveValue(newCity);
+    // Verify the input has a value
+    const toValue = await searchResultPage.edit_txt_to.inputValue();
+    expect(toValue).toBeTruthy();
   });
 
   test("Change both", async ({ searchPage, searchResultPage }) => {
@@ -54,8 +58,10 @@ test.describe("Edit City Selection", () => {
     await searchResultPage.editChangeFromCity("JED");
     await searchResultPage.editChangeToCity("AUH");
 
-    // await expect(searchResultPage.edit_txt_from).toHaveValue("JED");
-    // await expect(searchResultPage.edit_txt_to).toHaveValue("AUH");
+    const fromValue = await searchResultPage.edit_txt_from.inputValue();
+    const toValue = await searchResultPage.edit_txt_to.inputValue();
+    expect(fromValue).toBeTruthy();
+    expect(toValue).toBeTruthy();
   });
 });
 
@@ -114,9 +120,8 @@ test.describe("Edit Dropdown Changes", () => {
     await searchResultPage.clickEditSearch();
     await searchResultPage.editSelectCurrency("EGP");
 
-    // Try to change currency - might not be available in edit panel
     // Test that the dropdown is present
-    await expect(searchResultPage.edit_dropdown_currency).toBeDefined();
+    await expect(searchResultPage.edit_dropdown_currency).toBeVisible();
   });
 
   test("Change trip type", async ({ searchPage, searchResultPage }) => {
@@ -125,7 +130,7 @@ test.describe("Edit Dropdown Changes", () => {
     await searchResultPage.editSelectTripType("Round Trip");
 
     // Test that trip type dropdown is accessible
-    await expect(searchResultPage.edit_dropdown_tripType).toBeDefined();
+    await expect(searchResultPage.edit_dropdown_tripType).toBeVisible();
   });
 });
 
@@ -202,7 +207,7 @@ test.describe("Edit Search Apply", () => {
     await searchResultPage.editApplySearch();
 
     // Verify page has navigated/reloaded with new results
-    await expect(page).toHaveURL(/\/search-results|\/flights/);
+    await expect(page).toHaveURL(/\/booking\/search/);
   });
 
   test("Complete edit search workflow with Round Trip", async ({
@@ -216,7 +221,7 @@ test.describe("Edit Search Apply", () => {
     await searchResultPage.editSearchAndWait("JED", "AUH", 5, 12);
 
     // Verify new search results page loaded
-    await expect(page).toHaveURL(/\/search-results|\/flights/);
+    await expect(page).toHaveURL(/\/booking\/search/);
   });
 
   test("Complete edit search workflow with One Way", async ({
@@ -230,7 +235,7 @@ test.describe("Edit Search Apply", () => {
     await searchResultPage.editSearchAndWait("JED", "AUH", 6);
 
     // Verify new search results page loaded
-    await expect(page).toHaveURL(/\/search-results|\/flights/);
+    await expect(page).toHaveURL(/\/booking\/search/);
   });
 });
 
@@ -302,7 +307,7 @@ test.describe("Edit Full Flow", () => {
     await searchResultPage.editApplySearch();
   });
 
-  test.only("Full edit flow: change to multi-city", async ({
+  test("Full edit flow: change to multi-city", async ({
     searchPage,
     searchResultPage,
     page,
@@ -373,5 +378,40 @@ test.describe("Sorting", () => {
       "class",
       /active|selected/,
     );
+  });
+});
+
+test.describe("Airline Filtering", () => {
+  test("Filter by airline after search", async ({ searchPage, searchResultPage }) => {
+    await searchPage.search(OneWay_data as SearchData);
+    await searchResultPage.filterByAirline(searchResultData.airlineToFilter);
+
+  });
+});
+
+test.describe("Additional Filters", () => {
+  test("Filter by stops after search", async ({ searchPage, searchResultPage }) => {
+    await searchPage.search(OneWay_data as SearchData);
+    await searchResultPage.filterByStops("Nonstop");
+  });
+
+  test("Filter by departure time after search", async ({ searchPage, searchResultPage }) => {
+    await searchPage.search(OneWay_data as SearchData);
+    await searchResultPage.filterByDepartureTime("Morning");
+  });
+
+  test("Filter by duration after search", async ({ searchPage, searchResultPage }) => {
+    await searchPage.search(OneWay_data as SearchData);
+    await searchResultPage.filterByDuration("Short");
+  });
+
+  test("Filter by price range after search", async ({ searchPage, searchResultPage }) => {
+    await searchPage.search(OneWay_data as SearchData);
+    await searchResultPage.filterByPriceRange(100, 500);
+  });
+
+  test("Filter by baggage inclusion after search", async ({ searchPage, searchResultPage }) => {
+    await searchPage.search(OneWay_data as SearchData);
+    await searchResultPage.filterByBaggageIncluded(true);
   });
 });
