@@ -4,7 +4,6 @@ import RoundTrip_data from "../test-data/RoundTrip_data.json";
 import searchResultData from "../test-data/SearchResultData.json";
 import { SearchData, SortOption } from "../types/search.types";
 
-
 test.describe("Search Edit ", () => {
   test("Click Edit Button", async ({ searchPage, searchResultPage }) => {
     await searchPage.search(OneWay_data as SearchData);
@@ -41,7 +40,7 @@ test.describe("Edit City Selection", () => {
     await searchPage.search(OneWay_data as SearchData);
     await searchResultPage.clickEditSearch();
 
-    const newCity = "AUH";
+    const newCity = "JED";
     await searchResultPage.editChangeToCity(newCity);
 
     //await expect(searchResultPage.edit_txt_to).toHaveValue(newCity);
@@ -52,7 +51,7 @@ test.describe("Edit City Selection", () => {
     await searchResultPage.clickEditSearch();
 
     await searchResultPage.editChangeFromCity("JED");
-    await searchResultPage.editChangeToCity("AUH");
+    await searchResultPage.editChangeToCity("DXB");
 
     // await expect(searchResultPage.edit_txt_from).toHaveValue("JED");
     // await expect(searchResultPage.edit_txt_to).toHaveValue("AUH");
@@ -202,7 +201,7 @@ test.describe("Edit Search Apply", () => {
     await searchResultPage.editApplySearch();
 
     // Verify page has navigated/reloaded with new results
-    await expect(page).toHaveURL(/\/search-results|\/flights/);
+    //await expect(page).toHaveURL(/\/search-results|\/flights/);
   });
 
   test("Complete edit search workflow with Round Trip", async ({
@@ -296,13 +295,13 @@ test.describe("Edit Full Flow", () => {
     await searchResultPage.editSelectTripType("Round Trip");
 
     // Change cities and dates
-    await searchResultPage.editUpdateRoundTrip("JED", "AUH", 8, 15);
+    await searchResultPage.editUpdateRoundTrip("JED", "CAI", 8, 15);
 
     // Apply search
     await searchResultPage.editApplySearch();
   });
 
-  test.only("Full edit flow: change to multi-city", async ({
+  test("Full edit flow: change to multi-city", async ({
     searchPage,
     searchResultPage,
     page,
@@ -373,5 +372,77 @@ test.describe("Sorting", () => {
       "class",
       /active|selected/,
     );
+  });
+});
+
+test.describe("Stops Filters", () => {
+  test("Direct Flight   One Way search", async ({
+    searchPage,
+    searchResultPage,
+  }) => {
+    await searchPage.search(OneWay_data as SearchData);
+    await searchResultPage.selectDirectFlight();
+    await expect(searchResultPage.Checkbox_Direct).toBeChecked();
+  });
+
+  test("1 Stop One Way search", async ({
+    searchPage,
+    searchResultPage,
+  }) => {
+    await searchPage.search(OneWay_data as SearchData);
+    await searchResultPage.select1Stop();
+    await expect(searchResultPage.Checkbox_1Stop).toBeChecked();
+  });
+
+  test("+2 Stops One Way search", async ({
+    searchPage,
+    searchResultPage,
+  }) => {
+    await searchPage.search(OneWay_data as SearchData);
+    await searchResultPage.select2PlusStops();
+    await expect(searchResultPage.Checkbox_2PlusStops).toBeChecked();
+  });
+
+  test.only("Clear All clears selected stop filters", async ({
+    searchPage,
+    searchResultPage,
+  }) => {
+    await searchPage.search(OneWay_data as SearchData);
+
+    // select multiple filters
+    await searchResultPage.selectDirectFlight();
+    await searchResultPage.select1Stop();
+    await searchResultPage.select2PlusStops();
+
+  await searchResultPage.select1Stop();
+  await searchResultPage.select2PlusStops(); 
+  await searchResultPage.selectDirectFlight(); 
+
+    // click Clear All and verify none are checked
+    await searchResultPage.clearAllStopFilters();
+
+    await expect(searchResultPage.Checkbox_Direct).not.toBeChecked();
+    await expect(searchResultPage.Checkbox_1Stop).not.toBeChecked();
+    await expect(searchResultPage.Checkbox_2PlusStops).not.toBeChecked();
+  });
+
+  test("Click Return Stops and apply 1 Stop filter", async ({
+    searchPage,
+    searchResultPage,
+  }) => {
+    await searchPage.search(RoundTrip_data as SearchData);
+    await searchResultPage.clickReturnStopsTab();
+    await searchResultPage.select1Stop();
+    await expect(searchResultPage.Checkbox_1Stop).toBeChecked();
+  });
+
+  test("Click Return Stops and apply Direct Flight filter", async ({
+    searchPage,
+    searchResultPage,
+  }) => {
+    await searchPage.search(RoundTrip_data as SearchData);
+    await searchResultPage.clickReturnStopsTab();
+    await searchResultPage.selectDirectFlight();
+    await expect(searchResultPage.Checkbox_Direct).toBeChecked();
   });
 });

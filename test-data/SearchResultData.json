@@ -1,3 +1,18 @@
 {
-  "sortBy": "Recommended"
+  "filters": {
+    "stops": [
+      " Direct Flight ",
+      " 1 Stop ",
+      " +2 Stops "
+    ],
+    "airlines": [
+      "Airline A",
+      "Airline B",
+      "Airline C"
+    ],
+    "priceRange": {
+      "min": 100,
+      "max": 1000
+    }
+  }
 }

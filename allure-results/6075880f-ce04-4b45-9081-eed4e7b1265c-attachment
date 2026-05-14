@@ -1,0 +1,470 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: SearchResult_tc.spec.ts >> Stops Filters >> Clear All clears selected stop filters
+- Location: tests\SearchResult_tc.spec.ts:406:7
+
+# Error details
+
+```
+Error: locator.click: Error: strict mode violation: locator('button.checkbox-group__clear') resolved to 6 elements:
+    1) <button type="button" _ngcontent-ng-c2291709200="" class="checkbox-group__clear ng-star-inserted"> Clear All </button> aka getByRole('button', { name: 'Clear All' }).nth(2)
+    2) <button disabled type="button" _ngcontent-ng-c2291709200="" class="checkbox-group__clear ng-star-inserted"> Clear All </button> aka getByRole('button', { name: 'Clear All' }).nth(3)
+    3) <button disabled type="button" _ngcontent-ng-c2291709200="" class="checkbox-group__clear ng-star-inserted"> Clear All </button> aka getByRole('button', { name: 'Clear All' }).nth(4)
+    4) <button disabled type="button" _ngcontent-ng-c2291709200="" class="checkbox-group__clear ng-star-inserted"> Clear All </button> aka getByRole('button', { name: 'Clear All' }).nth(5)
+    5) <button disabled type="button" _ngcontent-ng-c2291709200="" class="checkbox-group__clear ng-star-inserted"> Clear All </button> aka locator('div:nth-child(7) > app-base-checkbox-group > .checkbox-group > .checkbox-group__header > .checkbox-group__clear')
+    6) <button disabled type="button" _ngcontent-ng-c2291709200="" class="checkbox-group__clear ng-star-inserted"> Clear All </button> aka locator('div:nth-child(8) > app-base-checkbox-group > .checkbox-group > .checkbox-group__header > .checkbox-group__clear')
+
+Call log:
+  - waiting for locator('button.checkbox-group__clear')
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - banner [ref=e6]:
+    - navigation [ref=e7]:
+      - text: 
+      - img "Home" [ref=e10] [cursor=pointer]
+      - generic [ref=e11]:
+        - link "Home" [ref=e12] [cursor=pointer]:
+          - /url: /en
+        - link "My Booking" [ref=e13] [cursor=pointer]:
+          - /url: /en/booking/my-booking
+        - button "العربية" [ref=e15] [cursor=pointer]
+        - generic [ref=e21] [cursor=pointer]:
+          - combobox "Egyptian Pound" [ref=e22]:
+            - generic [ref=e23]:
+              - generic [ref=e24]: EGP
+              - img "Egyptian Pound flag" [ref=e25]
+          - button "dropdown trigger" [ref=e26]:
+            - generic [ref=e27]: 
+  - main [ref=e28]:
+    - generic [ref=e30]:
+      - generic [ref=e36]:
+        - generic [ref=e40]:
+          - generic [ref=e41]: From
+          - combobox "Departure City" [disabled] [ref=e45] [cursor=pointer]: CAI - Cairo, Egypt
+        - generic [ref=e49]:
+          - generic [ref=e50]: To
+          - combobox "Destination City" [disabled] [ref=e54] [cursor=pointer]: DXB - Dubai, United Arab Emirates
+        - generic [ref=e58]:
+          - generic:
+            - img
+          - generic:
+            - combobox "Select Date": 05/17/2026
+        - generic [ref=e60]:
+          - generic:
+            - button "2 Passengers":
+              - generic:
+                - generic: 2 Passengers
+        - generic [ref=e63]:
+          - generic:
+            - combobox "One Way"
+            - text: 
+        - generic [ref=e66]:
+          - generic:
+            - combobox "Business"
+            - text: 
+        - button "Edit" [ref=e70] [cursor=pointer]
+      - generic [ref=e74]:
+        - button "Clear All" [disabled] [ref=e76]
+        - generic [ref=e77]:
+          - button "searchResult.airlineWidget.prevSlide" [ref=e78] [cursor=pointer]:
+            - img [ref=e80]
+          - generic [ref=e84]:
+            - generic:
+              - group "1 / 2" [ref=e85] [cursor=pointer]:
+                - generic:
+                  - img "Flynas" [ref=e88]
+                  - paragraph [ref=e89]: Flynas
+                  - generic [ref=e90]: "Starting : 66,778.68 EGP"
+              - group "2 / 2" [ref=e91] [cursor=pointer]:
+                - generic:
+                  - img "Jazeera Airways" [ref=e94]
+                  - paragraph [ref=e95]: Jazeera Airways
+                  - generic [ref=e96]: "Starting : 156,922.72 EGP"
+          - button "searchResult.airlineWidget.nextSlide" [ref=e97] [cursor=pointer]:
+            - img [ref=e99]
+      - generic [ref=e101]:
+        - complementary [ref=e102]:
+          - generic [ref=e105]:
+            - generic [ref=e106]:
+              - generic [ref=e107]:
+                - img [ref=e109]
+                - generic [ref=e111]: Filters
+              - button "Clear All" [ref=e112] [cursor=pointer]
+            - generic [ref=e115]:
+              - generic [ref=e116]: Price Range
+              - generic [ref=e117]:
+                - generic [ref=e118]:
+                  - slider [ref=e120]
+                  - slider [ref=e121]
+                - generic [ref=e122]:
+                  - generic [ref=e123]: 66,778
+                  - generic [ref=e124]: 160,089
+            - generic [ref=e127]:
+              - generic [ref=e128]:
+                - heading "Stops" [level=4] [ref=e129]
+                - button "Clear All" [ref=e130] [cursor=pointer]
+              - tablist [ref=e135]:
+                - tab "Departure Stops" [selected] [ref=e136] [cursor=pointer]
+              - generic [ref=e137]:
+                - checkbox "Direct Flight (10 Flights)" [checked] [ref=e139] [cursor=pointer]:
+                  - generic [ref=e140]:
+                    - generic [ref=e141]:
+                      - checkbox [checked] [ref=e142]
+                      - img [ref=e144]
+                    - img [ref=e148]
+                  - generic [ref=e150]:
+                    - generic [ref=e151]: Direct Flight
+                    - generic [ref=e152]: (10 Flights)
+                - checkbox "1 Stop (9 Flights)" [checked] [ref=e154] [cursor=pointer]:
+                  - generic [ref=e155]:
+                    - generic [ref=e156]:
+                      - checkbox [checked] [ref=e157]
+                      - img [ref=e159]
+                    - img [ref=e163]
+                  - generic [ref=e165]:
+                    - generic [ref=e166]: 1 Stop
+                    - generic [ref=e167]: (9 Flights)
+                - checkbox "+2 Stops (0 Flights)" [checked] [active] [ref=e169] [cursor=pointer]:
+                  - generic [ref=e170]:
+                    - generic [ref=e171]:
+                      - checkbox [checked] [ref=e172]
+                      - img [ref=e174]
+                    - img [ref=e178]
+                  - generic [ref=e183]:
+                    - generic [ref=e184]: +2 Stops
+                    - generic [ref=e185]: (0 Flights)
+            - generic [ref=e188]:
+              - generic [ref=e189]:
+                - heading "Time" [level=4] [ref=e190]
+                - button "Clear All" [disabled] [ref=e191]
+              - tablist [ref=e196]:
+                - tab "Departure Time" [selected] [ref=e197] [cursor=pointer]
+              - generic [ref=e198]:
+                - checkbox "Morning 6AM-12PM" [ref=e200] [cursor=pointer]:
+                  - generic [ref=e201]:
+                    - checkbox [ref=e203]
+                    - img [ref=e207]
+                  - generic [ref=e215]:
+                    - generic [ref=e216]: Morning
+                    - generic [ref=e217]: 6AM-12PM
+                - checkbox "Afternoon 12PM-6PM" [ref=e219] [cursor=pointer]:
+                  - generic [ref=e220]:
+                    - checkbox [ref=e222]
+                    - img [ref=e226]
+                  - generic [ref=e230]:
+                    - generic [ref=e231]: Afternoon
+                    - generic [ref=e232]: 12PM-6PM
+                - checkbox "Evening 6PM-12AM" [ref=e234] [cursor=pointer]:
+                  - generic [ref=e235]:
+                    - checkbox [ref=e237]
+                    - img [ref=e241]
+                  - generic [ref=e269]:
+                    - generic [ref=e270]: Evening
+                    - generic [ref=e271]: 6PM-12AM
+                - checkbox "Night 12AM-6AM" [ref=e273] [cursor=pointer]:
+                  - generic [ref=e274]:
+                    - checkbox [ref=e276]
+                    - img [ref=e280]
+                  - generic [ref=e282]:
+                    - generic [ref=e283]: Night
+                    - generic [ref=e284]: 12AM-6AM
+            - generic [ref=e287]:
+              - generic [ref=e288]:
+                - heading "Fare Type" [level=4] [ref=e289]
+                - button "Clear All" [disabled] [ref=e290]
+              - checkbox "Non-Refundable (19 Flights)" [ref=e293] [cursor=pointer]:
+                - generic [ref=e294]:
+                  - checkbox [ref=e296]
+                  - img [ref=e300]
+                - generic [ref=e303]:
+                  - generic [ref=e304]: Non-Refundable
+                  - generic [ref=e305]: (19 Flights)
+            - generic [ref=e308]:
+              - generic [ref=e309]:
+                - heading "Airlines" [level=4] [ref=e310]
+                - button "Clear All" [disabled] [ref=e311]
+              - generic [ref=e312]:
+                - checkbox "Flynas Flynas (16 Flights)" [ref=e314] [cursor=pointer]:
+                  - generic [ref=e315]:
+                    - checkbox [ref=e317]
+                    - img "Flynas" [ref=e321]
+                  - generic [ref=e322]:
+                    - generic [ref=e323]: Flynas
+                    - generic [ref=e324]: (16 Flights)
+                - checkbox "Jazeera Airways Jazeera Airways (3 Flights)" [ref=e326] [cursor=pointer]:
+                  - generic [ref=e327]:
+                    - checkbox [ref=e329]
+                    - img "Jazeera Airways" [ref=e333]
+                  - generic [ref=e334]:
+                    - generic [ref=e335]: Jazeera Airways
+                    - generic [ref=e336]: (3 Flights)
+            - generic [ref=e339]:
+              - generic [ref=e340]:
+                - heading "Layover Time (Hours)" [level=4] [ref=e341]
+                - button "Clear All" [disabled] [ref=e342]
+              - generic [ref=e343]:
+                - tablist [ref=e347]:
+                  - tab "Departure" [selected] [ref=e348] [cursor=pointer]
+                - generic [ref=e350]:
+                  - button "0-5" [ref=e351] [cursor=pointer]
+                  - button "6-10" [ref=e352] [cursor=pointer]
+                  - button "11-15" [ref=e353] [cursor=pointer]
+                  - button "16+" [ref=e354] [cursor=pointer]
+            - generic [ref=e357]:
+              - generic [ref=e358]:
+                - heading "Layover Airport" [level=4] [ref=e359]
+                - button "Clear All" [disabled] [ref=e360]
+              - checkbox "Sharm El Sheikh International Airport" [ref=e363] [cursor=pointer]:
+                - checkbox [ref=e366]
+                - generic [ref=e369]: Sharm El Sheikh International Airport
+        - main [ref=e370]:
+          - generic [ref=e376]:
+            - button "Cheapest" [ref=e379] [cursor=pointer]:
+              - generic [ref=e380]: Cheapest
+              - img [ref=e382]
+            - button "Recommended" [ref=e386] [cursor=pointer]:
+              - generic [ref=e387]: Recommended
+              - img [ref=e389]
+            - button "Fastest" [ref=e393] [cursor=pointer]:
+              - generic [ref=e394]: Fastest
+              - img [ref=e396]
+  - contentinfo [ref=e550]:
+    - generic [ref=e552]:
+      - generic [ref=e553]:
+        - paragraph [ref=e554]: Have Questions?
+        - paragraph [ref=e555]: "19359"
+        - paragraph [ref=e556]: Customercare@flywt.com
+        - paragraph [ref=e557]: 24/7 Dedicated Customer Support
+        - paragraph [ref=e558]: "Head office: 61 - El Mahta Square, Maadi, Cairo, Egypt"
+      - paragraph [ref=e560]: Your personal details are 100% secured with us
+      - generic [ref=e562]:
+        - paragraph [ref=e563]: Like this? love this? spread the word
+        - generic [ref=e564]:
+          - link "Facebook" [ref=e565] [cursor=pointer]:
+            - /url: https://www.facebook.com/FlyWTEG/
+            - img "Facebook" [ref=e566]
+          - link "X" [ref=e567] [cursor=pointer]:
+            - /url: https://x.com/flyWT_
+            - img "X" [ref=e568]
+          - link "Instagram" [ref=e569] [cursor=pointer]:
+            - /url: https://www.instagram.com/flywteg?igsh=dXdiN3NlYmdkOWZu
+            - img "Instagram" [ref=e570]
+```
+
+# Test source
+
+```ts
+  25  |     .locator('[data-testid="edit-to"]')
+  26  |     .or(this.page.getByPlaceholder("Destination City").nth(0));
+  27  |   readonly edit_txt_departureDate = this.page
+  28  |     .locator('[data-testid="edit-departure-date"]')
+  29  |     .or(this.page.getByPlaceholder("Select Date").nth(0));
+  30  |   readonly edit_txt_returnDate = this.page
+  31  |     .locator('[data-testid="edit-return-date"]')
+  32  |     .or(this.page.getByPlaceholder("Select Date").nth(1));
+  33  | 
+  34  |   // Edit mode dropdowns
+  35  |   readonly edit_dropdown_tripType = this.page.getByRole("combobox", {
+  36  |     name: /One Way|Round Trip|Multi-City/,
+  37  |   });
+  38  |   readonly edit_dropdown_passengers = this.page
+  39  |     .locator('[data-testid="edit-passengers"]')
+  40  |     .or(
+  41  |       this.page.locator('//i[contains(@class,"passenger-btn-arrow")]').nth(0),
+  42  |     );
+  43  |   readonly edit_dropdown_cabinClass = this.page.getByRole("combobox", {
+  44  |     name: /Economy|Business|First/,
+  45  |   });
+  46  |   readonly edit_dropdown_currency = this.page
+  47  |     .locator('[data-testid="edit-currency"]')
+  48  |     .or(this.page.getByRole("combobox", { name: /Pound|Dollar|Euro/ }));
+  49  | 
+  50  |   // Edit mode action buttons
+  51  |   readonly btn_editSearch_apply = this.page
+  52  |     .getByRole("button", { name: "Search" })
+  53  |     .nth(0);
+  54  |   readonly btn_editSearch_close = this.page
+  55  |     .getByRole("button", { name: " Cancel " })
+  56  |     .or(this.page.locator('[aria-label="Close"]'));
+  57  |   readonly edit_dropdown_passenger_apply = this.page
+  58  |     .getByRole("button", { name: "Apply" })
+  59  |     .nth(0);
+  60  | 
+  61  |   // stops filter locators
+  62  |   readonly Checkbox_Direct = this.page.getByRole("checkbox", {
+  63  |     name: "Direct Flight",
+  64  |   });
+  65  |   readonly Checkbox_1Stop = this.page.getByRole("checkbox", { name: "1 Stop" });
+  66  |   readonly Checkbox_2PlusStops = this.page.getByRole("checkbox", {
+  67  |     name: "+2 Stops",
+  68  |   });
+  69  |   readonly btn_returnFlights = this.page.getByRole("tab", {
+  70  |     name: " Return Stops ",
+  71  |   });
+  72  |   readonly btn_departureFlights = this.page.getByRole("tab", {
+  73  |     name: " Departure Stops ",
+  74  |   });
+  75  |   readonly btn_clearAllStops = this.page.locator(
+  76  |     "button.checkbox-group__clear",
+  77  |   );
+  78  | 
+  79  |   // ===== Stop filter helpers =====
+  80  |   private getStopFilterLocator(filter: string) {
+  81  |     const normalized = filter
+  82  |       .replace(/\s+/g, "")
+  83  |       .replace(/[^+\w]/g, "")
+  84  |       .toLowerCase();
+  85  | 
+  86  |     if (
+  87  |       normalized === "directflight" ||
+  88  |       normalized === "nonstop" ||
+  89  |       normalized === "directflight"
+  90  |     )
+  91  |       return this.Checkbox_Direct;
+  92  |     if (normalized === "1stop" || normalized === "1stop")
+  93  |       return this.Checkbox_1Stop;
+  94  |     if (
+  95  |       normalized === "+2stops" ||
+  96  |       normalized === "2plusstops" ||
+  97  |       normalized === "2stops" ||
+  98  |       normalized === "2+stops"
+  99  |     )
+  100 |       return this.Checkbox_2PlusStops;
+  101 | 
+  102 |     // fallback: try to find a checkbox by visible name
+  103 |     try {
+  104 |       return this.page.getByRole("checkbox", { name: filter });
+  105 |     } catch (e) {
+  106 |       throw new Error(`Unknown stop filter "${filter}"`);
+  107 |     }
+  108 |   }
+  109 | 
+  110 |   async selectStopsFilter(filter: string) {
+  111 |     const checkbox = this.getStopFilterLocator(filter);
+  112 |     await checkbox.scrollIntoViewIfNeeded();
+  113 |     await checkbox.waitFor({ state: "visible" });
+  114 |     if (!(await checkbox.isChecked())) await checkbox.click();
+  115 |   }
+  116 | 
+  117 |   async isStopsFilterSelected(filter: string) {
+  118 |     const checkbox = this.getStopFilterLocator(filter);
+  119 |     await checkbox.scrollIntoViewIfNeeded();
+  120 |     await checkbox.waitFor({ state: "visible" });
+  121 |     return await checkbox.isChecked();
+  122 |   }
+  123 | 
+  124 |   async clearAllStopFilters() {
+> 125 |     await this.btn_clearAllStops.click();
+      |                                  ^ Error: locator.click: Error: strict mode violation: locator('button.checkbox-group__clear') resolved to 6 elements:
+  126 |   }
+  127 | 
+  128 |   async applyStopsFilters(filters: string[]) {
+  129 |     for (const f of filters) await this.selectStopsFilter(f);
+  130 |   }
+  131 | 
+  132 |   // Convenience methods
+  133 |   async clickReturnStopsTab() {
+  134 |     await this.btn_returnFlights.click();
+  135 |   }
+  136 | 
+  137 |   async clickDepartureStopsTab() {
+  138 |     await this.btn_departureFlights.click();
+  139 |   }
+  140 | 
+  141 |   async selectDirectFlight() {
+  142 |     await this.selectStopsFilter("Direct Flight");
+  143 |   }
+  144 | 
+  145 |   async select1Stop() {
+  146 |     await this.selectStopsFilter("1 Stop");
+  147 |   }
+  148 | 
+  149 |   async select2PlusStops() {
+  150 |     await this.selectStopsFilter("+2 Stops");
+  151 |   }
+  152 | 
+  153 |   async isDirectFlightSelected() {
+  154 |     return this.isStopsFilterSelected("Direct Flight");
+  155 |   }
+  156 | 
+  157 |   async is1StopSelected() {
+  158 |     return this.isStopsFilterSelected("1 Stop");
+  159 |   }
+  160 | 
+  161 |   async is2PlusStopsSelected() {
+  162 |     return this.isStopsFilterSelected("+2 Stops");
+  163 |   }
+  164 | 
+  165 |   async applyReturnStopsFilter(filter: string) {
+  166 |     await this.clickReturnStopsTab();
+  167 |     await this.selectStopsFilter(filter);
+  168 |   }
+  169 | 
+  170 |   async applyReturnStopsFilters(filters: string[]) {
+  171 |     await this.clickReturnStopsTab();
+  172 |     for (const f of filters) await this.selectStopsFilter(f);
+  173 |   }
+  174 | 
+  175 |   // ===== Result Page Methods =====
+  176 |   async sortBy(option: "Cheapest" | "Fastest" | "Recommended") {
+  177 |     const sortingOptions: Record<string, Locator> = {
+  178 |       Cheapest: this.btn_cheapest,
+  179 |       Fastest: this.btn_fastest,
+  180 |       Recommended: this.btn_recommended,
+  181 |     };
+  182 | 
+  183 |     const button = sortingOptions[option];
+  184 |     if (button) {
+  185 |       await button.click();
+  186 |     }
+  187 |   }
+  188 | 
+  189 |   // ===== Edit Mode Methods =====
+  190 |   /**
+  191 |    * Click Edit button and wait for edit panel to appear
+  192 |    */
+  193 |   async clickEditSearch() {
+  194 |     await this.btn_editSearch.click();
+  195 |     // await this.page.waitForLoadState("networkidle");
+  196 |   }
+  197 | 
+  198 |   /**
+  199 |    * Close the edit panel
+  200 |    */
+  201 |   async closeEditPanel() {
+  202 |     await this.btn_editSearch_close.click();
+  203 |   }
+  204 | 
+  205 |   /**
+  206 |    * Select a city from dropdown suggestions in edit mode
+  207 |    */
+  208 |   async editSelectCity(input: Locator, city: string) {
+  209 |     await input.waitFor({ state: "visible" });
+  210 |     await input.click();
+  211 |     await input.fill(city);
+  212 |     const suggestion = this.page.getByRole("option", { name: city }).first();
+  213 |     await suggestion.waitFor({ state: "visible" });
+  214 |     await suggestion.click();
+  215 |   }
+  216 | 
+  217 |   /**
+  218 |    * Set date using keyboard input with relative days
+  219 |    */
+  220 |   async editSetDate(input: Locator, date: number) {
+  221 |     const today = new Date();
+  222 |     const targetDate = new Date(
+  223 |       today.getFullYear(),
+  224 |       today.getMonth(),
+  225 |       today.getDate() + date,
+```

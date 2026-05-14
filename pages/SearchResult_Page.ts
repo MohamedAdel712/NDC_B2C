@@ -21,15 +21,12 @@ export class SearchResultPage extends BasePage {
   readonly edit_txt_from = this.page
     .locator('[data-testid="edit-from"]')
     .or(this.page.getByPlaceholder("Departure City").nth(0));
-
   readonly edit_txt_to = this.page
     .locator('[data-testid="edit-to"]')
     .or(this.page.getByPlaceholder("Destination City").nth(0));
-
   readonly edit_txt_departureDate = this.page
     .locator('[data-testid="edit-departure-date"]')
     .or(this.page.getByPlaceholder("Select Date").nth(0));
-
   readonly edit_txt_returnDate = this.page
     .locator('[data-testid="edit-return-date"]')
     .or(this.page.getByPlaceholder("Select Date").nth(1));
@@ -38,13 +35,11 @@ export class SearchResultPage extends BasePage {
   readonly edit_dropdown_tripType = this.page.getByRole("combobox", {
     name: /One Way|Round Trip|Multi-City/,
   });
-
   readonly edit_dropdown_passengers = this.page
     .locator('[data-testid="edit-passengers"]')
     .or(
       this.page.locator('//i[contains(@class,"passenger-btn-arrow")]').nth(0),
     );
-
   readonly edit_dropdown_cabinClass = this.page.getByRole("combobox", {
     name: /Economy|Business|First/,
   });
@@ -62,6 +57,120 @@ export class SearchResultPage extends BasePage {
   readonly edit_dropdown_passenger_apply = this.page
     .getByRole("button", { name: "Apply" })
     .nth(0);
+
+  // stops filter locators
+  readonly Checkbox_Direct = this.page.getByRole("checkbox", {
+    name: "Direct Flight",
+  });
+  readonly Checkbox_1Stop = this.page.getByRole("checkbox", { name: "1 Stop" });
+  readonly Checkbox_2PlusStops = this.page.getByRole("checkbox", {
+    name: "+2 Stops",
+  });
+  readonly btn_returnFlights = this.page.getByRole("tab", {
+    name: " Return Stops ",
+  });
+  readonly btn_departureFlights = this.page.getByRole("tab", {
+    name: " Departure Stops ",
+  });
+  readonly btn_clearAllStops = this.page
+    .getByRole("button", { name: " Clear All " })
+    .nth(2);
+
+  // ===== Stop filter helpers =====
+  private getStopFilterLocator(filter: string) {
+    const normalized = filter
+      .replace(/\s+/g, "")
+      .replace(/[^+\w]/g, "")
+      .toLowerCase();
+
+    if (
+      normalized === "directflight" ||
+      normalized === "nonstop" ||
+      normalized === "directflight"
+    )
+      return this.Checkbox_Direct;
+    if (normalized === "1stop" || normalized === "1stop")
+      return this.Checkbox_1Stop;
+    if (
+      normalized === "+2stops" ||
+      normalized === "2plusstops" ||
+      normalized === "2stops" ||
+      normalized === "2+stops"
+    )
+      return this.Checkbox_2PlusStops;
+
+    // fallback: try to find a checkbox by visible name
+    try {
+      return this.page.getByRole("checkbox", { name: filter });
+    } catch (e) {
+      throw new Error(`Unknown stop filter "${filter}"`);
+    }
+  }
+
+  async selectStopsFilter(filter: string) {
+    const checkbox = this.getStopFilterLocator(filter);
+    await checkbox.scrollIntoViewIfNeeded();
+    await checkbox.waitFor({ state: "visible" });
+    if (!(await checkbox.isChecked())) await checkbox.click();
+  }
+
+  async isStopsFilterSelected(filter: string) {
+    const checkbox = this.getStopFilterLocator(filter);
+    await checkbox.scrollIntoViewIfNeeded();
+    await checkbox.waitFor({ state: "visible" });
+    return await checkbox.isChecked();
+  }
+
+  async clearAllStopFilters() {
+    await this.btn_clearAllStops.click();
+  }
+
+  async applyStopsFilters(filters: string[]) {
+    for (const f of filters) await this.selectStopsFilter(f);
+  }
+
+  // Convenience methods
+  async clickReturnStopsTab() {
+    await this.btn_returnFlights.click();
+  }
+
+  async clickDepartureStopsTab() {
+    await this.btn_departureFlights.click();
+  }
+
+  async selectDirectFlight() {
+    await this.selectStopsFilter("Direct Flight");
+  }
+
+  async select1Stop() {
+    await this.selectStopsFilter("1 Stop");
+  }
+
+  async select2PlusStops() {
+    await this.selectStopsFilter("+2 Stops");
+  }
+
+  async isDirectFlightSelected() {
+    return this.isStopsFilterSelected("Direct Flight");
+  }
+
+  async is1StopSelected() {
+    return this.isStopsFilterSelected("1 Stop");
+  }
+
+  async is2PlusStopsSelected() {
+    return this.isStopsFilterSelected("+2 Stops");
+  }
+
+  async applyReturnStopsFilter(filter: string) {
+    await this.clickReturnStopsTab();
+    await this.selectStopsFilter(filter);
+  }
+
+  async applyReturnStopsFilters(filters: string[]) {
+    await this.clickReturnStopsTab();
+    for (const f of filters) await this.selectStopsFilter(f);
+  }
 
   // ===== Result Page Methods =====
   async sortBy(option: "Cheapest" | "Fastest" | "Recommended") {
