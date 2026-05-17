@@ -4,7 +4,6 @@ import RoundTrip_data from "../test-data/RoundTrip_data.json";
 import searchResultData from "../test-data/SearchResultData.json";
 import { SearchData, SortOption } from "../types/search.types";
 
-
 test.describe("Search Edit ", () => {
   test("Click Edit Button", async ({ searchPage, searchResultPage }) => {
     await searchPage.search(OneWay_data as SearchData);
@@ -43,7 +42,7 @@ test.describe("Edit City Selection", () => {
     await searchPage.search(OneWay_data as SearchData);
     await searchResultPage.clickEditSearch();
 
-    const newCity = "AUH";
+    const newCity = "JED";
     await searchResultPage.editChangeToCity(newCity);
 
     // Verify the input has a value
@@ -56,7 +55,7 @@ test.describe("Edit City Selection", () => {
     await searchResultPage.clickEditSearch();
 
     await searchResultPage.editChangeFromCity("JED");
-    await searchResultPage.editChangeToCity("AUH");
+    await searchResultPage.editChangeToCity("DXB");
 
     const fromValue = await searchResultPage.edit_txt_from.inputValue();
     const toValue = await searchResultPage.edit_txt_to.inputValue();
@@ -301,7 +300,7 @@ test.describe("Edit Full Flow", () => {
     await searchResultPage.editSelectTripType("Round Trip");
 
     // Change cities and dates
-    await searchResultPage.editUpdateRoundTrip("JED", "AUH", 8, 15);
+    await searchResultPage.editUpdateRoundTrip("JED", "CAI", 8, 15);
 
     // Apply search
     await searchResultPage.editApplySearch();
@@ -389,29 +388,33 @@ test.describe("Airline Filtering", () => {
   });
 });
 
-test.describe("Additional Filters", () => {
-  test("Filter by stops after search", async ({ searchPage, searchResultPage }) => {
+
+test.describe("Departure and Return Time Filters", () => {
+  test("Select Morning departure time for One Way search", async ({
+    searchPage,
+    searchResultPage,
+  }) => {
     await searchPage.search(OneWay_data as SearchData);
-    await searchResultPage.filterByStops("Nonstop");
+    await searchResultPage.selectDepartureTime("Morning");
+    await expect(searchResultPage.Checkbox_Morning).toBeChecked();
   });
 
-  test("Filter by departure time after search", async ({ searchPage, searchResultPage }) => {
-    await searchPage.search(OneWay_data as SearchData);
-    await searchResultPage.filterByDepartureTime("Morning");
+  test("Select Evening return time for Round Trip search", async ({
+    searchPage,
+    searchResultPage,
+  }) => {
+    await searchPage.search(RoundTrip_data as SearchData);
+    await searchResultPage.selectReturnTime("Evening");
+    await expect(searchResultPage.Checkbox_Evening).toBeChecked();
   });
 
-  test("Filter by duration after search", async ({ searchPage, searchResultPage }) => {
+  test("Clear departure time filter then select Night", async ({
+    searchPage,
+    searchResultPage,
+  }) => {
     await searchPage.search(OneWay_data as SearchData);
-    await searchResultPage.filterByDuration("Short");
-  });
-
-  test("Filter by price range after search", async ({ searchPage, searchResultPage }) => {
-    await searchPage.search(OneWay_data as SearchData);
-    await searchResultPage.filterByPriceRange(100, 500);
-  });
-
-  test("Filter by baggage inclusion after search", async ({ searchPage, searchResultPage }) => {
-    await searchPage.search(OneWay_data as SearchData);
-    await searchResultPage.filterByBaggageIncluded(true);
+    await searchResultPage.selectDepartureTime("Morning");
+    await searchResultPage.selectDepartureTime("Night");
+    await expect(searchResultPage.Checkbox_Night).toBeChecked();
   });
 });

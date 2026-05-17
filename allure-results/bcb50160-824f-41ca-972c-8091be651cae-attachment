@@ -1,0 +1,220 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: SearchResult_tc.spec.ts >> Additional Filters >> Filter by stops after search
+- Location: tests\SearchResult_tc.spec.ts:392:7
+
+# Error details
+
+```
+Error: locator.click: Target page, context or browser has been closed
+Call log:
+  - waiting for locator('[data-testid="stops-filter"]').locator('text="Nonstop"')
+
+```
+
+# Test source
+
+```ts
+  1   | import { BasePage } from "./Base_Page";
+  2   | import type { Locator } from "@playwright/test";
+  3   | import { ENV } from "../config/env";
+  4   | 
+  5   | export class SearchResultPage extends BasePage {
+  6   |   // ===== Result Page Locators =====
+  7   |   // ===== Edit Mode Locators =====
+  8   |   readonly btn_editSearch = this.page.getByRole("button", { name: "Edit" });
+  9   | 
+  10  |   // Edit form inputs - with fallback locators for flexibility
+  11  |   readonly edit_txt_from = this.page
+  12  |     .locator('[data-testid="edit-from"]')
+  13  |     .or(this.page.getByPlaceholder("Departure City").nth(0));
+  14  |   readonly edit_txt_to = this.page
+  15  |     .locator('[data-testid="edit-to"]')
+  16  |     .or(this.page.getByPlaceholder("Destination City").nth(0));
+  17  |   readonly edit_txt_departureDate = this.page
+  18  |     .locator('[data-testid="edit-departure-date"]')
+  19  |     .or(this.page.getByPlaceholder("Select Date").nth(0));
+  20  |   readonly edit_txt_returnDate = this.page
+  21  |     .locator('[data-testid="edit-return-date"]')
+  22  |     .or(this.page.getByPlaceholder("Select Date").nth(1));
+  23  | 
+  24  |   // Edit mode dropdowns
+  25  |   readonly edit_dropdown_tripType = this.page.getByRole("combobox", {
+  26  |     name: /One Way|Round Trip|Multi-City/,
+  27  |   });
+  28  |   readonly edit_dropdown_passengers = this.page
+  29  |     .locator('[data-testid="edit-passengers"]')
+  30  |     .or(
+  31  |       this.page.locator('//i[contains(@class,"passenger-btn-arrow")]').nth(0),
+  32  |     );
+  33  |   readonly edit_dropdown_cabinClass = this.page.getByRole("combobox", {
+  34  |     name: /Economy|Business|First/,
+  35  |   });
+  36  |   readonly edit_dropdown_currency = this.page
+  37  |     .locator('[data-testid="edit-currency"]')
+  38  |     .or(this.page.getByRole("combobox", { name: /Pound|Dollar|Euro/ }));
+  39  | 
+  40  |   // Edit mode action buttons
+  41  |   readonly btn_editSearch_apply = this.page
+  42  |     .getByRole("button", { name: "Search" })
+  43  |     .nth(0);
+  44  |   readonly btn_editSearch_close = this.page
+  45  |     .getByRole("button", { name: " Cancel " })
+  46  |     .or(this.page.locator('[aria-label="Close"]'));
+  47  |   readonly edit_dropdown_passenger_apply = this.page
+  48  |     .getByRole("button", { name: "Apply" })
+  49  |     .nth(0);
+  50  | 
+  51  | 
+  52  |   // Airline filter locators
+  53  | 
+  54  |   // Additional filter locators
+  55  |   readonly filter_stops = this.page.locator('[data-testid="stops-filter"]');
+  56  |   readonly filter_departureTime = this.page.locator('[data-testid="departure-time-filter"]');
+  57  |   readonly filter_duration = this.page.locator('[data-testid="duration-filter"]');
+  58  |   readonly filter_priceRange = this.page.locator('[data-testid="price-range-filter"]');
+  59  | 
+  60  |   // Sorting buttons
+  61  |   readonly btn_cheapest = this.page.getByRole("button", { name: /Cheapest/i });
+  62  |   readonly btn_fastest = this.page.getByRole("button", { name: /Fastest/i });
+  63  |   readonly btn_recommended = this.page.getByRole("button", { name: /Recommended/i });
+  64  | 
+  65  |   // Stop filter checkboxes/buttons
+  66  |   readonly Checkbox_Direct = this.page.getByRole("checkbox", { name: /Direct Flight|Nonstop/i });
+  67  |   readonly Checkbox_1Stop = this.page.getByRole("checkbox", { name: /1 Stop/i });
+  68  |   readonly Checkbox_2PlusStops = this.page.getByRole("checkbox", { name: /2\+\s*Stops|2 Stops/i });
+  69  |   readonly btn_clearAllStops = this.page.getByRole("button", { name: /Clear All|Clear/i });
+  70  |   readonly btn_returnFlights = this.page.getByRole("button", { name: /Return Flights|Return/i });
+  71  |   readonly btn_departureFlights = this.page.getByRole("button", { name: /Departure Flights|Departure/i });
+  72  | 
+  73  |   // Time filter checkboxes and tabs
+  74  |   readonly Checkbox_Morning = this.page.getByRole("checkbox", { name: /Morning/i });
+  75  |   readonly Checkbox_Afternoon = this.page.getByRole("checkbox", { name: /Afternoon/i });
+  76  |   readonly Checkbox_Evening = this.page.getByRole("checkbox", { name: /Evening/i });
+  77  |   readonly Checkbox_Night = this.page.getByRole("checkbox", { name: /Night/i });
+  78  |   readonly btn_returnTimes = this.page.getByRole("button", { name: /Return Time|Return/i });
+  79  |   readonly btn_departureTimes = this.page.getByRole("button", { name: /Departure Time|Departure/i });
+  80  | 
+  81  |   // ===== Result Page Methods =====
+  82  | 
+  83  |   /**
+  84  |    * Filter results by number of stops
+  85  |    */
+  86  |   async filterByStops(stops: "Nonstop" | "1 Stop" | "2+ Stops") {
+  87  |     const stopsOptions: Record<string, Locator> = {
+  88  |       "Nonstop": this.filter_stops.locator('text="Nonstop"'),
+  89  |       "1 Stop": this.filter_stops.locator('text="1 Stop"'),
+  90  |       "2+ Stops": this.filter_stops.locator('text="2+ Stops"'),
+  91  |     };
+  92  | 
+  93  |     const option = stopsOptions[stops];
+  94  |     if (option) {
+> 95  |       await option.click();
+      |                    ^ Error: locator.click: Target page, context or browser has been closed
+  96  |     }
+  97  |   }
+  98  | 
+  99  |   /**
+  100 |    * Filter results by departure time
+  101 |    */
+  102 |   async filterByDepartureTime(time: "Morning" | "Afternoon" | "Evening" | "Night") {
+  103 |     const timeOptions: Record<string, Locator> = {
+  104 |       "Morning": this.filter_departureTime.locator('text="Morning"'),
+  105 |       "Afternoon": this.filter_departureTime.locator('text="Afternoon"'),
+  106 |       "Evening": this.filter_departureTime.locator('text="Evening"'),
+  107 |       "Night": this.filter_departureTime.locator('text="Night"'),
+  108 |     };
+  109 | 
+  110 |     const option = timeOptions[time];
+  111 |     if (option) {
+  112 |       await option.click();
+  113 |     }
+  114 |   }
+  115 | 
+  116 |   /**
+  117 |    * Filter results by flight duration
+  118 |    */
+  119 |   async filterByDuration(duration: "Short" | "Medium" | "Long") {
+  120 |     const durationOptions: Record<string, Locator> = {
+  121 |       "Short": this.filter_duration.locator('text="Short"'),
+  122 |       "Medium": this.filter_duration.locator('text="Medium"'),
+  123 |       "Long": this.filter_duration.locator('text="Long"'),
+  124 |     };
+  125 | 
+  126 |     const option = durationOptions[duration];
+  127 |     if (option) {
+  128 |       await option.click();
+  129 |     }
+  130 |   }
+  131 | 
+  132 |   /**
+  133 |    * Filter results by price range
+  134 |    */
+  135 |   async filterByPriceRange(minPrice: number, maxPrice: number) {
+  136 |     // Assuming price range filter uses input fields or sliders
+  137 |     const minInput = this.filter_priceRange.locator('[data-testid="min-price"]');
+  138 |     const maxInput = this.filter_priceRange.locator('[data-testid="max-price"]');
+  139 | 
+  140 |     await minInput.fill(minPrice.toString());
+  141 |     await maxInput.fill(maxPrice.toString());
+  142 |   }
+  143 | 
+  144 | 
+  145 | 
+  146 |   // ===== Edit Mode Methods =====
+  147 |   /**
+  148 |    * Click Edit button and wait for edit panel to appear
+  149 |    */
+  150 |   async clickEditSearch() {
+  151 |     await this.btn_editSearch.click();
+  152 |     // await this.page.waitForLoadState("networkidle");
+  153 |   }
+  154 | 
+  155 |   /**
+  156 |    * Close the edit panel
+  157 |    */
+  158 |   async closeEditPanel() {
+  159 |     await this.btn_editSearch_close.click();
+  160 |   }
+  161 | 
+  162 |   /**
+  163 |    * Select a city from dropdown suggestions in edit mode
+  164 |    */
+  165 |   async editSelectCity(input: Locator, city: string) {
+  166 |     await input.waitFor({ state: "visible" });
+  167 |     await input.click();
+  168 |     await input.fill(city);
+  169 |     const suggestion = this.page.getByRole("option", { name: city }).first();
+  170 |     await suggestion.waitFor({ state: "visible" });
+  171 |     await suggestion.click();
+  172 |   }
+  173 | 
+  174 |   /**
+  175 |    * Set date using keyboard input with relative days
+  176 |    */
+  177 |   async editSetDate(input: Locator, date: number) {
+  178 |     const today = new Date();
+  179 |     const targetDate = new Date(
+  180 |       today.getFullYear(),
+  181 |       today.getMonth(),
+  182 |       today.getDate() + date,
+  183 |     );
+  184 |     const formatted = `${String(targetDate.getMonth() + 1).padStart(2, "0")}/${String(targetDate.getDate()).padStart(2, "0")}/${targetDate.getFullYear()}`;
+  185 |     await input.click();
+  186 |     await input.fill("");
+  187 |     await input.type(formatted, { delay: 100 });
+  188 |     await this.page.keyboard.press("Tab");
+  189 |   }
+  190 | 
+  191 |   /**
+  192 |    * Change trip type in edit mode
+  193 |    */
+  194 |   async editSelectTripType(type: "One Way" | "Round Trip" | "Multi-City") {
+  195 |     await this.edit_dropdown_tripType.click();
+```

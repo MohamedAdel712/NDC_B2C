@@ -1,0 +1,152 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: SearchResult_tc.spec.ts >> Departure and Return Time Filters >> Select Morning departure time for One Way search
+- Location: tests\SearchResult_tc.spec.ts:393:7
+
+# Error details
+
+```
+Error: locator.click: Target page, context or browser has been closed
+Call log:
+  - waiting for getByRole('button', { name: /Departure Time|Departure/i })
+
+```
+
+# Test source
+
+```ts
+  394 |     }
+  395 |   }
+  396 | 
+  397 |   async selectStopsFilter(filter: string) {
+  398 |     const checkbox = this.getStopFilterLocator(filter);
+  399 |     await checkbox.scrollIntoViewIfNeeded();
+  400 |     await checkbox.waitFor({ state: "visible" });
+  401 |     if (!(await checkbox.isChecked())) await checkbox.click();
+  402 |   }
+  403 | 
+  404 |   async isStopsFilterSelected(filter: string) {
+  405 |     const checkbox = this.getStopFilterLocator(filter);
+  406 |     await checkbox.scrollIntoViewIfNeeded();
+  407 |     await checkbox.waitFor({ state: "visible" });
+  408 |     return await checkbox.isChecked();
+  409 |   }
+  410 | 
+  411 |   async clearAllStopFilters() {
+  412 |     await this.btn_clearAllStops.click();
+  413 |   }
+  414 | 
+  415 |   async applyStopsFilters(filters: string[]) {
+  416 |     for (const f of filters) await this.selectStopsFilter(f);
+  417 |   }
+  418 | 
+  419 |   // Convenience methods
+  420 |   async clickReturnStopsTab() {
+  421 |     await this.btn_returnFlights.click();
+  422 |   }
+  423 | 
+  424 |   async clickDepartureStopsTab() {
+  425 |     await this.btn_departureFlights.click();
+  426 |   }
+  427 | 
+  428 |   async selectDirectFlight() {
+  429 |     await this.selectStopsFilter("Direct Flight");
+  430 |   }
+  431 | 
+  432 |   async select1Stop() {
+  433 |     await this.selectStopsFilter("1 Stop");
+  434 |   }
+  435 | 
+  436 |   async select2PlusStops() {
+  437 |     await this.selectStopsFilter("+2 Stops");
+  438 |   }
+  439 | 
+  440 |   async isDirectFlightSelected() {
+  441 |     return this.isStopsFilterSelected("Direct Flight");
+  442 |   }
+  443 | 
+  444 |   async is1StopSelected() {
+  445 |     return this.isStopsFilterSelected("1 Stop");
+  446 |   }
+  447 | 
+  448 |   async is2PlusStopsSelected() {
+  449 |     return this.isStopsFilterSelected("+2 Stops");
+  450 |   }
+  451 | 
+  452 |   async applyReturnStopsFilter(filter: string) {
+  453 |     await this.clickReturnStopsTab();
+  454 |     await this.selectStopsFilter(filter);
+  455 |   }
+  456 | 
+  457 |   async applyReturnStopsFilters(filters: string[]) {
+  458 |     await this.clickReturnStopsTab();
+  459 |     for (const f of filters) await this.selectStopsFilter(f);
+  460 |   }
+  461 | 
+  462 |   private getTimeFilterLocator(filter: string) {
+  463 |     const normalized = filter.trim().toLowerCase();
+  464 |     if (normalized === "morning") return this.Checkbox_Morning;
+  465 |     if (normalized === "afternoon") return this.Checkbox_Afternoon;
+  466 |     if (normalized === "evening") return this.Checkbox_Evening;
+  467 |     if (normalized === "night") return this.Checkbox_Night;
+  468 | 
+  469 |     const escaped = filter.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
+  470 |     return this.page.getByRole("checkbox", {
+  471 |       name: new RegExp(escaped, "i"),
+  472 |     });
+  473 |   }
+  474 | 
+  475 |   async selectTimeFilter(filter: string) {
+  476 |     const checkbox = this.getTimeFilterLocator(filter);
+  477 |     await checkbox.scrollIntoViewIfNeeded();
+  478 |     await checkbox.waitFor({ state: "visible" });
+  479 |     if (!(await checkbox.isChecked())) await checkbox.click();
+  480 |   }
+  481 | 
+  482 |   async isTimeFilterSelected(filter: string) {
+  483 |     const checkbox = this.getTimeFilterLocator(filter);
+  484 |     await checkbox.scrollIntoViewIfNeeded();
+  485 |     await checkbox.waitFor({ state: "visible" });
+  486 |     return await checkbox.isChecked();
+  487 |   }
+  488 | 
+  489 |   async clickReturnTimeTab() {
+  490 |     await this.btn_returnTimes.click();
+  491 |   }
+  492 | 
+  493 |   async clickDepartureTimeTab() {
+> 494 |     await this.btn_departureTimes.click();
+      |                                   ^ Error: locator.click: Target page, context or browser has been closed
+  495 |   }
+  496 | 
+  497 |   async selectDepartureTime(filter: string) {
+  498 |     await this.clickDepartureTimeTab();
+  499 |     await this.selectTimeFilter(filter);
+  500 |   }
+  501 | 
+  502 |   async selectReturnTime(filter: string) {
+  503 |     await this.clickReturnTimeTab();
+  504 |     await this.selectTimeFilter(filter);
+  505 |   }
+  506 | 
+  507 |   /**
+  508 |    * Filter results by airline name
+  509 |    */
+  510 |   async filterByAirline(airlineName: string) {
+  511 |     const airlineLocator = this.page.locator(
+  512 |       `//p[@class='airline-card-name' and normalize-space()='${airlineName}']`
+  513 |     );
+  514 |     await airlineLocator.click();
+  515 |   }
+  516 | 
+  517 | 
+  518 | 
+  519 |   
+  520 | }
+```

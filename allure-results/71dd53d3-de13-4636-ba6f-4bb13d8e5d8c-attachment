@@ -1,0 +1,219 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: SearchResult_tc.spec.ts >> Stops Filters >> Clear All clears selected stop filters
+- Location: tests\SearchResult_tc.spec.ts:406:8
+
+# Error details
+
+```
+Error: locator.click: Target page, context or browser has been closed
+Call log:
+  - waiting for getByRole('button', { name: ' Clear All ' }).first()
+    - locator resolved to <button disabled type="button" _ngcontent-ng-c60809633="" class="airline-widget__clear-all ng-star-inserted"> Clear All </button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not enabled
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not enabled
+    - retrying click action
+      - waiting 100ms
+    46 × waiting for element to be visible, enabled and stable
+       - element is not enabled
+     - retrying click action
+       - waiting 500ms
+
+```
+
+# Test source
+
+```ts
+  1   | import { Page, Locator } from "@playwright/test";
+  2   | import { BasePage } from "./Base_Page";
+  3   | import { ENV } from "../config/env";
+  4   | 
+  5   | export class SearchResultPage extends BasePage {
+  6   |   // ===== Result Page Locators =====
+  7   |   // Sorting options
+  8   |   readonly btn_cheapest = this.page.getByRole("button", { name: "Cheapest" });
+  9   |   readonly btn_fastest = this.page.getByRole("button", { name: "Fastest" });
+  10  |   readonly btn_recommended = this.page.getByRole("button", {name: "Recommended",});
+  11  |   readonly btn_flightDetails = this.page.getByRole("button", {name: "Flight details",});
+  12  | 
+  13  |   // ===== Edit Mode Locators =====
+  14  |   readonly btn_editSearch = this.page.getByRole("button", { name: "Edit" });
+  15  | 
+  16  |   // Edit form inputs - with fallback locators for flexibility
+  17  |   readonly edit_txt_from = this.page.locator('[data-testid="edit-from"]').or(this.page.getByPlaceholder("Departure City").nth(0));
+  18  |   readonly edit_txt_to = this.page.locator('[data-testid="edit-to"]').or(this.page.getByPlaceholder("Destination City").nth(0));
+  19  |   readonly edit_txt_departureDate = this.page.locator('[data-testid="edit-departure-date"]').or(this.page.getByPlaceholder("Select Date").nth(0));
+  20  |   readonly edit_txt_returnDate = this.page.locator('[data-testid="edit-return-date"]').or(this.page.getByPlaceholder("Select Date").nth(1));
+  21  | 
+  22  |   // Edit mode dropdowns
+  23  |   readonly edit_dropdown_tripType = this.page.getByRole("combobox", {name: /One Way|Round Trip|Multi-City/,});
+  24  |   readonly edit_dropdown_passengers = this.page.locator('[data-testid="edit-passengers"]').or(
+  25  |       this.page.locator('//i[contains(@class,"passenger-btn-arrow")]').nth(0),);
+  26  |   readonly edit_dropdown_cabinClass = this.page.getByRole("combobox", {name: /Economy|Business|First/,});
+  27  |   readonly edit_dropdown_currency = this.page.locator('[data-testid="edit-currency"]').or(this.page.getByRole("combobox", { name: /Pound|Dollar|Euro/ }));
+  28  | 
+  29  |   // Edit mode action buttons
+  30  |   readonly btn_editSearch_apply = this.page.getByRole("button", { name: "Search" }).nth(0);
+  31  |   readonly btn_editSearch_close = this.page.getByRole("button", { name: " Cancel " }).or(this.page.locator('[aria-label="Close"]'));
+  32  |   readonly edit_dropdown_passenger_apply = this.page.getByRole("button", { name: "Apply" }).nth(0);
+  33  | 
+  34  |   // stops filter locators
+  35  |   readonly Checkbox_Direct = this.page.getByRole("checkbox", { name: "Direct Flight" });
+  36  |   readonly Checkbox_1Stop = this.page.getByRole("checkbox", { name: "1 Stop" });
+  37  |   readonly Checkbox_2PlusStops = this.page.getByRole("checkbox", { name: "+2 Stops" });
+  38  |   readonly btn_returnFlights = this.page.getByRole("tab", { name: " Return Stops " });
+  39  |   readonly btn_departureFlights = this.page.getByRole("tab", { name: " Departure Stops " });
+  40  |   readonly btn_clearAllStops = this.page.getByRole("button", { name: " Clear All " }).nth(1);
+  41  | 
+  42  |   // ===== Stop filter helpers =====
+  43  |   private getStopFilterLocator(filter: string) {
+  44  |     const normalized = filter.replace(/\s+/g, "").replace(/[^+\w]/g, "").toLowerCase();
+  45  | 
+  46  |     if (normalized === "directflight" || normalized === "nonstop" || normalized === "directflight")
+  47  |       return this.Checkbox_Direct;
+  48  |     if (normalized === "1stop" || normalized === "1stop") return this.Checkbox_1Stop;
+  49  |     if (
+  50  |       normalized === "+2stops" ||
+  51  |       normalized === "2plusstops" ||
+  52  |       normalized === "2stops" ||
+  53  |       normalized === "2+stops"
+  54  |     )
+  55  |       return this.Checkbox_2PlusStops;
+  56  | 
+  57  |     // fallback: try to find a checkbox by visible name
+  58  |     try {
+  59  |       return this.page.getByRole("checkbox", { name: filter });
+  60  |     } catch (e) {
+  61  |       throw new Error(`Unknown stop filter "${filter}"`);
+  62  |     }
+  63  |   }
+  64  | 
+  65  |   async selectStopsFilter(filter: string) {
+  66  |     const checkbox = this.getStopFilterLocator(filter);
+  67  |     await checkbox.scrollIntoViewIfNeeded();
+  68  |     await checkbox.waitFor({ state: "visible" });
+  69  |     if (!(await checkbox.isChecked())) await checkbox.click();
+  70  |   }
+  71  | 
+  72  |   async isStopsFilterSelected(filter: string) {
+  73  |     const checkbox = this.getStopFilterLocator(filter);
+  74  |     await checkbox.scrollIntoViewIfNeeded();
+  75  |     await checkbox.waitFor({ state: "visible" });
+  76  |     return await checkbox.isChecked();
+  77  |   }
+  78  | 
+  79  |   async clearAllStopFilters() {
+> 80  |     await this.btn_clearAllStops.click();
+      |                                  ^ Error: locator.click: Target page, context or browser has been closed
+  81  |   }
+  82  | 
+  83  |   async applyStopsFilters(filters: string[]) {
+  84  |     for (const f of filters) await this.selectStopsFilter(f);
+  85  |   }
+  86  | 
+  87  |   // Convenience methods
+  88  |   async clickReturnStopsTab() {
+  89  |     await this.btn_returnFlights.click();
+  90  |   }
+  91  | 
+  92  |   async clickDepartureStopsTab() {
+  93  |     await this.btn_departureFlights.click();
+  94  |   }
+  95  | 
+  96  |   async selectDirectFlight() {
+  97  |     await this.selectStopsFilter("Direct Flight");
+  98  |   }
+  99  | 
+  100 |   async select1Stop() {
+  101 |     await this.selectStopsFilter("1 Stop");
+  102 |   }
+  103 | 
+  104 |   async select2PlusStops() {
+  105 |     await this.selectStopsFilter("+2 Stops");
+  106 |   }
+  107 | 
+  108 |   async isDirectFlightSelected() {
+  109 |     return this.isStopsFilterSelected("Direct Flight");
+  110 |   }
+  111 | 
+  112 |   async is1StopSelected() {
+  113 |     return this.isStopsFilterSelected("1 Stop");
+  114 |   }
+  115 | 
+  116 |   async is2PlusStopsSelected() {
+  117 |     return this.isStopsFilterSelected("+2 Stops");
+  118 |   }
+  119 | 
+  120 |   async applyReturnStopsFilter(filter: string) {
+  121 |     await this.clickReturnStopsTab();
+  122 |     await this.selectStopsFilter(filter);
+  123 |   }
+  124 | 
+  125 |   async applyReturnStopsFilters(filters: string[]) {
+  126 |     await this.clickReturnStopsTab();
+  127 |     for (const f of filters) await this.selectStopsFilter(f);
+  128 |   }
+  129 | 
+  130 | 
+  131 |   // ===== Result Page Methods =====
+  132 |   async sortBy(option: "Cheapest" | "Fastest" | "Recommended") {
+  133 |     const sortingOptions: Record<string, Locator> = {
+  134 |       Cheapest: this.btn_cheapest,
+  135 |       Fastest: this.btn_fastest,
+  136 |       Recommended: this.btn_recommended,
+  137 |     };
+  138 | 
+  139 |     const button = sortingOptions[option];
+  140 |     if (button) {
+  141 |       await button.click();
+  142 |     }
+  143 |   }
+  144 | 
+  145 |   // ===== Edit Mode Methods =====
+  146 |   /**
+  147 |    * Click Edit button and wait for edit panel to appear
+  148 |    */
+  149 |   async clickEditSearch() {
+  150 |     await this.btn_editSearch.click();
+  151 |     // await this.page.waitForLoadState("networkidle");
+  152 |   }
+  153 | 
+  154 |   /**
+  155 |    * Close the edit panel
+  156 |    */
+  157 |   async closeEditPanel() {
+  158 |     await this.btn_editSearch_close.click();
+  159 |   }
+  160 | 
+  161 |   /**
+  162 |    * Select a city from dropdown suggestions in edit mode
+  163 |    */
+  164 |   async editSelectCity(input: Locator, city: string) {
+  165 |     await input.waitFor({ state: "visible" });
+  166 |     await input.click();
+  167 |     await input.fill(city);
+  168 |     const suggestion = this.page.getByRole("option", { name: city }).first();
+  169 |     await suggestion.waitFor({ state: "visible" });
+  170 |     await suggestion.click();
+  171 |   }
+  172 | 
+  173 |   /**
+  174 |    * Set date using keyboard input with relative days
+  175 |    */
+  176 |   async editSetDate(input: Locator, date: number) {
+  177 |     const today = new Date();
+  178 |     const targetDate = new Date(
+  179 |       today.getFullYear(),
+  180 |       today.getMonth(),
+```
