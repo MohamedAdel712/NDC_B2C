@@ -1,19 +1,9 @@
-import { Page, Locator } from "@playwright/test";
 import { BasePage } from "./Base_Page";
+import type { Locator } from "@playwright/test";
 import { ENV } from "../config/env";
 
 export class SearchResultPage extends BasePage {
   // ===== Result Page Locators =====
-  // Sorting options
-  readonly btn_cheapest = this.page.getByRole("button", { name: "Cheapest" });
-  readonly btn_fastest = this.page.getByRole("button", { name: "Fastest" });
-  readonly btn_recommended = this.page.getByRole("button", {
-    name: "Recommended",
-  });
-  readonly btn_flightDetails = this.page.getByRole("button", {
-    name: "Flight details",
-  });
-
   // ===== Edit Mode Locators =====
   readonly btn_editSearch = this.page.getByRole("button", { name: "Edit" });
 
@@ -58,6 +48,18 @@ export class SearchResultPage extends BasePage {
     .getByRole("button", { name: "Apply" })
     .nth(0);
 
+  // Sorting options
+  readonly btn_cheapest = this.page.getByRole("button", { name: "Cheapest" });
+  readonly btn_fastest = this.page.getByRole("button", { name: "Fastest" });
+  readonly btn_recommended = this.page.getByRole("button", {
+    name: "Recommended",
+  });
+  readonly btn_flightDetails = this.page.getByRole("button", {
+    name: "Flight details",
+  });
+
+
+
   // stops filter locators
   readonly Checkbox_Direct = this.page.getByRole("checkbox", {
     name: "Direct Flight",
@@ -76,115 +78,30 @@ export class SearchResultPage extends BasePage {
     .getByRole("button", { name: " Clear All " })
     .nth(2);
 
-  // ===== Stop filter helpers =====
-  private getStopFilterLocator(filter: string) {
-    const normalized = filter
-      .replace(/\s+/g, "")
-      .replace(/[^+\w]/g, "")
-      .toLowerCase();
+  readonly btn_returnTimes = this.page.getByRole("tab", {
+    name: /Return Time/i,
+  });
+  readonly btn_departureTimes = this.page.getByRole("tab", {
+    name: /Departure Time/i,
+  });
 
-    if (
-      normalized === "directflight" ||
-      normalized === "nonstop" ||
-      normalized === "directflight"
-    )
-      return this.Checkbox_Direct;
-    if (normalized === "1stop" || normalized === "1stop")
-      return this.Checkbox_1Stop;
-    if (
-      normalized === "+2stops" ||
-      normalized === "2plusstops" ||
-      normalized === "2stops" ||
-      normalized === "2+stops"
-    )
-      return this.Checkbox_2PlusStops;
+  readonly Checkbox_Morning = this.page.getByRole("checkbox", {
+    name: /Morning/i,
+  });
+  readonly Checkbox_Afternoon = this.page.getByRole("checkbox", {
+    name: /Afternoon/i,
+  });
+  readonly Checkbox_Evening = this.page.getByRole("checkbox", {
+    name: /Evening/i,
+  });
+  readonly Checkbox_Night = this.page.getByRole("checkbox", {
+    name: /Night/i,
+  });
 
-    // fallback: try to find a checkbox by visible name
-    try {
-      return this.page.getByRole("checkbox", { name: filter });
-    } catch (e) {
-      throw new Error(`Unknown stop filter "${filter}"`);
-    }
-  }
 
-  async selectStopsFilter(filter: string) {
-    const checkbox = this.getStopFilterLocator(filter);
-    await checkbox.scrollIntoViewIfNeeded();
-    await checkbox.waitFor({ state: "visible" });
-    if (!(await checkbox.isChecked())) await checkbox.click();
-  }
 
-  async isStopsFilterSelected(filter: string) {
-    const checkbox = this.getStopFilterLocator(filter);
-    await checkbox.scrollIntoViewIfNeeded();
-    await checkbox.waitFor({ state: "visible" });
-    return await checkbox.isChecked();
-  }
 
-  async clearAllStopFilters() {
-    await this.btn_clearAllStops.click();
-  }
-
-  async applyStopsFilters(filters: string[]) {
-    for (const f of filters) await this.selectStopsFilter(f);
-  }
-
-  // Convenience methods
-  async clickReturnStopsTab() {
-    await this.btn_returnFlights.click();
-  }
-
-  async clickDepartureStopsTab() {
-    await this.btn_departureFlights.click();
-  }
-
-  async selectDirectFlight() {
-    await this.selectStopsFilter("Direct Flight");
-  }
-
-  async select1Stop() {
-    await this.selectStopsFilter("1 Stop");
-  }
-
-  async select2PlusStops() {
-    await this.selectStopsFilter("+2 Stops");
-  }
-
-  async isDirectFlightSelected() {
-    return this.isStopsFilterSelected("Direct Flight");
-  }
-
-  async is1StopSelected() {
-    return this.isStopsFilterSelected("1 Stop");
-  }
-
-  async is2PlusStopsSelected() {
-    return this.isStopsFilterSelected("+2 Stops");
-  }
-
-  async applyReturnStopsFilter(filter: string) {
-    await this.clickReturnStopsTab();
-    await this.selectStopsFilter(filter);
-  }
-
-  async applyReturnStopsFilters(filters: string[]) {
-    await this.clickReturnStopsTab();
-    for (const f of filters) await this.selectStopsFilter(f);
-  }
-
-  // ===== Result Page Methods =====
-  async sortBy(option: "Cheapest" | "Fastest" | "Recommended") {
-    const sortingOptions: Record<string, Locator> = {
-      Cheapest: this.btn_cheapest,
-      Fastest: this.btn_fastest,
-      Recommended: this.btn_recommended,
-    };
-
-    const button = sortingOptions[option];
-    if (button) {
-      await button.click();
-    }
-  }
+  
 
   // ===== Edit Mode Methods =====
   /**
@@ -401,5 +318,171 @@ export class SearchResultPage extends BasePage {
       await this.editUpdateOneWay(fromCity, toCity, departDate);
     }
     await this.editApplySearch();
+  }
+
+// ===== Sorting Page Methods =====
+  async sortBy(option: "Cheapest" | "Fastest" | "Recommended") {
+    const sortingOptions: Record<string, Locator> = {
+      Cheapest: this.btn_cheapest,
+      Fastest: this.btn_fastest,
+      Recommended: this.btn_recommended,
+    };
+
+    const button = sortingOptions[option];
+    if (button) {
+      await button.click();
+    }
+  }
+
+
+  // ===== Stop filter helpers =====
+  private getStopFilterLocator(filter: string) {
+    const normalized = filter
+      .replace(/\s+/g, "")
+      .replace(/[^+\w]/g, "")
+      .toLowerCase();
+
+    if (
+      normalized === "directflight" ||
+      normalized === "nonstop" ||
+      normalized === "directflight"
+    )
+      return this.Checkbox_Direct;
+    if (normalized === "1stop" || normalized === "1stop")
+      return this.Checkbox_1Stop;
+    if (
+      normalized === "+2stops" ||
+      normalized === "2plusstops" ||
+      normalized === "2stops" ||
+      normalized === "2+stops"
+    )
+      return this.Checkbox_2PlusStops;
+
+    // fallback: try to find a checkbox by visible name
+    try {
+      return this.page.getByRole("checkbox", { name: filter });
+    } catch (e) {
+      throw new Error(`Unknown stop filter "${filter}"`);
+    }
+  }
+
+  async selectStopsFilter(filter: string) {
+    const checkbox = this.getStopFilterLocator(filter);
+    await checkbox.scrollIntoViewIfNeeded();
+    await checkbox.waitFor({ state: "visible" });
+    if (!(await checkbox.isChecked())) await checkbox.click();
+  }
+
+  async isStopsFilterSelected(filter: string) {
+    const checkbox = this.getStopFilterLocator(filter);
+    await checkbox.scrollIntoViewIfNeeded();
+    await checkbox.waitFor({ state: "visible" });
+    return await checkbox.isChecked();
+  }
+
+  async clearAllStopFilters() {
+    await this.btn_clearAllStops.click();
+  }
+
+  async applyStopsFilters(filters: string[]) {
+    for (const f of filters) await this.selectStopsFilter(f);
+  }
+
+  // Convenience methods
+  async clickReturnStopsTab() {
+    await this.btn_returnFlights.click();
+  }
+
+  async clickDepartureStopsTab() {
+    await this.btn_departureFlights.click();
+  }
+
+  async selectDirectFlight() {
+    await this.selectStopsFilter("Direct Flight");
+  }
+
+  async select1Stop() {
+    await this.selectStopsFilter("1 Stop");
+  }
+
+  async select2PlusStops() {
+    await this.selectStopsFilter("+2 Stops");
+  }
+
+  async isDirectFlightSelected() {
+    return this.isStopsFilterSelected("Direct Flight");
+  }
+
+  async is1StopSelected() {
+    return this.isStopsFilterSelected("1 Stop");
+  }
+
+  async is2PlusStopsSelected() {
+    return this.isStopsFilterSelected("+2 Stops");
+  }
+
+  async applyReturnStopsFilter(filter: string) {
+    await this.clickReturnStopsTab();
+    await this.selectStopsFilter(filter);
+  }
+
+  async applyReturnStopsFilters(filters: string[]) {
+    await this.clickReturnStopsTab();
+    for (const f of filters) await this.selectStopsFilter(f);
+  }
+
+  private getTimeFilterLocator(filter: string) {
+    const normalized = filter.trim().toLowerCase();
+    if (normalized === "morning") return this.Checkbox_Morning;
+    if (normalized === "afternoon") return this.Checkbox_Afternoon;
+    if (normalized === "evening") return this.Checkbox_Evening;
+    if (normalized === "night") return this.Checkbox_Night;
+
+    const escaped = filter.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
+    return this.page.getByRole("checkbox", {
+      name: new RegExp(escaped, "i"),
+    });
+  }
+
+  async selectTimeFilter(filter: string) {
+    const checkbox = this.getTimeFilterLocator(filter);
+    await checkbox.scrollIntoViewIfNeeded();
+    await checkbox.waitFor({ state: "visible" });
+    if (!(await checkbox.isChecked())) await checkbox.click();
+  }
+
+  async isTimeFilterSelected(filter: string) {
+    const checkbox = this.getTimeFilterLocator(filter);
+    await checkbox.scrollIntoViewIfNeeded();
+    await checkbox.waitFor({ state: "visible" });
+    return await checkbox.isChecked();
+  }
+
+  async clickReturnTimeTab() {
+    await this.btn_returnTimes.click();
+  }
+
+  async clickDepartureTimeTab() {
+    await this.btn_departureTimes.click();
+  }
+
+  async selectDepartureTime(filter: string) {
+    await this.clickDepartureTimeTab();
+    await this.selectTimeFilter(filter);
+  }
+
+  async selectReturnTime(filter: string) {
+    await this.clickReturnTimeTab();
+    await this.selectTimeFilter(filter);
+  }
+
+/**
+   
+Filter results by airline name*/
+async filterByAirline(airlineName: string) {
+    const airlineLocator = this.page.locator(
+      `//p[@class='airline-card-name' and normalize-space()='${airlineName}']`
+    );
+    await airlineLocator.click();
   }
 }

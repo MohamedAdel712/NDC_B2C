@@ -403,7 +403,7 @@ test.describe("Stops Filters", () => {
     await expect(searchResultPage.Checkbox_2PlusStops).toBeChecked();
   });
 
-  test.only("Clear All clears selected stop filters", async ({
+  test("Clear All clears selected stop filters", async ({
     searchPage,
     searchResultPage,
   }) => {
@@ -414,9 +414,6 @@ test.describe("Stops Filters", () => {
     await searchResultPage.select1Stop();
     await searchResultPage.select2PlusStops();
 
-  await searchResultPage.select1Stop();
-  await searchResultPage.select2PlusStops(); 
-  await searchResultPage.selectDirectFlight(); 
 
     // click Clear All and verify none are checked
     await searchResultPage.clearAllStopFilters();
@@ -444,5 +441,42 @@ test.describe("Stops Filters", () => {
     await searchResultPage.clickReturnStopsTab();
     await searchResultPage.selectDirectFlight();
     await expect(searchResultPage.Checkbox_Direct).toBeChecked();
+  });
+});
+
+test.describe("Departure and Return Time Filters", () => {
+  test("Select Morning departure time for One Way search", async ({
+    searchPage,
+    searchResultPage,
+  }) => {
+    await searchPage.search(OneWay_data as SearchData);
+    await searchResultPage.selectDepartureTime("Morning");
+    await expect(searchResultPage.Checkbox_Morning).toBeChecked();
+  });
+
+  test.only("Select Evening return time for Round Trip search", async ({
+    searchPage,
+    searchResultPage,
+  }) => {
+    await searchPage.search(RoundTrip_data as SearchData);
+    await searchResultPage.selectReturnTime("Evening");
+    await expect(searchResultPage.Checkbox_Evening).toBeChecked();
+  });
+
+  test("Clear departure time filter then select Night", async ({
+    searchPage,
+    searchResultPage,
+  }) => {
+    await searchPage.search(OneWay_data as SearchData);
+    await searchResultPage.selectDepartureTime("Morning");
+    await searchResultPage.selectDepartureTime("Night");
+    await expect(searchResultPage.Checkbox_Night).toBeChecked();
+  });
+});
+
+test.describe("Airline Filtering", () => {
+  test("Filter by airline after search", async ({ searchPage, searchResultPage }) => {
+    await searchPage.search(OneWay_data as SearchData);
+    await searchResultPage.filterByAirline(searchResultData.airlineToFilter);
   });
 });

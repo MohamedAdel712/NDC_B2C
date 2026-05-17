@@ -1,18 +1,14 @@
 {
+  "sortBy": "Recommended",
+  "airlineToFilter": "Flynas",
   "filters": {
-    "stops": [
-      " Direct Flight ",
-      " 1 Stop ",
-      " +2 Stops "
-    ],
-    "airlines": [
-      "Airline A",
-      "Airline B",
-      "Airline C"
-    ],
+    "stops": "Nonstop",
+    "departureTime": "Morning",
+    "duration": "Short",
     "priceRange": {
       "min": 100,
-      "max": 1000
+      "max": 500
     }
+  },
+    "baggageIncluded": true
   }
-}

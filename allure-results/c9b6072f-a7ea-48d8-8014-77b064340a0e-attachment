@@ -1,0 +1,277 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: SearchResult_tc.spec.ts >> airline filters >> Filter by airline after search
+- Location: tests\SearchResult_tc.spec.ts:451:5
+
+# Error details
+
+```
+Error: locator.click: Unsupported token "@class" while parsing css selector "p[@class='airline-card-name' and normalize-space()='Flynas']". Did you mean to CSS.escape it?
+Call log:
+  - waiting for p[@class='airline-card-name' and normalize-space()='Flynas']
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - img [ref=e6]
+  - generic [ref=e69]:
+    - banner [ref=e71]:
+      - navigation [ref=e72]:
+        - text: 
+        - img "Home" [ref=e75] [cursor=pointer]
+        - generic [ref=e76]:
+          - link "Home" [ref=e77] [cursor=pointer]:
+            - /url: /en
+          - link "My Booking" [ref=e78] [cursor=pointer]:
+            - /url: /en/booking/my-booking
+          - button "العربية" [ref=e80] [cursor=pointer]
+          - generic [ref=e86] [cursor=pointer]:
+            - combobox "Egyptian Pound" [ref=e87]:
+              - generic [ref=e88]:
+                - generic [ref=e89]: EGP
+                - img "Egyptian Pound flag" [ref=e90]
+            - button "dropdown trigger" [ref=e91]:
+              - generic [ref=e92]: 
+    - main [ref=e93]:
+      - generic [ref=e94]:
+        - generic [ref=e99]:
+          - heading [level=1] [ref=e104]
+          - generic [ref=e108]:
+            - generic [ref=e109]:
+              - generic [ref=e112] [cursor=pointer]:
+                - combobox "One Way" [ref=e113]
+                - button "dropdown trigger" [ref=e114]:
+                  - generic [ref=e115]: 
+              - button "2 Passengers " [ref=e118] [cursor=pointer]:
+                - generic [ref=e119]:
+                  - generic [ref=e120]: 2 Passengers
+                  - generic [ref=e121]: 
+              - generic [ref=e124] [cursor=pointer]:
+                - combobox "Business" [ref=e125]
+                - button "dropdown trigger" [ref=e126]:
+                  - generic [ref=e127]: 
+            - generic [ref=e132]:
+              - generic [ref=e139]:
+                - generic [ref=e141]:
+                  - generic [ref=e147]:
+                    - generic [ref=e148]: From
+                    - generic [ref=e149]:
+                      - generic:
+                        - generic: 
+                      - generic [ref=e150]:
+                        - combobox "From" [ref=e153]: CAI - Cairo, Egypt
+                        - button "Clear" [ref=e154] [cursor=pointer]:
+                          - img [ref=e156]
+                  - generic "Swap departure and destination" [ref=e158]:
+                    - button [ref=e160] [cursor=pointer]:
+                      - img [ref=e162]
+                  - generic [ref=e169]:
+                    - generic [ref=e170]: To
+                    - generic [ref=e171]:
+                      - generic:
+                        - generic: 
+                      - generic [ref=e172]:
+                        - combobox "To" [ref=e175]: DXB - Dubai, United Arab Emirates
+                        - button "Clear" [ref=e176] [cursor=pointer]:
+                          - img [ref=e178]
+                - generic [ref=e185]:
+                  - generic [ref=e186]: Departure
+                  - generic [ref=e187]:
+                    - button "Open calendar" [ref=e188] [cursor=pointer]:
+                      - img [ref=e189]
+                    - generic [ref=e191]:
+                      - combobox "Departure" [ref=e194]: 05/20/2026
+                      - button "Clear" [ref=e195] [cursor=pointer]:
+                        - img [ref=e197]
+                    - button "Open calendar" [ref=e200] [cursor=pointer]:
+                      - img [ref=e201]
+              - button "Go" [active] [ref=e205] [cursor=pointer]
+        - generic [ref=e209]:
+          - heading [level=2] [ref=e210]
+          - generic [ref=e214]:
+            - generic:
+              - group "NaN / 10" [ref=e215]:
+                - img "airline placeholder 0" [ref=e217]
+              - group "NaN / 10" [ref=e219]:
+                - img "airline placeholder 1" [ref=e221]
+              - group "NaN / 10" [ref=e223]:
+                - img "airline placeholder 2" [ref=e225]
+              - group "NaN / 10" [ref=e227]:
+                - img "airline placeholder 3" [ref=e229]
+              - group "NaN / 10" [ref=e231]:
+                - img "airline placeholder 4" [ref=e233]
+              - group "NaN / 10" [ref=e235]:
+                - img "airline placeholder 5" [ref=e237]
+              - group "NaN / 10" [ref=e239]:
+                - img "airline placeholder 6" [ref=e241]
+              - group "NaN / 10" [ref=e243]:
+                - img "airline placeholder 7" [ref=e245]
+              - group "NaN / 10" [ref=e247]:
+                - img "airline placeholder 8" [ref=e249]
+              - group "NaN / 10" [ref=e251]:
+                - img "airline placeholder 9" [ref=e253]
+        - generic [ref=e258]:
+          - generic [ref=e259]:
+            - heading "Latest Flight Deals" [level=2] [ref=e260]
+            - paragraph [ref=e261]: Looking for inspiration for your next trip? These are todays best flight deals.
+          - generic [ref=e263]:
+            - button "Previous flight deal" [ref=e264]:
+              - img [ref=e266]
+            - generic [ref=e270]:
+              - generic:
+                - group "1 / 5" [ref=e271]:
+                  - img [ref=e279]
+                - group "2 / 5" [ref=e286]:
+                  - img [ref=e294]
+                - group "3 / 5" [ref=e301]:
+                  - img [ref=e309]
+                - group "4 / 5" [ref=e316]:
+                  - img [ref=e324]
+                - group "5 / 5" [ref=e331]:
+                  - img [ref=e339]
+            - button "Next flight deal" [ref=e346]:
+              - img [ref=e348]
+        - heading [level=2] [ref=e354]
+        - heading [level=2] [ref=e376]
+    - contentinfo [ref=e395]:
+      - generic [ref=e397]:
+        - generic [ref=e398]:
+          - paragraph [ref=e399]: Have Questions?
+          - paragraph [ref=e400]: "19359"
+          - paragraph [ref=e401]: Customercare@flywt.com
+          - paragraph [ref=e402]: 24/7 Dedicated Customer Support
+          - paragraph [ref=e403]: "Head office: 61 - El Mahta Square, Maadi, Cairo, Egypt"
+        - paragraph [ref=e405]: Your personal details are 100% secured with us
+        - generic [ref=e407]:
+          - paragraph [ref=e408]: Like this? love this? spread the word
+          - generic [ref=e409]:
+            - link "Facebook" [ref=e410] [cursor=pointer]:
+              - /url: https://www.facebook.com/FlyWTEG/
+              - img "Facebook" [ref=e411]
+            - link "X" [ref=e412] [cursor=pointer]:
+              - /url: https://x.com/flyWT_
+              - img "X" [ref=e413]
+            - link "Instagram" [ref=e414] [cursor=pointer]:
+              - /url: https://www.instagram.com/flywteg?igsh=dXdiN3NlYmdkOWZu
+              - img "Instagram" [ref=e415]
+```
+
+# Test source
+
+```ts
+  323 |     const normalized = filter
+  324 |       .replace(/\s+/g, "")
+  325 |       .replace(/[^+\w]/g, "")
+  326 |       .toLowerCase();
+  327 | 
+  328 |     if (
+  329 |       normalized === "directflight" ||
+  330 |       normalized === "nonstop" ||
+  331 |       normalized === "directflight"
+  332 |     )
+  333 |       return this.Checkbox_Direct;
+  334 |     if (normalized === "1stop" || normalized === "1stop")
+  335 |       return this.Checkbox_1Stop;
+  336 |     if (
+  337 |       normalized === "+2stops" ||
+  338 |       normalized === "2plusstops" ||
+  339 |       normalized === "2stops" ||
+  340 |       normalized === "2+stops"
+  341 |     )
+  342 |       return this.Checkbox_2PlusStops;
+  343 | 
+  344 |     // fallback: try to find a checkbox by visible name
+  345 |     try {
+  346 |       return this.page.getByRole("checkbox", { name: filter });
+  347 |     } catch (e) {
+  348 |       throw new Error(`Unknown stop filter "${filter}"`);
+  349 |     }
+  350 |   }
+  351 | 
+  352 |   async selectStopsFilter(filter: string) {
+  353 |     const checkbox = this.getStopFilterLocator(filter);
+  354 |     await checkbox.scrollIntoViewIfNeeded();
+  355 |     await checkbox.waitFor({ state: "visible" });
+  356 |     if (!(await checkbox.isChecked())) await checkbox.click();
+  357 |   }
+  358 | 
+  359 |   async isStopsFilterSelected(filter: string) {
+  360 |     const checkbox = this.getStopFilterLocator(filter);
+  361 |     await checkbox.scrollIntoViewIfNeeded();
+  362 |     await checkbox.waitFor({ state: "visible" });
+  363 |     return await checkbox.isChecked();
+  364 |   }
+  365 | 
+  366 |   async clearAllStopFilters() {
+  367 |     await this.btn_clearAllStops.click();
+  368 |   }
+  369 | 
+  370 |   async applyStopsFilters(filters: string[]) {
+  371 |     for (const f of filters) await this.selectStopsFilter(f);
+  372 |   }
+  373 | 
+  374 |   // Convenience methods
+  375 |   async clickReturnStopsTab() {
+  376 |     await this.btn_returnFlights.click();
+  377 |   }
+  378 | 
+  379 |   async clickDepartureStopsTab() {
+  380 |     await this.btn_departureFlights.click();
+  381 |   }
+  382 | 
+  383 |   async selectDirectFlight() {
+  384 |     await this.selectStopsFilter("Direct Flight");
+  385 |   }
+  386 | 
+  387 |   async select1Stop() {
+  388 |     await this.selectStopsFilter("1 Stop");
+  389 |   }
+  390 | 
+  391 |   async select2PlusStops() {
+  392 |     await this.selectStopsFilter("+2 Stops");
+  393 |   }
+  394 | 
+  395 |   async isDirectFlightSelected() {
+  396 |     return this.isStopsFilterSelected("Direct Flight");
+  397 |   }
+  398 | 
+  399 |   async is1StopSelected() {
+  400 |     return this.isStopsFilterSelected("1 Stop");
+  401 |   }
+  402 | 
+  403 |   async is2PlusStopsSelected() {
+  404 |     return this.isStopsFilterSelected("+2 Stops");
+  405 |   }
+  406 | 
+  407 |   async applyReturnStopsFilter(filter: string) {
+  408 |     await this.clickReturnStopsTab();
+  409 |     await this.selectStopsFilter(filter);
+  410 |   }
+  411 | 
+  412 |   async applyReturnStopsFilters(filters: string[]) {
+  413 |     await this.clickReturnStopsTab();
+  414 |     for (const f of filters) await this.selectStopsFilter(f);
+  415 |   }
+  416 | 
+  417 | 
+  418 | /**
+  419 |    
+  420 | Filter results by airline name*/
+  421 | async filterByAirline(airlineName: string) {
+  422 |   const airlineLocator = this.page.locator(`p[@class='airline-card-name' and normalize-space()='${airlineName}']`);
+> 423 |   await airlineLocator.click();}
+      |                        ^ Error: locator.click: Unsupported token "@class" while parsing css selector "p[@class='airline-card-name' and normalize-space()='Flynas']". Did you mean to CSS.escape it?
+  424 | 
+  425 | 
+  426 | }
+  427 | 
+```

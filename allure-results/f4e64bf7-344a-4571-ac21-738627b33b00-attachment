@@ -1,0 +1,378 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: SearchResult_tc.spec.ts >> airline filters >> Filter by airline after search
+- Location: tests\SearchResult_tc.spec.ts:451:6
+
+# Error details
+
+```
+Error: locator.click: Unsupported token "@class" while parsing css selector "p[@class='airline-card-name' and normalize-space()='Flynas']". Did you mean to CSS.escape it?
+Call log:
+  - waiting for p[@class='airline-card-name' and normalize-space()='Flynas']
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - img [ref=e6]
+  - generic [ref=e63]:
+    - banner [ref=e65]:
+      - navigation [ref=e66]:
+        - text: 
+        - img "Home" [ref=e69] [cursor=pointer]
+        - generic [ref=e70]:
+          - link "Home" [ref=e71] [cursor=pointer]:
+            - /url: /en
+          - link "My Booking" [ref=e72] [cursor=pointer]:
+            - /url: /en/booking/my-booking
+          - button "العربية" [ref=e74] [cursor=pointer]
+          - generic [ref=e80] [cursor=pointer]:
+            - combobox "Egyptian Pound" [ref=e81]:
+              - generic [ref=e82]:
+                - generic [ref=e83]: EGP
+                - img "Egyptian Pound flag" [ref=e84]
+            - button "dropdown trigger" [ref=e85]:
+              - generic [ref=e86]: 
+    - main [ref=e87]:
+      - generic [ref=e88]:
+        - generic [ref=e93]:
+          - heading "Book your next adventure in minutes with the best prices" [level=1] [ref=e99]:
+            - text: Book your next adventure in
+            - text: minutes with the best prices
+          - generic [ref=e101]:
+            - generic [ref=e102]:
+              - generic [ref=e105] [cursor=pointer]:
+                - combobox "One Way" [ref=e106]
+                - button "dropdown trigger" [ref=e107]:
+                  - generic [ref=e108]: 
+              - button "2 Passengers " [ref=e111] [cursor=pointer]:
+                - generic [ref=e112]:
+                  - generic [ref=e113]: 2 Passengers
+                  - generic [ref=e114]: 
+              - generic [ref=e117] [cursor=pointer]:
+                - combobox "Business" [ref=e118]
+                - button "dropdown trigger" [ref=e119]:
+                  - generic [ref=e120]: 
+            - generic [ref=e125]:
+              - generic [ref=e132]:
+                - generic [ref=e134]:
+                  - generic [ref=e140]:
+                    - generic [ref=e141]: From
+                    - generic [ref=e142]:
+                      - generic:
+                        - generic: 
+                      - generic [ref=e143]:
+                        - combobox "From" [ref=e146]: CAI - Cairo, Egypt
+                        - button "Clear" [ref=e147] [cursor=pointer]:
+                          - img [ref=e149]
+                  - generic "Swap departure and destination" [ref=e151]:
+                    - button [ref=e153] [cursor=pointer]:
+                      - img [ref=e155]
+                  - generic [ref=e162]:
+                    - generic [ref=e163]: To
+                    - generic [ref=e164]:
+                      - generic:
+                        - generic: 
+                      - generic [ref=e165]:
+                        - combobox "To" [ref=e168]: DXB - Dubai, United Arab Emirates
+                        - button "Clear" [ref=e169] [cursor=pointer]:
+                          - img [ref=e171]
+                - generic [ref=e178]:
+                  - generic [ref=e179]: Departure
+                  - generic [ref=e180]:
+                    - button "Open calendar" [ref=e181] [cursor=pointer]:
+                      - img [ref=e182]
+                    - generic [ref=e184]:
+                      - combobox "Departure" [ref=e187]: 05/20/2026
+                      - button "Clear" [ref=e188] [cursor=pointer]:
+                        - img [ref=e190]
+                    - button "Open calendar" [ref=e193] [cursor=pointer]:
+                      - img [ref=e194]
+              - button "Go" [active] [ref=e198] [cursor=pointer]
+        - generic [ref=e201]:
+          - heading "Top Airlines" [level=2] [ref=e202]
+          - generic [ref=e205]:
+            - generic:
+              - group "NaN / 10" [ref=e206]:
+                - generic [ref=e207]:
+                  - img "EgyptAir" [ref=e208]
+                  - img "EgyptAir" [ref=e209]
+              - group "NaN / 10" [ref=e210]:
+                - generic [ref=e211]:
+                  - img "Emirates" [ref=e212]
+                  - img "Emirates" [ref=e213]
+              - group "NaN / 10" [ref=e214]:
+                - generic [ref=e215]:
+                  - img "Qatar Airways" [ref=e216]
+                  - img "Qatar Airways" [ref=e217]
+              - group "NaN / 10" [ref=e218]:
+                - generic [ref=e219]:
+                  - img "Etihad" [ref=e220]
+                  - img "Etihad" [ref=e221]
+              - group "NaN / 10" [ref=e222]:
+                - generic [ref=e223]:
+                  - img "Turkish Airlines" [ref=e224]
+                  - img "Turkish Airlines" [ref=e225]
+              - group "NaN / 10" [ref=e226]:
+                - generic [ref=e227]:
+                  - img "EgyptAir" [ref=e228]
+                  - img "EgyptAir" [ref=e229]
+              - group "NaN / 10" [ref=e230]:
+                - generic [ref=e231]:
+                  - img "Emirates" [ref=e232]
+                  - img "Emirates" [ref=e233]
+              - group "NaN / 10" [ref=e234]:
+                - generic [ref=e235]:
+                  - img "Qatar Airways" [ref=e236]
+                  - img "Qatar Airways" [ref=e237]
+              - group "NaN / 10" [ref=e238]:
+                - generic [ref=e239]:
+                  - img "Etihad" [ref=e240]
+                  - img "Etihad" [ref=e241]
+              - group "NaN / 10" [ref=e242]:
+                - generic [ref=e243]:
+                  - img "Turkish Airlines" [ref=e244]
+                  - img "Turkish Airlines" [ref=e245]
+        - generic [ref=e249]:
+          - generic [ref=e250]:
+            - heading "Latest Flight Deals" [level=2] [ref=e251]
+            - paragraph [ref=e252]: Looking for inspiration for your next trip? These are todays best flight deals.
+          - generic [ref=e254]:
+            - button "Previous flight deal" [ref=e255]:
+              - img [ref=e257]
+            - generic [ref=e261]:
+              - generic:
+                - group "1 / 5" [ref=e262]:
+                  - generic [ref=e265]:
+                    - generic [ref=e266]:
+                      - heading "Cairo" [level=3] [ref=e267]
+                      - img [ref=e268]
+                      - heading "Dubai" [level=3] [ref=e270]
+                    - generic [ref=e271]:
+                      - generic [ref=e273]: 7,014.07 EGP
+                      - button "Book Now" [ref=e274] [cursor=pointer]
+                - group "2 / 5" [ref=e275]:
+                  - generic [ref=e278]:
+                    - generic [ref=e279]:
+                      - heading "Cairo" [level=3] [ref=e280]
+                      - img [ref=e281]
+                      - heading "Jeddah" [level=3] [ref=e283]
+                    - generic [ref=e284]:
+                      - generic [ref=e286]: 7,014.07 EGP
+                      - button "Book Now" [ref=e287] [cursor=pointer]
+                - group "3 / 5" [ref=e288]:
+                  - generic [ref=e291]:
+                    - generic [ref=e292]:
+                      - heading "Cairo" [level=3] [ref=e293]
+                      - img [ref=e294]
+                      - heading "Riyadh" [level=3] [ref=e296]
+                    - generic [ref=e297]:
+                      - generic [ref=e299]: 7,014.07 EGP
+                      - button "Book Now" [ref=e300] [cursor=pointer]
+                - group "4 / 5" [ref=e301]:
+                  - generic [ref=e304]:
+                    - generic [ref=e305]:
+                      - heading "Jeddah" [level=3] [ref=e306]
+                      - img [ref=e307]
+                      - heading "Dubai" [level=3] [ref=e309]
+                    - generic [ref=e310]:
+                      - generic [ref=e312]: 7,014.07 EGP
+                      - button "Book Now" [ref=e313] [cursor=pointer]
+                - group "5 / 5" [ref=e314]:
+                  - generic [ref=e317]:
+                    - generic [ref=e318]:
+                      - heading "Dubai" [level=3] [ref=e319]
+                      - img [ref=e320]
+                      - heading "Cairo" [level=3] [ref=e322]
+                    - generic [ref=e323]:
+                      - generic [ref=e325]: 7,014.07 EGP
+                      - button "Book Now" [ref=e326] [cursor=pointer]
+            - button "Next flight deal" [ref=e327]:
+              - img [ref=e329]
+        - generic [ref=e333]:
+          - heading "Why Choose Us?" [level=2] [ref=e334]
+          - generic [ref=e335]:
+            - generic [ref=e336]:
+              - img "Save More" [ref=e337]
+              - heading "Save More" [level=3] [ref=e338]
+              - paragraph [ref=e339]: Save more with the best deals and cashbacks.
+            - generic [ref=e340]:
+              - img "Safe & Secure" [ref=e341]
+              - heading "Safe & Secure" [level=3] [ref=e342]
+              - paragraph [ref=e343]: We use the latest technology to secure your privacy.
+            - generic [ref=e344]:
+              - img "Customer Support" [ref=e345]
+              - heading "Customer Support" [level=3] [ref=e346]
+              - paragraph [ref=e347]: Multilingual (English & Arabic) customer support service.
+        - generic [ref=e349]:
+          - img "plane" [ref=e351]
+          - generic [ref=e352]:
+            - heading "Three Steps To Book Your Flight" [level=2] [ref=e353]
+            - generic [ref=e354]:
+              - generic [ref=e355]:
+                - img "1. Search" [ref=e356]
+                - heading "1. Search" [level=3] [ref=e357]
+                - paragraph [ref=e358]: Select a module from tab and search for what you require
+              - generic [ref=e359]:
+                - img "2. Enter your details" [ref=e360]
+                - heading "2. Enter your details" [level=3] [ref=e361]
+                - paragraph [ref=e362]: Log in to view your saved traveler list or enter Guest details
+              - generic [ref=e363]:
+                - img "3. Pay and Confirm Ticket" [ref=e364]
+                - heading "3. Pay and Confirm Ticket" [level=3] [ref=e365]
+                - paragraph [ref=e366]: Make payment and get your voucher or ticket
+        - navigation "Related links" [ref=e367]:
+          - list [ref=e368]:
+            - listitem [ref=e369]:
+              - link "About Us" [ref=e370] [cursor=pointer]:
+                - /url: /en/about-us
+            - listitem [ref=e371]:
+              - link "Contact Us" [ref=e372] [cursor=pointer]:
+                - /url: /en/contact-us
+            - listitem [ref=e373]:
+              - link "Privacy Policy" [ref=e374] [cursor=pointer]:
+                - /url: /en/privacy-policy
+            - listitem [ref=e375]:
+              - link "Terms & Conditions" [ref=e376] [cursor=pointer]:
+                - /url: /en/terms-and-conditions
+    - contentinfo [ref=e378]:
+      - generic [ref=e380]:
+        - generic [ref=e381]:
+          - paragraph [ref=e382]: Have Questions?
+          - paragraph [ref=e383]: "19359"
+          - paragraph [ref=e384]: Customercare@flywt.com
+          - paragraph [ref=e385]: 24/7 Dedicated Customer Support
+          - paragraph [ref=e386]: "Head office: 61 - El Mahta Square, Maadi, Cairo, Egypt"
+        - paragraph [ref=e388]: Your personal details are 100% secured with us
+        - generic [ref=e390]:
+          - paragraph [ref=e391]: Like this? love this? spread the word
+          - generic [ref=e392]:
+            - link "Facebook" [ref=e393] [cursor=pointer]:
+              - /url: https://www.facebook.com/FlyWTEG/
+              - img "Facebook" [ref=e394]
+            - link "X" [ref=e395] [cursor=pointer]:
+              - /url: https://x.com/flyWT_
+              - img "X" [ref=e396]
+            - link "Instagram" [ref=e397] [cursor=pointer]:
+              - /url: https://www.instagram.com/flywteg?igsh=dXdiN3NlYmdkOWZu
+              - img "Instagram" [ref=e398]
+```
+
+# Test source
+
+```ts
+  323 |     const normalized = filter
+  324 |       .replace(/\s+/g, "")
+  325 |       .replace(/[^+\w]/g, "")
+  326 |       .toLowerCase();
+  327 | 
+  328 |     if (
+  329 |       normalized === "directflight" ||
+  330 |       normalized === "nonstop" ||
+  331 |       normalized === "directflight"
+  332 |     )
+  333 |       return this.Checkbox_Direct;
+  334 |     if (normalized === "1stop" || normalized === "1stop")
+  335 |       return this.Checkbox_1Stop;
+  336 |     if (
+  337 |       normalized === "+2stops" ||
+  338 |       normalized === "2plusstops" ||
+  339 |       normalized === "2stops" ||
+  340 |       normalized === "2+stops"
+  341 |     )
+  342 |       return this.Checkbox_2PlusStops;
+  343 | 
+  344 |     // fallback: try to find a checkbox by visible name
+  345 |     try {
+  346 |       return this.page.getByRole("checkbox", { name: filter });
+  347 |     } catch (e) {
+  348 |       throw new Error(`Unknown stop filter "${filter}"`);
+  349 |     }
+  350 |   }
+  351 | 
+  352 |   async selectStopsFilter(filter: string) {
+  353 |     const checkbox = this.getStopFilterLocator(filter);
+  354 |     await checkbox.scrollIntoViewIfNeeded();
+  355 |     await checkbox.waitFor({ state: "visible" });
+  356 |     if (!(await checkbox.isChecked())) await checkbox.click();
+  357 |   }
+  358 | 
+  359 |   async isStopsFilterSelected(filter: string) {
+  360 |     const checkbox = this.getStopFilterLocator(filter);
+  361 |     await checkbox.scrollIntoViewIfNeeded();
+  362 |     await checkbox.waitFor({ state: "visible" });
+  363 |     return await checkbox.isChecked();
+  364 |   }
+  365 | 
+  366 |   async clearAllStopFilters() {
+  367 |     await this.btn_clearAllStops.click();
+  368 |   }
+  369 | 
+  370 |   async applyStopsFilters(filters: string[]) {
+  371 |     for (const f of filters) await this.selectStopsFilter(f);
+  372 |   }
+  373 | 
+  374 |   // Convenience methods
+  375 |   async clickReturnStopsTab() {
+  376 |     await this.btn_returnFlights.click();
+  377 |   }
+  378 | 
+  379 |   async clickDepartureStopsTab() {
+  380 |     await this.btn_departureFlights.click();
+  381 |   }
+  382 | 
+  383 |   async selectDirectFlight() {
+  384 |     await this.selectStopsFilter("Direct Flight");
+  385 |   }
+  386 | 
+  387 |   async select1Stop() {
+  388 |     await this.selectStopsFilter("1 Stop");
+  389 |   }
+  390 | 
+  391 |   async select2PlusStops() {
+  392 |     await this.selectStopsFilter("+2 Stops");
+  393 |   }
+  394 | 
+  395 |   async isDirectFlightSelected() {
+  396 |     return this.isStopsFilterSelected("Direct Flight");
+  397 |   }
+  398 | 
+  399 |   async is1StopSelected() {
+  400 |     return this.isStopsFilterSelected("1 Stop");
+  401 |   }
+  402 | 
+  403 |   async is2PlusStopsSelected() {
+  404 |     return this.isStopsFilterSelected("+2 Stops");
+  405 |   }
+  406 | 
+  407 |   async applyReturnStopsFilter(filter: string) {
+  408 |     await this.clickReturnStopsTab();
+  409 |     await this.selectStopsFilter(filter);
+  410 |   }
+  411 | 
+  412 |   async applyReturnStopsFilters(filters: string[]) {
+  413 |     await this.clickReturnStopsTab();
+  414 |     for (const f of filters) await this.selectStopsFilter(f);
+  415 |   }
+  416 | 
+  417 | 
+  418 | /**
+  419 |    
+  420 | Filter results by airline name*/
+  421 | async filterByAirline(airlineName: string) {
+  422 |   const airlineLocator = this.page.locator(`p[@class='airline-card-name' and normalize-space()='${airlineName}']`);
+> 423 |   await airlineLocator.click();}
+      |                        ^ Error: locator.click: Unsupported token "@class" while parsing css selector "p[@class='airline-card-name' and normalize-space()='Flynas']". Did you mean to CSS.escape it?
+  424 | 
+  425 | 
+  426 | }
+  427 | 
+```
